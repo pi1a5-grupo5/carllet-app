@@ -20,11 +20,27 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "googleServicesFile": "./google-services.json"
       }
     },
+    "client": [
+      {
+        "api_key": [
+          {
+            "current_key": "AIzaSy"
+          }
+        ]
+      }
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1a254498-df45-4716-8826-ee8387e5b37c"
+      }
+    },
+    "owner": "pedrozin1234"
   }
 }
