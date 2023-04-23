@@ -28,8 +28,6 @@ export default function App() {
       console.log(response);
     });
 
-    console.log('notification', notification);
-
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current);
       Notifications.removeNotificationSubscription(responseListener.current);
@@ -93,9 +91,7 @@ async function registerForPushNotificationsAsync() {
       alert('Failed to get push token for push notification!');
       return;
     }
-    token = (await Notifications.getExpoPushTokenAsync({
-      projectId: process.env.EXPO_PROJECT_ID,
-    })).data;
+    token = (await Notifications.getExpoPushTokenAsync()).data;
     console.log(JSON.stringify(token), 'token');
   } else {
     alert('Must use physical device for Push Notifications');
