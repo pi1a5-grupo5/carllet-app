@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { Text, View, Button, Platform } from 'react-native';
+import { Text, View, Button, Platform, TextInput, SafeAreaView } from 'react-native';
+import { Formik } from 'formik';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 
@@ -13,9 +14,40 @@ Notifications.setNotificationHandler({
 
 export default function App() {
   const [expoPushToken, setExpoPushToken] = useState('');
+  const [userInfo, setUserInfo] = useState(null);
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+
+  const removeExpoTokenString = (token) => {
+    return token.replace('ExponentPushToken[', '').replace(']', '');
+  }
+
+  const handleFormSubmit = (values) => {
+    
+    const deviceId = removeExpoTokenString(expoPushToken);
+
+    const userData = {
+      ...values,
+      deviceId
+    }
+
+    fetch('https://pocv2.azurewebsites.net/api/user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+        setUserInfo(userData);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
 
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
@@ -35,37 +67,93 @@ export default function App() {
   }, []);
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
       }}>
-      <Text>Your expo push token: {expoPushToken}</Text>
       <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Title: {notification && notification.request.content.title} </Text>
-        <Text>Body: {notification && notification.request.content.body}</Text>
-        <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
+        <Text>PI1A5 - Carllet App</Text>
       </View>
-      <Button
-        title="Press to schedule a notification"
-        onPress={async () => {
-          await schedulePushNotification();
-        }}
-      />
-    </View>
-  );
-}
 
-async function schedulePushNotification() {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "Você tem manutenção para fazer! 🚗",
-      body: 'Notamos que você andou muitos quilômetros nos últimos meses! É melhor realizar uma manutenção no pneu!',
-      data: { data: 'goes here' },
-    },
-    trigger: { seconds: 2 },
-  });
+      {userInfo && (
+        <View
+          style={{ alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Text>Device Token: {removeExpoTokenString(expoPushToken)}</Text>
+          <Text>User Info - </Text>
+          <Text>Name: {userInfo.name}</Text>
+          <Text>Email: {userInfo.email}</Text>
+        </View>
+      )}
+
+      {!userInfo && (
+        <Formik
+          initialValues={{ name: '', email: '', password: '' }}
+          onSubmit={values => handleFormSubmit(values)}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values }) => (
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 10,
+              }}
+            >
+              <TextInput
+                style={{
+                  height: 40,
+                  borderColor: 'gray',
+                  borderBottomWidth: 1,
+                  width: 200,
+                  marginBottom: 10,
+                }}
+                placeholder='Name'
+                onChangeText={handleChange('name')}
+                onBlur={handleBlur('name')}
+                value={values.name}
+              />
+              <TextInput
+                style={{
+                  height: 40,
+                  borderColor: 'gray',
+                  borderBottomWidth: 1,
+                  width: 200,
+                  marginBottom: 10,
+                }}
+                placeholder='Email'
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+              />
+              <TextInput
+                style={{
+                  height: 40,
+                  borderColor: 'gray',
+                  borderBottomWidth: 1,
+                  width: 200,
+                  marginBottom: 10,
+                }}
+                placeholder='Password'
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+                secureTextEntry={true}
+              />
+              <Button
+                style={{
+                  marginTop: 10
+                }}
+                onPress={handleSubmit}
+                title="Submit"
+              />
+            </View>
+          )}
+        </Formik>
+      )}
+    </SafeAreaView>
+  );
 }
 
 async function registerForPushNotificationsAsync() {
@@ -92,7 +180,6 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(JSON.stringify(token), 'token');
   } else {
     alert('Must use physical device for Push Notifications');
   }
