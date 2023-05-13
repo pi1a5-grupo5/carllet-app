@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { Text, View, Button, Platform, TextInput, SafeAreaView } from 'react-native';
-import { Formik } from 'formik';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import { UserProvider } from './src/contexts/UserContext';
+import { NativeBaseProvider, Box } from "native-base";
+import { NavigationContainer } from '@react-navigation/native';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -24,7 +26,7 @@ export default function App() {
   }
 
   const handleFormSubmit = (values) => {
-    
+
     const deviceId = removeExpoTokenString(expoPushToken);
 
     const userData = {
@@ -67,92 +69,19 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <Text>PI1A5 - Carllet App</Text>
-      </View>
-
-      {userInfo && (
+    <NativeBaseProvider>
+      <UserProvider>
         <View
-          style={{ alignItems: 'center', justifyContent: 'center' }}
-        >
-          <Text>Device Token: {removeExpoTokenString(expoPushToken)}</Text>
-          <Text>User Info - </Text>
-          <Text>Name: {userInfo.name}</Text>
-          <Text>Email: {userInfo.email}</Text>
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'space-around',
+          }}>
+          <Box bg="red.100">Hello World!</Box>
+          <Box bg="red.100">{expoPushToken}</Box>
         </View>
-      )}
-
-      {!userInfo && (
-        <Formik
-          initialValues={{ name: '', email: '', password: '' }}
-          onSubmit={values => handleFormSubmit(values)}
-        >
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 10,
-              }}
-            >
-              <TextInput
-                style={{
-                  height: 40,
-                  borderColor: 'gray',
-                  borderBottomWidth: 1,
-                  width: 200,
-                  marginBottom: 10,
-                }}
-                placeholder='Name'
-                onChangeText={handleChange('name')}
-                onBlur={handleBlur('name')}
-                value={values.name}
-              />
-              <TextInput
-                style={{
-                  height: 40,
-                  borderColor: 'gray',
-                  borderBottomWidth: 1,
-                  width: 200,
-                  marginBottom: 10,
-                }}
-                placeholder='Email'
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
-              />
-              <TextInput
-                style={{
-                  height: 40,
-                  borderColor: 'gray',
-                  borderBottomWidth: 1,
-                  width: 200,
-                  marginBottom: 10,
-                }}
-                placeholder='Password'
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                value={values.password}
-                secureTextEntry={true}
-              />
-              <Button
-                style={{
-                  marginTop: 10
-                }}
-                onPress={handleSubmit}
-                title="Submit"
-              />
-            </View>
-          )}
-        </Formik>
-      )}
-    </SafeAreaView>
+      </UserProvider>
+    </NativeBaseProvider>
   );
 }
 
