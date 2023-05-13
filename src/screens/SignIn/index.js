@@ -1,10 +1,20 @@
 import { View, Text } from 'react-native'
+import { SignInForm } from '../../components'
 import React from 'react'
 
-const SignIn = () => {
+const SignIn = ({ navigation }) => {
   return (
-    <View>
-      <Text>SignIn</Text>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20
+      }}
+    >
+      <SignInForm
+        navigation={navigation}
+      />
     </View>
   )
 }
