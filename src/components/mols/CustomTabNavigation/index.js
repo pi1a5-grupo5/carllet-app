@@ -4,19 +4,10 @@ import { Home, Play, Profile, Veicles } from '../../../screens'
 import { MaterialIcons } from '@expo/vector-icons';
 import { Icon } from 'native-base';
 import { TabBarCustomButton } from '../../../components';
+import { APP_ROUTES, INITIAL_ROUTE } from '../../../constants/navigation.constants';
 
 
 const Tab = createBottomTabNavigator();
-
-export const APP_ROUTES = [
-  { name: 'Home', component: Home, icon: "home" },
-  { name: 'Veiculos', component: Veicles, icon: "directions-car" },
-  { name: 'Play', component: Play, icon: "play-arrow", isCenter: true },
-  { name: 'Metas', component: Home, icon: "bar-chart" },
-  { name: 'Perfil', component: Profile, icon: "person" },
-]
-
-export const INITIAL_ROUTE = 'Play'
 
 const CustomTabNavigation = ({ routes = APP_ROUTES }) => {
   return (

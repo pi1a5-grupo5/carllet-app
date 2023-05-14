@@ -20,13 +20,14 @@ const TabBarCustomButton = (props) => {
         <Icon
           as={<MaterialIcons name={item.icon} />}
           size={6}
-          color={item.isCenter && '#fff' || !item.isCenter && accessibilityState.selected && '#6AA68B'}
+          color={item.isCenter && '#fff' || !item.isCenter && accessibilityState.selected && '#6AA68B' || '#808080'}
         />
       </View>
       {!item.isCenter &&
         <Text style={{
           fontSize: 10,
-          color: !item.isCenter && accessibilityState.selected ? '#6AA68B' : '#222',
+          color: !item.isCenter && accessibilityState.selected ? '#6AA68B' : '#808080',
+          fontWeight: 'bold'
         }}>{item.name}</Text>}
     </TouchableOpacity>
   )
@@ -48,7 +49,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 30,
-    elevation: 5,
     borderRightWidth: 5,
     borderLeftWidth: 5,
     borderBottomWidth: 5,
