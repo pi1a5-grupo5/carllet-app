@@ -17,7 +17,7 @@ const BackButton = ({ navigation }) => {
       <Button
         padding={1}
         variant="ghost"
-        colorScheme="black"
+        colorScheme="light"
         onPress={() => navigation.goBack()}
         startIcon={
           <AntDesign

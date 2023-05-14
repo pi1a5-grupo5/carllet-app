@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import { SignInForm } from '../../components'
+import { SignInForm } from '../../../components'
 import React from 'react'
 
 const SignIn = ({ navigation }) => {

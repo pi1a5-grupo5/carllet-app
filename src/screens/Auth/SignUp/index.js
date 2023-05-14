@@ -2,7 +2,7 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { Button, Icon } from 'native-base'
 import { AntDesign } from '@expo/vector-icons'
-import { BackButton, SignUpForm } from '../../components'
+import { BackButton, SignUpForm } from '../../../components'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const SignUp = ({ navigation }) => {

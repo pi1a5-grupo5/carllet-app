@@ -1,8 +1,9 @@
-import { View, Text } from 'react-native'
-import NotSecuredRoutes from './NotSecuredRoutes'
-import { useUserContext } from '../hooks/useUserContext'
-
 import React, { useEffect, useState, useRef } from 'react'
+
+import NotSecuredRoutes from './NotSecuredRoutes';
+import SecuredRoutes from './SecuredRoutes';
+
+import { useUserContext } from '../hooks/useUserContext';
 
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
@@ -52,11 +53,8 @@ const Routes = () => {
   }
 
   return (
-    <View>
-      <Text>Secured Routes</Text>
-    </View>
+    <SecuredRoutes />
   )
-
 }
 
 export default Routes

@@ -1,11 +1,9 @@
-import { View, Text } from 'react-native'
+import { Text } from 'react-native'
 import React from 'react'
-import { Button, Icon } from 'native-base'
-import { AntDesign } from '@expo/vector-icons'
-import { BackButton, ResetPasswordForm } from '../../components'
+import { BackButton, ForgotPasswordForm } from '../../../components'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-const ResetPassword = ({ navigation }) => {
+const ForgotPassword = ({ navigation }) => {
   return (
     <SafeAreaView
       style={{
@@ -22,7 +20,7 @@ const ResetPassword = ({ navigation }) => {
           marginBottom: 20,
         }}
       >
-        Resetar senha
+        Alterar senha
       </Text>
       <Text
         style={{
@@ -30,14 +28,14 @@ const ResetPassword = ({ navigation }) => {
           marginBottom: 20
         }}
       >
-        Preencha os campos abaixo para solicitar a sua alteração de senha.
+        Para alterar a sua senha, preencha os campos abaixo.
       </Text>
       {/* // RESET PASSWORD UP FORM */}
-      <ResetPasswordForm
+      <ForgotPasswordForm
         navigation={navigation}
       />
     </SafeAreaView>
   )
 }
 
-export default ResetPassword
+export default ForgotPassword
