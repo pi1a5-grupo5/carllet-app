@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { Platform } from 'react-native';
+import React, { useEffect } from 'react';
+import * as Notifications from 'expo-notifications';
+import * as Location from 'expo-location';
 import { NativeBaseProvider } from "native-base";
 import { theme } from './src/theme/theme';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,8 +13,6 @@ import {
   Roboto_700Bold
 } from '@expo-google-fonts/roboto';
 
-import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
 
 import Routes from './src/routes';
 
@@ -27,6 +26,25 @@ Notifications.setNotificationHandler({
 
 export default function App() {
 
+  const requestLocationPermission = async () => {
+    const granted = await Promise.all([
+      Location.requestForegroundPermissionsAsync(),
+      Location.requestBackgroundPermissionsAsync()
+    ])
+
+    if (!granted) {
+      alert('Precisamos da sua permissão para acessar a localização!');
+    }
+
+    return granted;
+  }
+
+  useEffect(() => {
+    requestLocationPermission().then(granted => {
+      console.log(granted)
+    })
+  }, []);
+
   let [fontsLoaded] = useFonts({
     Roboto_100Thin,
     Roboto_300Light,
@@ -36,7 +54,7 @@ export default function App() {
 
   if (!fontsLoaded) {
     return null;
-  } 
+  }
 
   return (
     <NavigationContainer>

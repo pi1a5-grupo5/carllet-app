@@ -1,7 +1,7 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home, Play, Profile, Veicles } from '../../../screens'
-import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { Icon } from 'native-base';
 import { TabBarCustomButton } from '../../../components';
 import { APP_ROUTES, INITIAL_ROUTE } from '../../../constants/navigation.constants';
@@ -19,8 +19,8 @@ const CustomTabNavigation = ({ routes = APP_ROUTES }) => {
           height: 60,
           position: 'absolute',
           bottom: 25,
-          left: 25,
-          right: 25,
+          left: 10,
+          right: 10,
           borderRadius: 16,
           alignItems: 'center',
           justifyContent: 'center',
@@ -35,12 +35,6 @@ const CustomTabNavigation = ({ routes = APP_ROUTES }) => {
           component={component}
           options={{
             headerShown: false,
-            tabBarIcon: ({ color, size, focused }) => (
-              <Icon
-                as={<MaterialIcons name={icon} />}
-                color={color}
-              />
-            ),
              tabBarButton: (props) => <TabBarCustomButton {...props} item={{ name, component, icon, isCenter }} />, 
           }}
         />

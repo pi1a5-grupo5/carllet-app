@@ -7,7 +7,6 @@ import React from 'react'
 import { CustomTabNavigation } from '../../components/mols';
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
 
 const SecuredRoutes = () => {
   return (
