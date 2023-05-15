@@ -5,7 +5,7 @@ import {
   getCurrentPositionAsync,
   watchPositionAsync
 } from 'expo-location'
-
+import { PageContainer } from '../../../components'
 import haversine from 'haversine'
 import { Icon, IconButton } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
@@ -72,7 +72,10 @@ const Play = ({ navigation }) => {
 
 
   return (
-    <View>
+    <PageContainer
+      isSafe={false}
+      isFullScreen={true}
+    >
       {coords && (
         <>
           <MapView
@@ -146,7 +149,7 @@ const Play = ({ navigation }) => {
           </View>
         </>
       )}
-    </View>
+    </PageContainer>
   )
 }
 

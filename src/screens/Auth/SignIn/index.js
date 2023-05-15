@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
-import { SignInForm } from '../../../components'
+import { SignInForm, PageContainer } from '../../../components'
 import React from 'react'
 
 const SignIn = ({ navigation }) => {
   return (
-    <View
+    <PageContainer
       style={{
         flex: 1,
         justifyContent: 'center',
@@ -15,7 +15,7 @@ const SignIn = ({ navigation }) => {
       <SignInForm
         navigation={navigation}
       />
-    </View>
+    </PageContainer>
   )
 }
 

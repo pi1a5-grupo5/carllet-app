@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, Play, Profile, Veicles } from '../../../screens'
+import { Home, Play, Profile } from '../../../screens'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Icon } from 'native-base';
 import { TabBarCustomButton } from '../../../components';

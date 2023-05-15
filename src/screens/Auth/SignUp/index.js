@@ -2,16 +2,12 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { Button, Icon } from 'native-base'
 import { AntDesign } from '@expo/vector-icons'
-import { BackButton, SignUpForm } from '../../../components'
+import { BackButton, SignUpForm, PageContainer } from '../../../components'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const SignUp = ({ navigation }) => {
   return (
-    <SafeAreaView
-      style={{
-        padding: 20
-      }}
-    >
+    <PageContainer>
       {/* // BACK BUTTON */}
       <BackButton navigation={navigation} />
 
@@ -36,7 +32,7 @@ const SignUp = ({ navigation }) => {
       <SignUpForm
         navigation={navigation}
       />
-    </SafeAreaView>
+    </PageContainer>
   )
 }
 

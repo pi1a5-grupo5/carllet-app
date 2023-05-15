@@ -1,15 +1,11 @@
 import { Text } from 'react-native'
 import React from 'react'
-import { BackButton, ForgotPasswordForm } from '../../../components'
+import { BackButton, ForgotPasswordForm, PageContainer } from '../../../components'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const ForgotPassword = ({ navigation }) => {
   return (
-    <SafeAreaView
-      style={{
-        padding: 20
-      }}
-    >
+    <PageContainer>
       {/* // BACK BUTTON */}
       <BackButton navigation={navigation} />
 
@@ -34,7 +30,7 @@ const ForgotPassword = ({ navigation }) => {
       <ForgotPasswordForm
         navigation={navigation}
       />
-    </SafeAreaView>
+    </PageContainer>
   )
 }
 

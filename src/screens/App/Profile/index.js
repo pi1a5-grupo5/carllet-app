@@ -1,12 +1,15 @@
-import { View, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import React from 'react'
+import { PageContainer } from '../../../components'
+import { ProfileCard } from '../../../components/mols'
+import { Text } from 'native-base'
 
 const Profile = () => {
   return (
-    <SafeAreaView>
-      <Text>Profile</Text>
-    </SafeAreaView>
+    <PageContainer
+      pageTitle={'Perfil'}
+    >
+      <ProfileCard />
+    </PageContainer>
   )
 }
 

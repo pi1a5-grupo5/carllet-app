@@ -2,16 +2,12 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { Button, Icon } from 'native-base'
 import { AntDesign } from '@expo/vector-icons'
-import { BackButton, ResetPasswordForm } from '../../../components'
+import { BackButton, ResetPasswordForm, PageContainer } from '../../../components'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const ResetPassword = ({ navigation }) => {
   return (
-    <SafeAreaView
-      style={{
-        padding: 20
-      }}
-    >
+    <PageContainer>
       {/* // BACK BUTTON */}
       <BackButton navigation={navigation} />
 
@@ -36,7 +32,7 @@ const ResetPassword = ({ navigation }) => {
       <ResetPasswordForm
         navigation={navigation}
       />
-    </SafeAreaView>
+    </PageContainer>
   )
 }
 
