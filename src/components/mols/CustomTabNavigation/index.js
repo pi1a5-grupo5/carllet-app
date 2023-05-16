@@ -1,18 +1,16 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, Play, Profile } from '../../../screens'
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Icon } from 'native-base';
 import { TabBarCustomButton } from '../../../components';
-import { APP_ROUTES, INITIAL_ROUTE } from '../../../constants/navigation.constants';
+
 
 
 const Tab = createBottomTabNavigator();
 
-const CustomTabNavigation = ({ routes = APP_ROUTES }) => {
+const CustomTabNavigation = ({ routes, initialRoute }) => {
+
   return (
     <Tab.Navigator
-      initialRouteName={INITIAL_ROUTE}
+      initialRouteName={initialRoute}
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
@@ -28,7 +26,9 @@ const CustomTabNavigation = ({ routes = APP_ROUTES }) => {
         },
       }}
     >
-      {routes.map(({ name, component, icon, isCenter }, index) => (
+      {routes.map(({ name, component, icon, isCenter }, index) => {
+        console.log(name, component)
+        return (
         <Tab.Screen
           key={index}
           name={name}
@@ -38,7 +38,7 @@ const CustomTabNavigation = ({ routes = APP_ROUTES }) => {
              tabBarButton: (props) => <TabBarCustomButton {...props} item={{ name, component, icon, isCenter }} />, 
           }}
         />
-      ))}
+      )})}
     </Tab.Navigator>
   )
 }

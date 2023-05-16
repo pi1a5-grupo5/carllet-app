@@ -1,5 +1,4 @@
-import { View, Text } from 'react-native'
-import { SignInForm, PageContainer } from '../../../components'
+import { SignInForm, PageContainer } from '../../components'
 import React from 'react'
 
 const SignIn = ({ navigation }) => {

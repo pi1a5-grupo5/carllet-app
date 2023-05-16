@@ -1,8 +1,8 @@
-export { default as SignIn } from './Auth/SignIn';
-export { default as SignUp } from './Auth/SignUp';
-export { default as ForgotPassword } from './Auth/ForgotPassword';
-export { default as ResetPassword } from './Auth/ResetPassword';
-export { default as Home } from './App/Home';
-export { default as Play } from './App/Play';
-export { default as Profile } from './App/Profile';
-export { default as Veicles } from './App/Veicles';
+export { default as SignInScreen } from './SignIn';
+export { default as SignUpScreen } from './SignUp';
+export { default as ForgotPasswordScreen } from './ForgotPassword';
+export { default as ResetPasswordScreen } from './ResetPassword';
+export { default as ProfileScreen } from './Profile';
+export { default as VeiclesScreen } from './Veicles';
+export { default as HomeScreen } from './Home';
+export { default as PlayScreen } from './Play';

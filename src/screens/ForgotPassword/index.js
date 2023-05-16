@@ -1,6 +1,6 @@
 import { Text } from 'react-native'
 import React from 'react'
-import { BackButton, ForgotPasswordForm, PageContainer } from '../../../components'
+import { BackButton, ForgotPasswordForm, PageContainer } from '../../components'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const ForgotPassword = ({ navigation }) => {

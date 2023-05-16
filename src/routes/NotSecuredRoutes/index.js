@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SignIn, SignUp, ForgotPassword, ResetPassword } from '../../screens'
+import { SignInScreen, SignUpScreen, ForgotPasswordScreen, ResetPasswordScreen } from '../../screens'
 
 import React from 'react'
 
@@ -12,25 +12,25 @@ const NotSecuredRoutes = () => {
     >
       <Stack.Screen
         name="SignIn"
-        component={SignIn}
+        component={SignInScreen}
         options={{ headerShown: false }}
       />
 
       <Stack.Screen
         name="SignUp"
-        component={SignUp}
+        component={SignUpScreen}
         options={{ headerShown: false }}
       />
 
       <Stack.Screen
         name="ForgotPassword"
-        component={ForgotPassword}
+        component={ForgotPasswordScreen}
         options={{ headerShown: false }}
       />
 
       <Stack.Screen
         name="ResetPassword"
-        component={ResetPassword}
+        component={ResetPasswordScreen}
         options={{ headerShown: false }}
       />
 

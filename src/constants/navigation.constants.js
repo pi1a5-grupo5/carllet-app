@@ -1,12 +1,21 @@
-import { Home, Veicles, Play, Profile } from '../screens'
+import {
+  HomeScreen,
+  PlayScreen,
+  ProfileScreen,
+  VeiclesScreen
+} from '../screens'
 
-export const APP_ROUTES = [
-  { name: 'Home', component: Home, icon: "home" },
-  { name: 'Veiculos', component: Veicles, icon: "directions-car" },
-  { name: 'Play', component: Play, icon: "location-on", isCenter: true },
-  { name: 'Metas', component: Home, icon: "bar-chart" },
-  { name: 'Perfil', component: Profile, icon: "person" }, 
-
+const APP_ROUTES = [
+  { name: 'Home', component: HomeScreen, icon: "home" },
+  { name: 'Veiculos', component: VeiclesScreen, icon: "directions-car" },
+  { name: 'Play', component: PlayScreen, icon: "location-on", isCenter: true },
+  { name: 'Metas', component: HomeScreen, icon: "bar-chart" },
+  { name: 'Perfil', component: ProfileScreen, icon: "person" },
 ]
 
-export const INITIAL_ROUTE = 'Home'
+const INITIAL_ROUTE = 'Perfil'
+
+export {
+  APP_ROUTES,
+  INITIAL_ROUTE
+}

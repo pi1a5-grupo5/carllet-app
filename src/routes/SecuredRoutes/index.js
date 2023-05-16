@@ -1,10 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import { Home, Play, Profile, Veicles } from '../../screens'
 
 import React from 'react'
 import { CustomTabNavigation } from '../../components/mols';
+import { APP_ROUTES, INITIAL_ROUTE } from '../../constants/navigation.constants';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,13 +16,15 @@ const SecuredRoutes = () => {
         options={{ headerShown: false }}
       >
         {() => (
-          <CustomTabNavigation />
+          <CustomTabNavigation
+            routes={APP_ROUTES}
+            initialRoute={INITIAL_ROUTE}
+          />
         )}
       </Stack.Screen>
-
       <Stack.Screen
-        name="Home"
-        component={Home}
+        name="Veiculos"
+        component={APP_ROUTES[1].component}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

@@ -1,10 +1,9 @@
-import { View, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Text } from 'react-native'
 import React from 'react'
 import { ScrollView } from 'native-base'
-import { BackButton, PageContainer } from '../../../components'
+import { BackButton, PageContainer } from '../../components'
 
-const Home = ({ navigation }) => {
+const HomeScreen = ({ navigation }) => {
   return (
     <PageContainer>
       <BackButton
@@ -18,4 +17,4 @@ const Home = ({ navigation }) => {
   )
 }
 
-export default Home
+export default HomeScreen
