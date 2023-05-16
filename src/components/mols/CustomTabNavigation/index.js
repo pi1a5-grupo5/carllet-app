@@ -27,7 +27,6 @@ const CustomTabNavigation = ({ routes, initialRoute }) => {
       }}
     >
       {routes.map(({ name, component, icon, isCenter }, index) => {
-        console.log(name, component)
         return (
         <Tab.Screen
           key={index}

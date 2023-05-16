@@ -13,7 +13,7 @@ export const UserProvider = ({ children }) => {
   // Clear storage on isLogged false
 
   return (
-    <UserContext.Provider value={{ user, setUser, isLogged }}>
+    <UserContext.Provider value={{ user, setUser, isLogged, setIsLogged }}>
       {children}
     </UserContext.Provider>
   );
