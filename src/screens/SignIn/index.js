@@ -1,4 +1,4 @@
-import { SignInForm, PageContainer } from '../../components'
+import { SignInForm, PageContainer, Logo } from '../../components'
 import React from 'react'
 
 const SignIn = ({ navigation }) => {
@@ -11,6 +11,7 @@ const SignIn = ({ navigation }) => {
         padding: 20
       }}
     >
+      <Logo />
       <SignInForm
         navigation={navigation}
       />

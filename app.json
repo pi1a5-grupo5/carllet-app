@@ -8,7 +8,7 @@
         }
       ]
     ],
-    "name": "carllet-app",
+    "name": "Carllet",
     "slug": "carllet-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -27,7 +27,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/Carllet.png",
         "backgroundColor": "#ffffff",
         "googleServicesFile": "./google-services.json"
       },
