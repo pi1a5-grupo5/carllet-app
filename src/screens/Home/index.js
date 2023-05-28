@@ -1,17 +1,20 @@
-import { Text } from 'react-native'
 import React from 'react'
-import { ScrollView } from 'native-base'
+import { ScrollView, Text } from 'native-base'
 import { BackButton, PageContainer } from '../../components'
+import { useUserContext } from '../../hooks/useUserContext'
 
 const HomeScreen = ({ navigation }) => {
+
+  const { user } = useUserContext();
+
   return (
-    <PageContainer>
-      <BackButton
-        navigation={navigation}
-      />
+    <PageContainer
+    >
       <ScrollView>
-        <Text>Home</Text>
-        <Text>lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem </Text>
+        <Text
+          fontSize='xl'
+          fontWeight='bold'
+        >Bem vindo, {user?.name ?? 'usuário'}.</Text>
       </ScrollView>
     </PageContainer>
   )
