@@ -8,22 +8,29 @@ const ProfileImageUri = Image.resolveAssetSource(ProfileImage).uri
 const ProfileCard = ({
   name = 'Pedro Lima',
   email = 'pedrohblima03@gmail.com',
-  avatar = ProfileImageUri
+  avatar = ProfileImageUri,
+  isVertical = false,
+  bgColor = "primary.700",
+  avatarSize = "lg",
+  shadow = 8,
+  nameColor = "white",
+  emailColor = "gray.200",
+  textCenter,
 }) => {
   return (
     <Box
-      flexDirection={'row'}
+      flexDirection={isVertical ? 'column' : 'row'}
       alignItems={'center'}
       gap={5}
       p={5}
-      bg={'primary.700'}
+      bg={bgColor}
       borderRadius={8}
-      shadow={8}
+      shadow={shadow}
       marginBottom={8}
     >
       <Box>
         <Avatar
-          size={'lg'}
+          size={avatarSize}
           source={{ uri: avatar }}
           borderWidth={2}
           borderColor={'white'}
@@ -33,15 +40,17 @@ const ProfileCard = ({
       <View>
         {name && (
           <Text
-            color={"white"}
+            color={nameColor}
             fontWeight={"bold"}
-            fontSize={"sm"}
+            fontSize={isVertical ? "md" : "sm"}
             textTransform={'uppercase'}
+            {...(textCenter && { textAlign: "center" })}
+            {...(isVertical && { paddingBottom: 2 })}
           >{name}</Text>
         )}
         {email && (
           <Text
-            color={"gray.200"}
+            color={emailColor}
             fontWeight={"thin"}
             fontSize={"sm"}
           >{email}</Text>

@@ -10,7 +10,7 @@ const Profile = ({ navigation }) => {
   const { setIsLogged } = useUserContext();
 
   const MENU_ITEMS = [
-    { title: 'Minha Conta', description: 'Gerencie suas informações', onPress: () => console.log('Account Page'), iconAs: MaterialIcons, iconName: 'person' },
+    { title: 'Minha Conta', description: 'Gerencie suas informações', onPress: () => navigation.navigate("Account"), iconAs: MaterialIcons, iconName: 'person' },
 
     { title: 'Sair', description: 'Desconecte-se da sua conta', onPress: () => onSignOut, iconAs: MaterialIcons, iconName: 'logout' }
   ]

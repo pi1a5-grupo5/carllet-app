@@ -6,3 +6,4 @@ export { default as ProfileScreen } from './Profile';
 export { default as VeiclesScreen } from './Veicles';
 export { default as HomeScreen } from './Home';
 export { default as PlayScreen } from './Play';
+export { default as AccountScreen } from './Account'

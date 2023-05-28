@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react'
 import { CustomTabNavigation } from '../../components/mols';
 import { APP_ROUTES, INITIAL_ROUTE } from '../../constants/navigation.constants';
+import { AccountScreen } from '../../screens';
+import Account from '../../screens/Account';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,10 +25,11 @@ const SecuredRoutes = () => {
         )}
       </Stack.Screen>
       <Stack.Screen
-        name="Veiculos"
-        component={APP_ROUTES[1].component}
+        name="Account"
+        component={AccountScreen}
         options={{ headerShown: false }}
       />
+
     </Stack.Navigator>
 
   )

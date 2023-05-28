@@ -13,7 +13,7 @@ const APP_ROUTES = [
   { name: 'Perfil', component: ProfileScreen, icon: "person" },
 ]
 
-const INITIAL_ROUTE = 'Perfil'
+const INITIAL_ROUTE = 'Home'
 
 export {
   APP_ROUTES,

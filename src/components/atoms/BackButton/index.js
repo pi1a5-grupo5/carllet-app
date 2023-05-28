@@ -1,35 +1,54 @@
 import { View } from 'react-native'
 import React from 'react'
-import { Button } from 'native-base'
+import { Box, Button, Text } from 'native-base'
 import { AntDesign } from '@expo/vector-icons'
 
-const BackButton = ({ navigation }) => {
+const BackButton = ({ navigation, title }) => {
   return (
-    <View
-      style={{
-        width: '100%',
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        marginBottom: 20
-      }}
+    <Box
+      display={'flex'}
+      flexDirection={"row"}
+      alignItems={"center"}
+      width={"100%"}
+      marginBottom={4}
     >
-      <Button
-        padding={1}
-        variant="ghost"
-        colorScheme="light"
-        onPress={() => navigation.goBack()}
-        startIcon={
-          <AntDesign
-            name="arrowleft"
-            size={16}
-            color="#000"
-          />
-        }
+      <Box
+        style={{
+          position: "absolute",
+          zIndex: 2
+        }}
       >
-        Voltar
-      </Button>
-    </View>
+        <Button
+          padding={1}
+          variant="ghost"
+          colorScheme="light"
+          onPress={() => navigation.goBack()}
+          startIcon={
+            <AntDesign
+              name="arrowleft"
+              size={16}
+              color="#000"
+            />
+          }
+        >
+          Voltar
+        </Button>
+      </Box>
+
+      {title && (
+        <Box
+          width={"100%"}
+        >
+          <Text
+            textAlign={"center"}
+            fontSize={16}
+            fontWeight={"bold"}
+          >
+            {title}
+          </Text>
+        </Box>
+      )}
+    </Box>
   )
 }
 
