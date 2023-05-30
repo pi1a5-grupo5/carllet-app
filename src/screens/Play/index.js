@@ -9,9 +9,14 @@ import { PageContainer } from '../../components'
 import haversine from 'haversine'
 import { Icon, IconButton } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
+import { CourseService } from '../../services/course.service'
+import { openToast } from '../../utils/openToast'
+import { useUserContext } from '../../hooks/useUserContext'
 
 const Play = ({ navigation }) => {
 
+
+  const { user } = useUserContext();
 
   const [startTracking, setStartTracking] = useState(false)
   const [coords, setCoords] = useState({})
@@ -20,11 +25,50 @@ const Play = ({ navigation }) => {
 
   const mapRef = useRef(null)
 
-  const handleTracking = () => {
+  const handleTracking = async () => {
 
     if(startTracking) {
-      console.log('stop tracking')
-      console.log('Distância percorrida: ', distance.toFixed(2), 'km')
+      try {
+
+        setStartTracking(!startTracking)
+
+        const course = {
+          ownerId: user.id,
+          courseLength: distance.toFixed(2),
+          courseEndTime: new Date()
+        }
+
+        const registeredCourse = await CourseService.registerCourse(course);
+
+        if (registeredCourse) {
+          openToast({
+            status: 'success',
+            title: 'Sucesso',
+            description: 'Percurso registrado com sucesso!'
+          })
+        }
+
+        if(!registeredCourse) {
+          openToast({
+            status: 'error',
+            title: 'Erro',
+            description: 'Não foi possível registrar o percurso!'
+          })
+        }
+
+      } catch (error) {
+
+        openToast({
+          status: 'error',
+          title: 'Erro',
+          description: 'Não foi possível registrar o percurso!'
+        })
+
+        console.error(error)
+
+      } finally {
+        navigation.navigate('Home')
+      }
 
       setPrevCoord({})
       setDistance(0)

@@ -19,8 +19,11 @@ const login = async (user) => {
 }
 
 const register = async (user) => {
+
+  const { name, email, password } = user;
+
   try {
-    const response = await ApiService.post("/auth/register", user);
+    const response = await ApiService.post("/User", { name, email, password });
 
     return response;
   } catch (error) {

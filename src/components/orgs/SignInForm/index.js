@@ -138,6 +138,7 @@ const SignInForm = ({ navigation }) => {
               <Button
                 onPress={() => navigation.navigate('ResetPassword')}
                 variant="link"
+                isDisabled
                 colorScheme="primary"
                 marginTop={2}
                 style={{
@@ -209,8 +210,8 @@ const SignInForm = ({ navigation }) => {
       >
         <IconButton
           variant="outline"
-          colorScheme="primary"
           paddingRight={1}
+          isDisabled
           icon={
             <Icon
               as={
@@ -224,6 +225,7 @@ const SignInForm = ({ navigation }) => {
         <IconButton
           variant="outline"
           colorScheme="primary"
+          isDisabled
           icon={
             <Icon
               as={
@@ -237,6 +239,7 @@ const SignInForm = ({ navigation }) => {
         <IconButton
           variant="outline"
           colorScheme="primary"
+          isDisabled
           paddingRight={1}
           icon={
             <Icon

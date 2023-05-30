@@ -17,6 +17,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "axios": "^1.4.0",
+    "dayjs": "^1.11.7",
     "expo": "~48.0.9",
     "expo-dev-client": "~2.2.1",
     "expo-device": "^5.2.1",

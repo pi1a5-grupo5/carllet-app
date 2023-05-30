@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
-import { Button, Icon, Input, Stack,  FormControl, Box } from 'native-base'
+import { Button, Icon, Input, Stack, FormControl, Box } from 'native-base'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
+import { UserService } from '../../../services/user.service'
+import { openToast } from '../../../utils/openToast'
+import { useUserContext } from '../../../hooks/useUserContext'
 
 const UpdateProfileForm = ({ navigation }) => {
+
+  const { user, handleLogout } = useUserContext()
 
   const validationSchema = Yup.object().shape({
     cnh: Yup.string(),
@@ -16,16 +21,95 @@ const UpdateProfileForm = ({ navigation }) => {
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleUpdateProfileSubmit = (values) => {
+  const handleDeleteAccount = async () => {
     setIsLoading(true)
 
-    console.log(values)
+    try {
+      const deleteUser = await UserService.deleteUser(user.id)
 
-    setTimeout(() => {
+      if (deleteUser) {
+        openToast({
+          status: 'success',
+          description: 'Conta deletada com sucesso!',
+          duration: 3000,
+          position: 'top',
+          title: 'Sucesso'
+        })
+
+        if (!deleteUser) {
+          openToast({
+            status: 'error',
+            description: 'Erro ao deletar conta!',
+            duration: 3000,
+            position: 'top',
+            title: 'Erro'
+          })
+        }
+
+        handleLogout();
+      }
+
+    } catch (error) {
+      openToast({
+        status: 'error',
+        description: 'Erro ao deletar conta!',
+        duration: 3000,
+        position: 'top',
+        title: 'Erro'
+      })
+    } finally {
       setIsLoading(false)
-    }, 2000)
+    }
 
-    navigation.navigate('ForgotPassword')
+
+  }
+
+  const handleUpdateProfileSubmit = async (values) => {
+
+    setIsLoading(true)
+    const { password } = values
+
+    try {
+      const updateUser = await UserService.updateUser(user.id, { 
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        password: password
+       })
+
+       console.log(updateUser)
+
+      if (updateUser) {
+        openToast({
+          status: 'success',
+          description: 'Senha atualizada com sucesso!',
+          duration: 3000,
+          position: 'top',
+          title: 'Sucesso'
+        })
+      }
+
+      if (!updateUser) {
+        openToast({
+          status: 'error',
+          description: 'Erro ao atualizar senha!',
+          duration: 3000,
+          position: 'top',
+          title: 'Erro'
+        })
+      }
+
+    } catch (error) {
+      openToast({
+        status: 'error',
+        description: 'Erro ao atualizar senha!',
+        duration: 3000,
+        position: 'top',
+        title: 'Erro'
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -34,8 +118,6 @@ const UpdateProfileForm = ({ navigation }) => {
     >
       <Formik
         initialValues={{
-          cnh: '',
-          dateOfBirth: '',
           password: '',
           confirmPassowrd: ''
         }}
@@ -53,52 +135,6 @@ const UpdateProfileForm = ({ navigation }) => {
               alignItems="center"
               width={'100%'}
             >
-              <FormControl
-                isRequired
-                isInvalid={!!(errors.cnh && touched.cnh)}
-              >
-                <Input
-                  onChangeText={handleChange('cnh')}
-                  onBlur={handleBlur('cnh')}
-                  size={'md'}
-                  placeholder="CNH"
-                  variant="outline"
-                  width={'100%'}
-                  InputLeftElement={
-                    <Icon as={<MaterialIcons name="badge" />} marginLeft={2} />
-                  }
-                  type='text'
-                  value={values.cnh}
-                />
-                <FormControl.ErrorMessage
-                  leftIcon={<MaterialIcons name="error" size={16} color="red" />}
-                >
-                  {errors.cnh}
-                </FormControl.ErrorMessage>
-              </FormControl>
-              <FormControl
-                isRequired
-                isInvalid={!!(errors.dateOfBirth && touched.dateOfBirth)}
-              >
-                <Input
-                  onChangeText={handleChange('dateOfBirth')}
-                  onBlur={handleBlur('dateOfBirth')}
-                  size={'md'}
-                  placeholder="Data de nascimento"
-                  variant="outline"
-                  width={'100%'}
-                  InputLeftElement={
-                    <Icon as={<MaterialIcons name="cake" />} marginLeft={2} />
-                  }
-                  type='text'
-                  value={values.dateOfBirth}
-                />
-                <FormControl.ErrorMessage
-                  leftIcon={<MaterialIcons name="error" size={16} color="red" />}
-                >
-                  {errors.dateOfBirth}
-                </FormControl.ErrorMessage>
-              </FormControl>
               <FormControl
                 isRequired
                 isInvalid={!!(errors.password && touched.password)}
@@ -172,7 +208,7 @@ const UpdateProfileForm = ({ navigation }) => {
                 }}
                 marginTop={2}
                 width={'100%'}
-                onPress={() => console.log("Deletar conta")}
+                onPress={handleDeleteAccount}
               >
                 Deletar conta
               </Button>

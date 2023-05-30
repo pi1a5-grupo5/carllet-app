@@ -6,8 +6,8 @@ import ProfileImage from '../../../../assets/profile.webp'
 const ProfileImageUri = Image.resolveAssetSource(ProfileImage).uri
 
 const ProfileCard = ({
-  name = 'Pedro Lima',
-  email = 'pedrohblima03@gmail.com',
+  name = 'Desconhecido',
+  email = 'naodefinido@email.com',
   avatar = ProfileImageUri,
   isVertical = false,
   bgColor = "primary.700",

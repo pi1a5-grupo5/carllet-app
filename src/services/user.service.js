@@ -12,7 +12,7 @@ const getUser = async (id) => {
 
 const updateUser = async (id, user) => {
   try {
-    const response = await ApiService.put(`/users/${id}`, user);
+    const response = await ApiService.put(`/User/${id}`, user);
 
     return response;
   } catch (error) {
@@ -22,7 +22,7 @@ const updateUser = async (id, user) => {
 
 const deleteUser = async (id) => {
   try {
-    const response = await ApiService.delete(`/users/${id}`);
+    const response = await ApiService.delete(`/User/${id}`);
 
     return response;
   } catch (error) {

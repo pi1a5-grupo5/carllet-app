@@ -9,7 +9,8 @@ const Development = () => {
       style={{
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        opacity: 0.5
       }}
     >
       <Text
@@ -19,7 +20,7 @@ const Development = () => {
       <Icon 
         as={Ionicons}
         name="construct-outline"
-        size="2xl"
+        size={75}
         color="primary.500"
         mt={4}
       />

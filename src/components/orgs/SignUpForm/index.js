@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
-import { View, Text } from 'react-native'
-import { MaterialIcons, AntDesign, FontAwesome5 } from '@expo/vector-icons'
-import { Button, Icon, Input, Stack, Divider, IconButton, FormControl } from 'native-base'
+import { View } from 'react-native'
+import { MaterialIcons } from '@expo/vector-icons'
+import { Button, Icon, Input, Stack, FormControl } from 'native-base'
 import { Pressable } from 'react-native'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
+import { openToast } from '../../../utils/openToast'
+
+import { AuthService } from '../../../services/auth.service'
 
 const SignUpForm = ({ navigation }) => {
 
@@ -20,10 +23,43 @@ const SignUpForm = ({ navigation }) => {
 
   const handleShowPassword = () => setShowPassword(!showPassword)
 
-  const handleSubmitRegistration = (values) => {
+  const handleSubmitRegistration = async (values) => {
     setIsLoading(true)
 
-    console.log(values)
+    try {
+      const { name, email, password } = values
+
+      const registeredUser = await AuthService.register({ name, email, password })
+
+      if (registeredUser) {
+        openToast({
+          status: 'success',
+          title: 'Sucesso',
+          description: 'Usuário cadastrado com sucesso',
+        });
+
+        navigation.navigate('SignIn')
+      }
+
+      if (!registeredUser) {
+        openToast({
+          status: 'warning',
+          title: 'Erro',
+          description: 'Não foi possível cadastrar o usuário',
+        });
+      }
+
+    } catch (error) {
+        openToast({
+          status: 'error',
+          title: 'Erro',
+          description: 'Nao conseguimos completar a sua requisicao. Tente novamente mais tarde.'
+        });
+  
+        throw new Error(error);
+    } finally {
+      setIsLoading(false)
+    }
 
     setTimeout(() => {
       setIsLoading(false)
