@@ -32,7 +32,12 @@
         "backgroundColor": "#ffffff",
         "googleServicesFile": "./google-services.json"
       },
-      "package": "com.pedrozin1234.carlletapp"
+      "package": "com.pedrozin1234.carlletapp",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBTtg5C5JSbN0yoK8QUWxNKu0dN0RHhcTw"
+        }
+      }
     },
     "client": [
       {

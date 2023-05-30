@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import MapView, { Marker } from 'react-native-maps'
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import { View, Text } from 'react-native'
 import {
   getCurrentPositionAsync,
@@ -123,6 +123,7 @@ const Play = ({ navigation }) => {
       {coords && (
         <>
           <MapView
+            provider={PROVIDER_GOOGLE}
             ref={mapRef}
             style={{
               width: '100%',
