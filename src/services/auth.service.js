@@ -1,10 +1,18 @@
+import { APP_CONFIG } from "../config/app.config";
 import ApiService from "./api.service";
 
 const login = async (user) => {
-  try {
-    const response = await ApiService.post("/auth/login", user);
+  const { email, password } = user;
 
-    return response;
+  try {
+    const response = await ApiService.post("/User/Login", { email, password });
+
+    if (response) {
+      return response;
+    }
+
+    return null;
+
   } catch (error) {
     console.error(error);
   }
@@ -33,7 +41,7 @@ const logout = async () => {
 const resetPassword = async (user) => {
   try {
     const response = await ApiService.post("/auth/reset-password", user);
-    
+
     return response;
   } catch (error) {
     console.error(error);
@@ -43,7 +51,7 @@ const resetPassword = async (user) => {
 const changePassword = async (user) => {
   try {
     const response = await ApiService.post("/auth/change-password", user);
-    
+
     return response;
   } catch (error) {
     console.error(error);

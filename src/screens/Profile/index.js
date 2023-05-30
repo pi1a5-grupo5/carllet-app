@@ -9,6 +9,9 @@ import ToastAlert from '../../components/atoms/Alert'
 const Profile = ({ navigation }) => {
 
   const toast = useToast();
+  const { user, handleLogout } = useUserContext();
+
+  const { email, name } = user;
 
   const handleMVPInformation = () => {
     return toast.show(
@@ -37,7 +40,7 @@ const Profile = ({ navigation }) => {
   const MENU_ITEMS = [
     { title: 'Minha Conta', description: 'Gerencie suas informações', onPress: () => navigation.navigate("Account"), iconAs: MaterialIcons, iconName: 'person' },
 
-    { title: 'Sair', description: 'Desconecte-se da sua conta', onPress: () => onSignOut, iconAs: MaterialIcons, iconName: 'logout' }
+    { title: 'Sair', description: 'Desconecte-se da sua conta', onPress: () => onSignOut(), iconAs: MaterialIcons, iconName: 'logout' }
   ]
 
   const MORE_MENU_ITEMS = [
@@ -52,9 +55,7 @@ const Profile = ({ navigation }) => {
   ]
 
   const onSignOut = () => {
-    setIsLogged(false);
-
-    navigation.navigate('SignIn');
+    handleLogout();
   }
 
 
@@ -63,7 +64,10 @@ const Profile = ({ navigation }) => {
     <PageContainer
       pageTitle={'Perfil'}
     >
-      <ProfileCard />
+      <ProfileCard 
+        name={name}
+        email={email}
+      />
       <ScrollView>
         <MenuGroup
           items={MENU_ITEMS}

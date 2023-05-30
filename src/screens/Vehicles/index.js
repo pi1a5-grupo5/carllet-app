@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
-import { Spinner } from 'native-base'
-import { PageContainer } from '../../components'
+import { ScrollView, Spinner } from 'native-base'
+import { PageContainer, VehicleCard } from '../../components'
 import React from 'react'
 import { VehiclesService } from '../../services/vehicles.service'
 
@@ -42,12 +42,15 @@ const Veicles = () => {
       pageTitle={'Veículos'}
     >
       <View>
-        {loading && <Spinner />}
+        {/* {loading && <Spinner />}
 
         {!loading && vehicles.length === 0 && <Text>Nenhum veículo cadastrado</Text>}
 
-        {!loading && vehicles.length > 0 && <Text>Veículos cadastrados</Text>}
-        
+        {!loading && vehicles.length > 0 && <Text>Veículos cadastrados</Text>} */}
+
+        <ScrollView>
+          <VehicleCard />
+        </ScrollView>
       </View>
 
 

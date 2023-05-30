@@ -5,6 +5,9 @@ import { Button, Icon, Input, Stack, Divider, IconButton, FormControl } from 'na
 import { Pressable } from 'react-native'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
+import { AuthService } from '../../../services/auth.service'
+import { useUserContext } from '../../../hooks/useUserContext'
+import { openToast } from '../../../utils/openToast'
 
 const SignInForm = ({ navigation }) => {
   const validationSchema = Yup.object().shape({
@@ -12,19 +15,47 @@ const SignInForm = ({ navigation }) => {
     password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Campo obrigatório')
   })
 
+  const { setUser, setIsLogged } = useUserContext();
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const handleShowPassword = () => setShowPassword(!showPassword)
 
-  const handleLoginSubmit = (values) => {
+  const handleLoginSubmit = async (values) => {
     setIsLoading(true)
 
-    console.log(values)
+    try {
+      const { email, password } = values
 
-    setTimeout(() => {
+      const loggedUser = await AuthService.login({email, password})
+
+      if (loggedUser) {
+        setUser(loggedUser)
+        setIsLogged(true)
+      }
+
+      if(!loggedUser) {
+        openToast({
+          status: 'warning',
+          title: 'Erro',
+          description: 'Email ou senha inválidos',
+        });
+      }
+
       setIsLoading(false)
-    }, 2000)
+
+    } catch (error) {
+
+      openToast({
+        status: 'error',
+        title: 'Erro',
+        description: 'Nao conseguimos completar a sua requisicao. Tente novamente mais tarde.'
+      });
+
+      setIsLoading(false)
+
+      throw new Error(error);
+    }
   }
 
   return (

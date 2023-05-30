@@ -8,7 +8,7 @@ import {
 
 const APP_ROUTES = [
   { name: 'Home', component: HomeScreen, icon: "home" },
-  { name: 'Veiculos', component: VehiclesScreen, icon: "directions-car" },
+  { name: 'Veiculos', component: DevelopmentScreen, icon: "directions-car" },
   { name: 'Play', component: PlayScreen, icon: "location-on", isCenter: true },
   { name: 'Metas', component: DevelopmentScreen, icon: "bar-chart" },
   { name: 'Perfil', component: ProfileScreen, icon: "person" },
