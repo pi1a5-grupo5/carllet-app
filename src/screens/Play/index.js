@@ -130,8 +130,8 @@ const Play = ({ navigation }) => {
               height: '100%'
             }}
             region={{
-              latitude: coords.latitude,
-              longitude: coords.longitude,
+              latitude: coords.latitude ?? 0,
+              longitude: coords.longitude ?? 0,
               latitudeDelta: 0.005,
               longitudeDelta: 0.005,
             }}
