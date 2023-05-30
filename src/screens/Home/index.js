@@ -59,6 +59,7 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
+          paddingBottom: 60
         }}
         refreshControl={
           <RefreshControl

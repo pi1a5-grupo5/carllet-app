@@ -68,7 +68,11 @@ const Profile = ({ navigation }) => {
         name={name}
         email={email}
       />
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: 60,
+        }}
+      >
         <MenuGroup
           items={MENU_ITEMS}
         />
