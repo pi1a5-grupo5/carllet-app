@@ -7,7 +7,7 @@ import {
 } from 'expo-location'
 import { PageContainer } from '../../components'
 import haversine from 'haversine'
-import { Icon, IconButton } from 'native-base'
+import { Button, Icon, IconButton } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
 import { CourseService } from '../../services/course.service'
 import { openToast } from '../../utils/openToast'
@@ -27,7 +27,7 @@ const Play = ({ navigation }) => {
 
   const handleTracking = async () => {
 
-    if(startTracking) {
+    if (startTracking) {
       try {
 
         setStartTracking(!startTracking)
@@ -48,7 +48,7 @@ const Play = ({ navigation }) => {
           })
         }
 
-        if(!registeredCourse) {
+        if (!registeredCourse) {
           openToast({
             status: 'error',
             title: 'Erro',
@@ -181,16 +181,21 @@ const Play = ({ navigation }) => {
               borderRadius: 8
             }}
           >
-            <IconButton
+            <Button
               variant={'solid'}
               backgroundColor={startTracking ? 'red.400' : 'primary.500'}
-              size={'md'}
               onPress={handleTracking}
-              _icon={{
-                as: MaterialIcons,
-                name: startTracking ? 'stop' : 'play-arrow'
-              }}
-            />
+              size={"lg"}
+              leftIcon={
+                <Icon
+                  as={MaterialIcons}
+                  name={startTracking ? 'stop' : 'play-arrow'}
+                  size={6}
+                  color={'white'}
+                />}
+            >
+              {startTracking ? 'Parar' : 'Iniciar'}
+            </Button>
           </View>
         </>
       )}
