@@ -1,57 +1,54 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { Box, ScrollView, Spinner, Text } from 'native-base'
-import { BackButton, PageContainer } from '../../components'
-import { useUserContext } from '../../hooks/useUserContext'
-import { openToast } from '../../utils/openToast'
-import { CourseService } from '../../services/course.service'
-import { View, RefreshControl } from 'react-native'
-import dayjs from 'dayjs'
+import React, {
+  useState, useEffect, useCallback,
+} from 'react';
+import {
+  Box, ScrollView, Spinner, Text,
+} from 'native-base';
+import {PageContainer} from '../../components';
+import {useUserContext} from '../../hooks/useUserContext';
+import {openToast} from '../../utils/openToast';
+import {CourseService} from '../../services/course.service';
+import {RefreshControl} from 'react-native';
+import dayjs from 'dayjs';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({navigation}) => {
+  const {user} = useUserContext();
 
-  const { user } = useUserContext();
-
-  const [courses, setCourses] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(false);
 
 
   const onRefresh = useCallback(() => {
-    setLoading(true)
-    getCourses()
-  }, [])
-
+    setLoading(true);
+    getCourses();
+  }, []);
 
 
   const getCourses = async () => {
-
-    setLoading(true)
+    setLoading(true);
 
     try {
-
-      const response = await CourseService.getCourseByUserId(user.id)
+      const response = await CourseService.getCourseByUserId(user.id);
 
       if (response) {
-        setCourses(response)
+        setCourses(response);
       }
-
     } catch (error) {
-      console.error(error)
+      console.error(error);
 
       openToast({
         status: 'error',
         title: 'Erro',
-        description: 'Não foi possível carregar os percursos!'
-      })
-
+        description: 'Não foi possível carregar os percursos!',
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-
-  }
+  };
 
   useEffect(() => {
-    getCourses()
-  }, [])
+    getCourses();
+  }, []);
 
   return (
     <PageContainer
@@ -59,7 +56,7 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
-          paddingBottom: 60
+          paddingBottom: 60,
         }}
         refreshControl={
           <RefreshControl
@@ -77,7 +74,9 @@ const HomeScreen = ({ navigation }) => {
           fontSize='md'
           fontWeight='medium'
           py={2}
-        >Ficamos felizes que você tenha encontrado o Carllet, aqui ajudaremos você no dia-a-dia como motorista de aplicativo. Prepare-se para gerenciar seus gastos e ter uma noção maior sobre o seu dinheiro.</Text>
+        >Ficamos felizes que você tenha encontrado o Carllet, aqui ajudaremos você no dia-a-dia
+          como motorista de aplicativo. Prepare-se para gerenciar seus gastos e ter uma noção maior
+          sobre o seu dinheiro.</Text>
 
         {loading && (
           <Box
@@ -113,7 +112,7 @@ const HomeScreen = ({ navigation }) => {
                 py={2}
               >Seus percursos registrados:</Text>
             </Box>
-            {courses.map(course => (
+            {courses.map((course) => (
               <Box
                 key={course.id}
                 bg='primary.100'
@@ -129,7 +128,7 @@ const HomeScreen = ({ navigation }) => {
                     flex={1}
                     flexDirection='row'
                     alignItems='center'
-                    justifyContent={"space-between"}
+                    justifyContent={'space-between'}
                   >
                     <Text>
                       Tamanho do percurso:
@@ -146,7 +145,7 @@ const HomeScreen = ({ navigation }) => {
                       flex={1}
                       flexDirection='row'
                       alignItems='center'
-                      justifyContent={"space-between"}
+                      justifyContent={'space-between'}
                     >
                       <Text>
                         Data do percurso:
@@ -177,7 +176,7 @@ const HomeScreen = ({ navigation }) => {
 
       </ScrollView>
     </PageContainer >
-  )
-}
+  );
+};
 
-export default HomeScreen
+export default HomeScreen;

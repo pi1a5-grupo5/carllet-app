@@ -1,40 +1,42 @@
-import React, { useState } from 'react'
-import { View } from 'react-native'
-import { MaterialIcons } from '@expo/vector-icons'
-import { Button, Icon, Input, Stack,  FormControl } from 'native-base'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
+import React, {useState} from 'react';
+import {View} from 'react-native';
+import {MaterialIcons} from '@expo/vector-icons';
+import {
+  Button, Icon, Input, Stack, FormControl,
+} from 'native-base';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
 
-const ResetPasswordForm = ({ navigation }) => {
-
+const ResetPasswordForm = ({navigation}) => {
   const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Email inválido').required('Campo obrigatório'),
-  })
+    email: Yup
+        .string()
+        .email('Email inválido')
+        .required('Campo obrigatório'),
+  });
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleResetPasswordSubmit = (values) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
-    console.log(values)
+    console.log(values);
 
     setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
+      setIsLoading(false);
+    }, 2000);
 
-    navigation.navigate('ForgotPassword')
-  }
+    navigation.navigate('ForgotPassword');
+  };
 
   return (
     <>
       <Formik
-        initialValues={{
-          email: '',
-        }}
+        initialValues={{email: ''}}
         validationSchema={validationSchema}
         onSubmit={(values) => handleResetPasswordSubmit(values)}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+        {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
           <View
             style={{
               width: '100%',
@@ -73,7 +75,7 @@ const ResetPasswordForm = ({ navigation }) => {
             <View
               style={{
                 width: '100%',
-                marginTop: 10
+                marginTop: 10,
               }}
             >
               <Button
@@ -103,7 +105,7 @@ const ResetPasswordForm = ({ navigation }) => {
         )}
       </Formik>
     </>
-  )
-}
+  );
+};
 
-export default ResetPasswordForm
+export default ResetPasswordForm;

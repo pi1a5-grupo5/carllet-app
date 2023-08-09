@@ -7,7 +7,7 @@ const addNewVehicleFromUser = async (userId, vehicle) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 const getVehiclesByUser = async (userId) => {
   try {
@@ -16,7 +16,7 @@ const getVehiclesByUser = async (userId) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 const getVehicleById = async (vehicleId) => {
   try {
@@ -25,7 +25,7 @@ const getVehicleById = async (vehicleId) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 const updateVehicle = async (vehicleId, vehicle) => {
   try {
@@ -34,7 +34,7 @@ const updateVehicle = async (vehicleId, vehicle) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 const deleteVehicle = async (vehicleId) => {
   try {
@@ -43,7 +43,7 @@ const deleteVehicle = async (vehicleId) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 
 export const VehiclesService = {

@@ -1,8 +1,10 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { BackButton, SignUpForm, PageContainer } from '../../components'
+import {Text} from 'react-native';
+import React from 'react';
+import {
+  BackButton, SignUpForm, PageContainer,
+} from '../../components';
 
-const SignUp = ({ navigation }) => {
+const SignUp = ({navigation}) => {
   return (
     <PageContainer>
       {/* // BACK BUTTON */}
@@ -20,7 +22,7 @@ const SignUp = ({ navigation }) => {
       <Text
         style={{
           fontSize: 16,
-          marginBottom: 20
+          marginBottom: 20,
         }}
       >
         Preencha os campos abaixo para criar sua conta na plataforma e começar a usar.
@@ -30,7 +32,7 @@ const SignUp = ({ navigation }) => {
         navigation={navigation}
       />
     </PageContainer>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;

@@ -8,7 +8,7 @@ const getUser = async (id) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 const updateUser = async (id, user) => {
   try {
@@ -18,7 +18,7 @@ const updateUser = async (id, user) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 const deleteUser = async (id) => {
   try {
@@ -28,7 +28,7 @@ const deleteUser = async (id) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 export const UserService = {
   getUser,

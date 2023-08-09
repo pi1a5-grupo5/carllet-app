@@ -1,42 +1,42 @@
-import React, { useEffect, useState, useRef } from 'react'
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
-import { View, Text } from 'react-native'
+import React, {
+  useEffect, useState, useRef,
+} from 'react';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import {View, Text} from 'react-native';
 import {
   getCurrentPositionAsync,
-  watchPositionAsync
-} from 'expo-location'
-import { PageContainer } from '../../components'
-import haversine from 'haversine'
-import { Button, Icon, IconButton } from 'native-base'
-import { MaterialIcons } from '@expo/vector-icons'
-import { CourseService } from '../../services/course.service'
-import { openToast } from '../../utils/openToast'
-import { useUserContext } from '../../hooks/useUserContext'
+  watchPositionAsync,
+} from 'expo-location';
+import {PageContainer} from '../../components';
+import haversine from 'haversine';
+import {
+  Button, Icon,
+} from 'native-base';
+import {MaterialIcons} from '@expo/vector-icons';
+import {CourseService} from '../../services/course.service';
+import {openToast} from '../../utils/openToast';
+import {useUserContext} from '../../hooks/useUserContext';
 
-const Play = ({ navigation }) => {
+const Play = ({navigation}) => {
+  const {user} = useUserContext();
 
+  const [startTracking, setStartTracking] = useState(false);
+  const [coords, setCoords] = useState({});
+  const [prevCoord, setPrevCoord] = useState({});
+  const [distance, setDistance] = useState(0);
 
-  const { user } = useUserContext();
-
-  const [startTracking, setStartTracking] = useState(false)
-  const [coords, setCoords] = useState({})
-  const [prevCoord, setPrevCoord] = useState({})
-  const [distance, setDistance] = useState(0)
-
-  const mapRef = useRef(null)
+  const mapRef = useRef(null);
 
   const handleTracking = async () => {
-
     if (startTracking) {
       try {
-
-        setStartTracking(!startTracking)
+        setStartTracking(!startTracking);
 
         const course = {
           ownerId: user.id,
           courseLength: distance.toFixed(2),
-          courseEndTime: new Date()
-        }
+          courseEndTime: new Date(),
+        };
 
         const registeredCourse = await CourseService.registerCourse(course);
 
@@ -44,75 +44,71 @@ const Play = ({ navigation }) => {
           openToast({
             status: 'success',
             title: 'Sucesso',
-            description: 'Percurso registrado com sucesso!'
-          })
+            description: 'Percurso registrado com sucesso!',
+          });
         }
 
         if (!registeredCourse) {
           openToast({
             status: 'error',
             title: 'Erro',
-            description: 'Não foi possível registrar o percurso!'
-          })
+            description: 'Não foi possível registrar o percurso!',
+          });
         }
-
       } catch (error) {
-
         openToast({
           status: 'error',
           title: 'Erro',
-          description: 'Não foi possível registrar o percurso!'
-        })
+          description: 'Não foi possível registrar o percurso!',
+        });
 
-        console.error(error)
-
+        console.error(error);
       } finally {
-        navigation.navigate('Home')
+        navigation.navigate('Home');
       }
 
-      setPrevCoord({})
-      setDistance(0)
+      setPrevCoord({});
+      setDistance(0);
     }
 
-    setStartTracking(!startTracking)
-  }
+    setStartTracking(!startTracking);
+  };
 
   useEffect(() => {
     const getPosition = async () => {
-      const { coords } = await getCurrentPositionAsync()
-      setCoords(coords)
-    }
+      const {coords} = await getCurrentPositionAsync();
+      setCoords(coords);
+    };
 
-    getPosition()
-  }, [])
+    getPosition();
+  }, []);
 
   useEffect(() => {
     watchPositionAsync({
       accuracy: 5,
       timeInterval: 1000,
-      distanceInterval: 1
-    }, ({ coords }) => {
-
-      setCoords(prevCoords => {
-        setPrevCoord(prevCoords)
-        return coords
-      })
+      distanceInterval: 1,
+    }, ({coords}) => {
+      setCoords((prevCoords) => {
+        setPrevCoord(prevCoords);
+        return coords;
+      });
 
       mapRef.current?.animateCamera({
         center: {
           latitude: coords.latitude,
           longitude: coords.longitude,
-        }
-      })
-    })
-  }, [])
+        },
+      });
+    });
+  }, []);
 
   useEffect(() => {
     if (startTracking) {
-      const distance = haversine(prevCoord, coords, { unit: 'km' })
-      setDistance(prevDistance => prevDistance + distance)
+      const distance = haversine(prevCoord, coords, {unit: 'km'});
+      setDistance((prevDistance) => prevDistance + distance);
     }
-  }, [coords])
+  }, [coords]);
 
 
   return (
@@ -127,7 +123,7 @@ const Play = ({ navigation }) => {
             ref={mapRef}
             style={{
               width: '100%',
-              height: '100%'
+              height: '100%',
             }}
             region={{
               latitude: coords.latitude ?? 0,
@@ -157,7 +153,7 @@ const Play = ({ navigation }) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              borderRadius: 8
+              borderRadius: 8,
             }}
           >
             <Text>Percurso registrado: </Text>
@@ -178,14 +174,14 @@ const Play = ({ navigation }) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              borderRadius: 8
+              borderRadius: 8,
             }}
           >
             <Button
               variant={'solid'}
               backgroundColor={startTracking ? 'red.400' : 'primary.500'}
               onPress={handleTracking}
-              size={"lg"}
+              size={'lg'}
               leftIcon={
                 <Icon
                   as={MaterialIcons}
@@ -200,7 +196,7 @@ const Play = ({ navigation }) => {
         </>
       )}
     </PageContainer>
-  )
-}
+  );
+};
 
-export default Play
+export default Play;

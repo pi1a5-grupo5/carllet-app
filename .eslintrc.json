@@ -1,0 +1,47 @@
+{
+    "env": {
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "google",
+        "plugin:react/recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "react/prop-types": 0,
+        "max-len": [
+            "error",
+            {
+                "code": 120
+            }
+        ],
+        "object-property-newline": [
+            "error",
+            {
+                "allowMultiplePropertiesPerLine": false
+            }
+        ],
+        "camelcase": [
+            "error",
+            {
+                "ignoreImports": true,
+                "ignoreDestructuring": true,
+                "properties": "never",
+                "allow": [
+                    "Roboto_100Thin",
+                    "Roboto_300Light",
+                    "Roboto_400Regular",
+                    "Roboto_700Bold"
+                ]
+            }
+        ],
+        "require-jsdoc" : 0
+    }
+}

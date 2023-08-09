@@ -1,29 +1,36 @@
-import React, { useState } from 'react'
-import { View } from 'react-native'
-import { MaterialIcons } from '@expo/vector-icons'
-import { Button, Icon, Input, Stack, FormControl } from 'native-base'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
+import React, {useState} from 'react';
+import {View} from 'react-native';
+import {MaterialIcons} from '@expo/vector-icons';
+import {
+  Button, Icon, Input, Stack, FormControl,
+} from 'native-base';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
 
-const ForgotPasswordForm = ({ navigation }) => {
-
+const ForgotPasswordForm = ({navigation}) => {
   const validationSchema = Yup.object().shape({
-    code: Yup.number().required('Campo obrigatório'),
-    password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Campo obrigatório'),
-    confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Senhas devem ser iguais').required('Campo obrigatório'),
-  })
+    code: Yup
+        .number()
+        .required('Campo obrigatório'),
+    password: Yup
+        .string()
+        .min(8, 'Senha deve ter no mínimo 8 caracteres').required('Campo obrigatório'),
+    confirmPassword: Yup
+        .string()
+        .oneOf([Yup.ref('password'), null], 'Senhas devem ser iguais').required('Campo obrigatório'),
+  });
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleResetPasswordSubmit = (values) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
-    console.log(values)
+    console.log(values);
 
     setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
-  }
+      setIsLoading(false);
+    }, 2000);
+  };
 
   return (
     <>
@@ -31,12 +38,12 @@ const ForgotPasswordForm = ({ navigation }) => {
         initialValues={{
           code: '',
           password: '',
-          confirmPassword: ''
+          confirmPassword: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => handleResetPasswordSubmit(values)}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+        {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
           <View
             style={{
               width: '100%',
@@ -121,7 +128,7 @@ const ForgotPasswordForm = ({ navigation }) => {
             <View
               style={{
                 width: '100%',
-                marginTop: 10
+                marginTop: 10,
               }}
             >
               <Button
@@ -151,7 +158,7 @@ const ForgotPasswordForm = ({ navigation }) => {
         )}
       </Formik>
     </>
-  )
-}
+  );
+};
 
-export default ForgotPasswordForm
+export default ForgotPasswordForm;

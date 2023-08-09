@@ -1,21 +1,22 @@
-import { View } from 'react-native'
-import React from 'react'
-import { Box, Button, Text } from 'native-base'
-import { AntDesign } from '@expo/vector-icons'
+import React from 'react';
+import {
+  Box, Button, Text,
+} from 'native-base';
+import {AntDesign} from '@expo/vector-icons';
 
-const BackButton = ({ navigation, title }) => {
+const BackButton = ({navigation, title}) => {
   return (
     <Box
       display={'flex'}
-      flexDirection={"row"}
-      alignItems={"center"}
-      width={"100%"}
+      flexDirection={'row'}
+      alignItems={'center'}
+      width={'100%'}
       marginBottom={4}
     >
       <Box
         style={{
-          position: "absolute",
-          zIndex: 2
+          position: 'absolute',
+          zIndex: 2,
         }}
       >
         <Button
@@ -37,19 +38,19 @@ const BackButton = ({ navigation, title }) => {
 
       {title && (
         <Box
-          width={"100%"}
+          width={'100%'}
         >
           <Text
-            textAlign={"center"}
+            textAlign={'center'}
             fontSize={16}
-            fontWeight={"bold"}
+            fontWeight={'bold'}
           >
             {title}
           </Text>
         </Box>
       )}
     </Box>
-  )
-}
+  );
+};
 
-export default BackButton
+export default BackButton;

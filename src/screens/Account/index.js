@@ -1,11 +1,11 @@
-import React from 'react'
-import { BackButton, PageContainer, ProfileCard, UpdateProfileForm } from '../../components'
-import { useUserContext } from '../../hooks/useUserContext'
+import React from 'react';
+import {
+  BackButton, PageContainer, ProfileCard, UpdateProfileForm,
+} from '../../components';
+import {useUserContext} from '../../hooks/useUserContext';
 
-const Account = ({ navigation }) => {
-
-  const { user } = useUserContext()
-
+const Account = ({navigation}) => {
+  const {user} = useUserContext();
 
 
   return (
@@ -24,7 +24,7 @@ const Account = ({ navigation }) => {
       />
       <UpdateProfileForm />
     </PageContainer>
-  )
-}
+  );
+};
 
-export default Account
+export default Account;

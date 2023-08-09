@@ -1,14 +1,16 @@
-import { View } from 'react-native'
-import { Box, Icon, Pressable, Text } from 'native-base'
-import { Entypo, MaterialIcons } from '@expo/vector-icons'
-import React from 'react'
+import {View} from 'react-native';
+import {
+  Box, Icon, Pressable, Text,
+} from 'native-base';
+import {Entypo, MaterialIcons} from '@expo/vector-icons';
+import React from 'react';
 
 const MenuItem = ({
   iconAs = MaterialIcons,
   iconName = 'person',
   title = 'Minha Conta',
   description = 'Gerencie suas informações',
-  onPress
+  onPress,
 }) => {
   return (
     <Pressable
@@ -35,17 +37,17 @@ const MenuItem = ({
         </Box>
         <View>
           <Text
-            color={"dark.300"}
-            fontWeight={"bold"}
-            fontSize={"sm"}
+            color={'dark.300'}
+            fontWeight={'bold'}
+            fontSize={'sm'}
             textTransform={'uppercase'}
           >
             {title}
           </Text>
           <Text
-            color={"gray.400"}
-            fontWeight={"thin"}
-            fontSize={"sm"}
+            color={'gray.400'}
+            fontWeight={'thin'}
+            fontSize={'sm'}
           >
             {description}
           </Text>
@@ -63,7 +65,7 @@ const MenuItem = ({
         </Box>
       </Box>
     </Pressable>
-  )
-}
+  );
+};
 
-export default MenuItem
+export default MenuItem;

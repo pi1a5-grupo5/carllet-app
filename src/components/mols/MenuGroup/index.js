@@ -1,19 +1,18 @@
-import { View } from 'react-native'
-import { Box, Text } from 'native-base'
-import React from 'react'
-import { MenuItem } from '../../atoms'
+import {Box, Text} from 'native-base';
+import React from 'react';
+import {MenuItem} from '../../atoms';
 
 const MenuGroup = ({
   title,
-  items
+  items,
 }) => {
   return (
     <>
       {title && (
         <Text
-          color={"dark.300"}
-          fontWeight={"bold"}
-          fontSize={"sm"}
+          color={'dark.300'}
+          fontWeight={'bold'}
+          fontSize={'sm'}
           textTransform={'uppercase'}
           mb={2}
         >
@@ -35,8 +34,7 @@ const MenuGroup = ({
         ))}
       </Box>
     </>
-  )
+  );
+};
 
-}
-
-export default MenuGroup
+export default MenuGroup;

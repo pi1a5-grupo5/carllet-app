@@ -1,14 +1,16 @@
-import { SignInForm, PageContainer, Logo } from '../../components'
-import React from 'react'
+import {
+  SignInForm, PageContainer, Logo,
+} from '../../components';
+import React from 'react';
 
-const SignIn = ({ navigation }) => {
+const SignIn = ({navigation}) => {
   return (
     <PageContainer
       style={{
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 20
+        padding: 20,
       }}
     >
       <Logo />
@@ -16,7 +18,7 @@ const SignIn = ({ navigation }) => {
         navigation={navigation}
       />
     </PageContainer>
-  )
-}
+  );
+};
 
-export default SignIn
+export default SignIn;

@@ -1,9 +1,10 @@
-import { Text } from 'react-native'
-import React from 'react'
-import { BackButton, ForgotPasswordForm, PageContainer } from '../../components'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import {Text} from 'react-native';
+import React from 'react';
+import {
+  BackButton, ForgotPasswordForm, PageContainer,
+} from '../../components';
 
-const ForgotPassword = ({ navigation }) => {
+const ForgotPassword = ({navigation}) => {
   return (
     <PageContainer>
       {/* // BACK BUTTON */}
@@ -21,7 +22,7 @@ const ForgotPassword = ({ navigation }) => {
       <Text
         style={{
           fontSize: 16,
-          marginBottom: 20
+          marginBottom: 20,
         }}
       >
         Para alterar a sua senha, preencha os campos abaixo.
@@ -31,7 +32,7 @@ const ForgotPassword = ({ navigation }) => {
         navigation={navigation}
       />
     </PageContainer>
-  )
-}
+  );
+};
 
-export default ForgotPassword
+export default ForgotPassword;

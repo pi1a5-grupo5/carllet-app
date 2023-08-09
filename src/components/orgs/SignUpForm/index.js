@@ -1,35 +1,42 @@
-import React, { useState } from 'react'
-import { View } from 'react-native'
-import { MaterialIcons } from '@expo/vector-icons'
-import { Button, Icon, Input, Stack, FormControl } from 'native-base'
-import { Pressable } from 'react-native'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
-import { openToast } from '../../../utils/openToast'
+import React, {useState} from 'react';
+import {View} from 'react-native';
+import {MaterialIcons} from '@expo/vector-icons';
+import {
+  Button, Icon, Input, Stack, FormControl,
+} from 'native-base';
+import {Pressable} from 'react-native';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {openToast} from '../../../utils/openToast';
 
-import { AuthService } from '../../../services/auth.service'
+import {AuthService} from '../../../services/auth.service';
 
-const SignUpForm = ({ navigation }) => {
-
+const SignUpForm = ({navigation}) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Campo obrigatório'),
     email: Yup.string().email('Email inválido').required('Campo obrigatório'),
     password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Campo obrigatório'),
-    confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Senhas devem ser iguais').required('Campo obrigatório'),
-  })
+    confirmPassword: Yup
+        .string()
+        .oneOf([Yup.ref('password'), null], 'Senhas devem ser iguais').required('Campo obrigatório'),
+  });
 
-  const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleShowPassword = () => setShowPassword(!showPassword)
+  const handleShowPassword = () => setShowPassword(!showPassword);
 
   const handleSubmitRegistration = async (values) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const { name, email, password } = values
+      const {name, email, password} = values;
 
-      const registeredUser = await AuthService.register({ name, email, password })
+      const registeredUser = await AuthService.register({
+        name,
+        email,
+        password,
+      });
 
       if (registeredUser) {
         openToast({
@@ -38,7 +45,7 @@ const SignUpForm = ({ navigation }) => {
           description: 'Usuário cadastrado com sucesso',
         });
 
-        navigation.navigate('SignIn')
+        navigation.navigate('SignIn');
       }
 
       if (!registeredUser) {
@@ -48,23 +55,22 @@ const SignUpForm = ({ navigation }) => {
           description: 'Não foi possível cadastrar o usuário',
         });
       }
-
     } catch (error) {
-        openToast({
-          status: 'error',
-          title: 'Erro',
-          description: 'Nao conseguimos completar a sua requisicao. Tente novamente mais tarde.'
-        });
-  
-        throw new Error(error);
+      openToast({
+        status: 'error',
+        title: 'Erro',
+        description: 'Nao conseguimos completar a sua requisicao. Tente novamente mais tarde.',
+      });
+
+      throw new Error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
 
     setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
-  }
+      setIsLoading(false);
+    }, 2000);
+  };
 
   return (
     <>
@@ -73,12 +79,12 @@ const SignUpForm = ({ navigation }) => {
           name: '',
           email: '',
           password: '',
-          confirmPassword: ''
+          confirmPassword: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => handleSubmitRegistration(values)}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+        {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
           <View
             style={{
               width: '100%',
@@ -154,7 +160,13 @@ const SignUpForm = ({ navigation }) => {
                     <Pressable
                       onPress={handleShowPassword}
                     >
-                      <Icon as={<MaterialIcons name={showPassword ? 'visibility-off' : 'visibility'} />} marginRight={2} />
+                      <Icon as={
+                        <MaterialIcons
+                          name={showPassword ? 'visibility-off' : 'visibility'}
+                        />
+                      }
+                      marginRight={2}
+                      />
                     </Pressable>
                   }
                   type={showPassword ? 'text' : 'password'}
@@ -193,7 +205,7 @@ const SignUpForm = ({ navigation }) => {
             <View
               style={{
                 width: '100%',
-                marginTop: 10
+                marginTop: 10,
               }}
             >
               <Button
@@ -223,7 +235,7 @@ const SignUpForm = ({ navigation }) => {
         )}
       </Formik>
     </>
-  )
-}
+  );
+};
 
-export default SignUpForm
+export default SignUpForm;

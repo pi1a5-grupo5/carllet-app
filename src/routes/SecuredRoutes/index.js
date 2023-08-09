@@ -1,10 +1,9 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import React from 'react'
-import { CustomTabNavigation } from '../../components/mols';
-import { APP_ROUTES, INITIAL_ROUTE } from '../../constants/navigation.constants';
-import { AccountScreen } from '../../screens';
-import Account from '../../screens/Account';
+import React from 'react';
+import {CustomTabNavigation} from '../../components/mols';
+import {APP_ROUTES, INITIAL_ROUTE} from '../../constants/navigation.constants';
+import {AccountScreen} from '../../screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +14,7 @@ const SecuredRoutes = () => {
     >
       <Stack.Screen
         name="Start"
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       >
         {() => (
           <CustomTabNavigation
@@ -27,12 +26,12 @@ const SecuredRoutes = () => {
       <Stack.Screen
         name="Account"
         component={AccountScreen}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
 
     </Stack.Navigator>
 
-  )
-}
+  );
+};
 
-export default SecuredRoutes
+export default SecuredRoutes;

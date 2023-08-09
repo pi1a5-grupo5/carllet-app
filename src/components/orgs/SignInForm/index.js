@@ -1,40 +1,45 @@
-import React, { useState } from 'react'
-import { View, Text } from 'react-native'
-import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons'
-import { Button, Icon, Input, Stack, Divider, IconButton, FormControl } from 'native-base'
-import { Pressable } from 'react-native'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
-import { AuthService } from '../../../services/auth.service'
-import { useUserContext } from '../../../hooks/useUserContext'
-import { openToast } from '../../../utils/openToast'
+import React, {useState} from 'react';
+import {View, Text} from 'react-native';
+import {MaterialIcons, FontAwesome5} from '@expo/vector-icons';
+import {
+  Button, Icon, Input, Stack, Divider, IconButton, FormControl,
+} from 'native-base';
+import {Pressable} from 'react-native';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {AuthService} from '../../../services/auth.service';
+import {useUserContext} from '../../../hooks/useUserContext';
+import {openToast} from '../../../utils/openToast';
 
-const SignInForm = ({ navigation }) => {
+const SignInForm = ({navigation}) => {
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Email inválido').required('Campo obrigatório'),
-    password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Campo obrigatório')
-  })
+    password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Campo obrigatório'),
+  });
 
-  const { setUser, setIsLogged } = useUserContext();
-  const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const {setUser, setIsLogged} = useUserContext();
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleShowPassword = () => setShowPassword(!showPassword)
+  const handleShowPassword = () => setShowPassword(!showPassword);
 
   const handleLoginSubmit = async (values) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const { email, password } = values
+      const {email, password} = values;
 
-      const loggedUser = await AuthService.login({email, password})
+      const loggedUser = await AuthService.login({
+        email,
+        password,
+      });
 
       if (loggedUser) {
-        setUser(loggedUser)
-        setIsLogged(true)
+        setUser(loggedUser);
+        setIsLogged(true);
       }
 
-      if(!loggedUser) {
+      if (!loggedUser) {
         openToast({
           status: 'warning',
           title: 'Erro',
@@ -42,33 +47,31 @@ const SignInForm = ({ navigation }) => {
         });
       }
 
-      setIsLoading(false)
-
+      setIsLoading(false);
     } catch (error) {
-
       openToast({
         status: 'error',
         title: 'Erro',
-        description: 'Nao conseguimos completar a sua requisicao. Tente novamente mais tarde.'
+        description: 'Nao conseguimos completar a sua requisicao. Tente novamente mais tarde.',
       });
 
-      setIsLoading(false)
+      setIsLoading(false);
 
       throw new Error(error);
     }
-  }
+  };
 
   return (
     <>
       <Formik
         initialValues={{
           email: '',
-          password: ''
+          password: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => handleLoginSubmit(values)}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+        {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
           <>
             <Stack
               space={4}
@@ -116,7 +119,13 @@ const SignInForm = ({ navigation }) => {
                     <Pressable
                       onPress={handleShowPassword}
                     >
-                      <Icon as={<MaterialIcons name={showPassword ? 'visibility-off' : 'visibility'} />} marginRight={2} />
+                      <Icon as={
+                        <MaterialIcons
+                          name={showPassword ? 'visibility-off' : 'visibility'}
+                        />
+                      }
+                      marginRight={2}
+                      />
                     </Pressable>
                   }
                   type={showPassword ? 'text' : 'password'}
@@ -132,7 +141,7 @@ const SignInForm = ({ navigation }) => {
             <View
               style={{
                 width: '100%',
-                marginTop: 10
+                marginTop: 10,
               }}
             >
               <Button
@@ -141,9 +150,7 @@ const SignInForm = ({ navigation }) => {
                 isDisabled
                 colorScheme="primary"
                 marginTop={2}
-                style={{
-                  alignSelf: 'flex-end'
-                }}
+                style={{alignSelf: 'flex-end'}}
               >
                 Esqueceu sua senha?
               </Button>
@@ -168,7 +175,7 @@ const SignInForm = ({ navigation }) => {
                 style={{
                   alignSelf: 'center',
                   flexDirection: 'row',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
                 }}
               >
                 Não tem uma conta? Cadastre-se
@@ -185,7 +192,7 @@ const SignInForm = ({ navigation }) => {
           justifyContent: 'center',
           alignItems: 'center',
           position: 'relative',
-          marginTop: 20
+          marginTop: 20,
         }}
       >
         <Divider />
@@ -195,7 +202,7 @@ const SignInForm = ({ navigation }) => {
             marginTop: 20,
             position: 'absolute',
             backgroundColor: '#f2f2f2',
-            paddingHorizontal: 15
+            paddingHorizontal: 15,
           }}
         >
           ou continue com
@@ -253,7 +260,7 @@ const SignInForm = ({ navigation }) => {
         />
       </Stack>
     </>
-  )
-}
+  );
+};
 
-export default SignInForm
+export default SignInForm;

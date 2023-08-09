@@ -1,20 +1,22 @@
-import { View, Image } from 'react-native'
-import React from 'react'
-import { Box, Avatar, Text } from 'native-base'
-import ProfileImage from '../../../../assets/profile.webp'
+import {View, Image} from 'react-native';
+import React from 'react';
+import {
+  Box, Avatar, Text,
+} from 'native-base';
+import ProfileImage from '../../../../assets/profile.webp';
 
-const ProfileImageUri = Image.resolveAssetSource(ProfileImage).uri
+const ProfileImageUri = Image.resolveAssetSource(ProfileImage).uri;
 
 const ProfileCard = ({
   name = 'Desconhecido',
   email = 'naodefinido@email.com',
   avatar = ProfileImageUri,
   isVertical = false,
-  bgColor = "primary.700",
-  avatarSize = "lg",
+  bgColor = 'primary.700',
+  avatarSize = 'lg',
   shadow = 8,
-  nameColor = "white",
-  emailColor = "gray.200",
+  nameColor = 'white',
+  emailColor = 'gray.200',
   textCenter,
 }) => {
   return (
@@ -31,7 +33,7 @@ const ProfileCard = ({
       <Box>
         <Avatar
           size={avatarSize}
-          source={{ uri: avatar }}
+          source={{uri: avatar}}
           borderWidth={2}
           borderColor={'white'}
           background={'primary.100'}
@@ -41,23 +43,23 @@ const ProfileCard = ({
         {name && (
           <Text
             color={nameColor}
-            fontWeight={"bold"}
-            fontSize={isVertical ? "md" : "sm"}
+            fontWeight={'bold'}
+            fontSize={isVertical ? 'md' : 'sm'}
             textTransform={'uppercase'}
-            {...(textCenter && { textAlign: "center" })}
-            {...(isVertical && { paddingBottom: 2 })}
+            {...(textCenter && {textAlign: 'center'})}
+            {...(isVertical && {paddingBottom: 2})}
           >{name}</Text>
         )}
         {email && (
           <Text
             color={emailColor}
-            fontWeight={"thin"}
-            fontSize={"sm"}
+            fontWeight={'thin'}
+            fontSize={'sm'}
           >{email}</Text>
         )}
       </View>
     </Box>
-  )
-}
+  );
+};
 
-export default ProfileCard
+export default ProfileCard;

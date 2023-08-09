@@ -1,31 +1,32 @@
-import React, { useState } from 'react'
-import { View } from 'react-native'
-import { MaterialIcons } from '@expo/vector-icons'
-import { Button, Icon, Input, Stack, FormControl, Box } from 'native-base'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
-import { UserService } from '../../../services/user.service'
-import { openToast } from '../../../utils/openToast'
-import { useUserContext } from '../../../hooks/useUserContext'
+import React, {useState} from 'react';
+import {View} from 'react-native';
+import {MaterialIcons} from '@expo/vector-icons';
+import {
+  Button, Icon, Input, Stack, FormControl, Box,
+} from 'native-base';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {UserService} from '../../../services/user.service';
+import {openToast} from '../../../utils/openToast';
+import {useUserContext} from '../../../hooks/useUserContext';
 
-const UpdateProfileForm = ({ navigation }) => {
-
-  const { user, handleLogout } = useUserContext()
+const UpdateProfileForm = ({navigation}) => {
+  const {user, handleLogout} = useUserContext();
 
   const validationSchema = Yup.object().shape({
     cnh: Yup.string(),
     dateOfBirth: Yup.string(),
     password: Yup.string(),
     confirmPassword: Yup.string(),
-  })
+  });
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleDeleteAccount = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const deleteUser = await UserService.deleteUser(user.id)
+      const deleteUser = await UserService.deleteUser(user.id);
 
       if (deleteUser) {
         openToast({
@@ -33,8 +34,8 @@ const UpdateProfileForm = ({ navigation }) => {
           description: 'Conta deletada com sucesso!',
           duration: 3000,
           position: 'top',
-          title: 'Sucesso'
-        })
+          title: 'Sucesso',
+        });
 
         if (!deleteUser) {
           openToast({
@@ -42,42 +43,38 @@ const UpdateProfileForm = ({ navigation }) => {
             description: 'Erro ao deletar conta!',
             duration: 3000,
             position: 'top',
-            title: 'Erro'
-          })
+            title: 'Erro',
+          });
         }
 
         handleLogout();
       }
-
     } catch (error) {
       openToast({
         status: 'error',
         description: 'Erro ao deletar conta!',
         duration: 3000,
         position: 'top',
-        title: 'Erro'
-      })
+        title: 'Erro',
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-
-
-  }
+  };
 
   const handleUpdateProfileSubmit = async (values) => {
-
-    setIsLoading(true)
-    const { password } = values
+    setIsLoading(true);
+    const {password} = values;
 
     try {
-      const updateUser = await UserService.updateUser(user.id, { 
+      const updateUser = await UserService.updateUser(user.id, {
         id: user.id,
         name: user.name,
         email: user.email,
-        password: password
-       })
+        password: password,
+      });
 
-       console.log(updateUser)
+      console.log(updateUser);
 
       if (updateUser) {
         openToast({
@@ -85,8 +82,8 @@ const UpdateProfileForm = ({ navigation }) => {
           description: 'Senha atualizada com sucesso!',
           duration: 3000,
           position: 'top',
-          title: 'Sucesso'
-        })
+          title: 'Sucesso',
+        });
       }
 
       if (!updateUser) {
@@ -95,22 +92,21 @@ const UpdateProfileForm = ({ navigation }) => {
           description: 'Erro ao atualizar senha!',
           duration: 3000,
           position: 'top',
-          title: 'Erro'
-        })
+          title: 'Erro',
+        });
       }
-
     } catch (error) {
       openToast({
         status: 'error',
         description: 'Erro ao atualizar senha!',
         duration: 3000,
         position: 'top',
-        title: 'Erro'
-      })
+        title: 'Erro',
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Box
@@ -119,16 +115,16 @@ const UpdateProfileForm = ({ navigation }) => {
       <Formik
         initialValues={{
           password: '',
-          confirmPassowrd: ''
+          confirmPassowrd: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => handleUpdateProfileSubmit(values)}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+        {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
           <Box
-            height={"full"}
-            display={"flex"}
-            justifyContent={"space-between"}
+            height={'full'}
+            display={'flex'}
+            justifyContent={'space-between'}
           >
             <Stack
               space={4}
@@ -185,7 +181,7 @@ const UpdateProfileForm = ({ navigation }) => {
             <View
               style={{
                 width: '100%',
-                marginTop: 10
+                marginTop: 10,
               }}
             >
               <Button
@@ -202,10 +198,8 @@ const UpdateProfileForm = ({ navigation }) => {
               </Button>
               <Button
                 variant="solid"
-                bgColor={"red.400"}
-                _pressed={{
-                  backgroundColor: "red.600"
-                }}
+                bgColor={'red.400'}
+                _pressed={{backgroundColor: 'red.600'}}
                 marginTop={2}
                 width={'100%'}
                 onPress={handleDeleteAccount}
@@ -217,7 +211,7 @@ const UpdateProfileForm = ({ navigation }) => {
         )}
       </Formik>
     </Box>
-  )
-}
+  );
+};
 
-export default UpdateProfileForm
+export default UpdateProfileForm;

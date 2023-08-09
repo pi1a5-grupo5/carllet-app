@@ -1,6 +1,8 @@
-import { Box, Text, Image, Icon, Pressable } from 'native-base'
-import React from 'react'
-import { FontAwesome5 } from '@expo/vector-icons'
+import {
+  Box, Text, Icon, Pressable,
+} from 'native-base';
+import React from 'react';
+import {FontAwesome5} from '@expo/vector-icons';
 
 const VehicleCard = ({
   color = 'gray',
@@ -11,8 +13,7 @@ const VehicleCard = ({
   id,
   ...props
 }) => {
-
-  const { navigation } = props
+  const {navigation} = props;
 
   return (
     <Pressable
@@ -26,21 +27,19 @@ const VehicleCard = ({
       flex={1}
       flexDirection="row"
       justifyContent="space-between"
-      alignItems={"center"}
+      alignItems={'center'}
 
       onPress={() => {
-        console.log('VehicleCard pressed')
-        navigation.navigate('VehicleDetails', { id })
+        console.log('VehicleCard pressed');
+        navigation.navigate('VehicleDetails', {id});
       }}
       _pressed={
-        {
-          bg: 'light.100'
-        }
+        {bg: 'light.100'}
       }
     >
       <Box
         rounded="lg"
-        width={"25%"}
+        width={'25%'}
         p={2}
       >
         <Icon
@@ -53,7 +52,7 @@ const VehicleCard = ({
       </Box>
       <Box
         p={2}
-        width={"75%"}
+        width={'75%'}
         rounded="lg"
         flex={1}
         flexDirection="column"
@@ -101,7 +100,7 @@ const VehicleCard = ({
         </Box>
       </Box>
     </Pressable >
-  )
-}
+  );
+};
 
-export default VehicleCard
+export default VehicleCard;

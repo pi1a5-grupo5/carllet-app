@@ -1,11 +1,10 @@
-import ApiService from "./api.service"
+import ApiService from './api.service';
 
 const registerCourse = async (course) => {
-
-  const { ownerId, courseLength, courseEndTime } = course;
+  const {ownerId, courseLength, courseEndTime} = course;
 
   try {
-    const response = ApiService.post("/Course", {
+    const response = ApiService.post('/Course', {
       ownerId,
       courseLength,
       courseEndTime,
@@ -29,6 +28,6 @@ const getCourseByUserId = async (userId) => {
 
 export const CourseService = {
   registerCourse,
-  getCourseByUserId
+  getCourseByUserId,
 };
 

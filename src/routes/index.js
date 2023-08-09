@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, {
+  useEffect, useState, useRef,
+} from 'react';
 
 import NotSecuredRoutes from './NotSecuredRoutes';
 import SecuredRoutes from './SecuredRoutes';
 
-import { useUserContext } from '../hooks/useUserContext';
+import {useUserContext} from '../hooks/useUserContext';
 
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
@@ -17,26 +19,27 @@ Notifications.setNotificationHandler({
 });
 
 const Routes = () => {
-
   const [expoPushToken, setExpoPushToken] = useState('');
-  const [userInfo, setUserInfo] = useState(null);
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-  const { user, isLogged } = useUserContext();
+  const {isLogged} = useUserContext();
+  // const [userInfo, setUserInfo] = useState(null);
 
-  const removeExpoTokenString = (token) => {
+  /*   const removeExpoTokenString = (token) => {
     return token.replace('ExponentPushToken[', '').replace(']', '');
-  }
+  }; */
+
+  console.log(expoPushToken, notification);
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
 
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
       setNotification(notification);
     });
 
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
       console.log(response);
     });
 
@@ -49,15 +52,15 @@ const Routes = () => {
   if (!isLogged) {
     return (
       <NotSecuredRoutes />
-    )
+    );
   }
 
   return (
     <SecuredRoutes />
-  )
-}
+  );
+};
 
-export default Routes
+export default Routes;
 
 async function registerForPushNotificationsAsync() {
   let token;
@@ -72,10 +75,10 @@ async function registerForPushNotificationsAsync() {
   }
 
   if (Device.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    const {status: existingStatus} = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
     if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
+      const {status} = await Notifications.requestPermissionsAsync();
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
