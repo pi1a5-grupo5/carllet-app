@@ -25,6 +25,7 @@ const register = async (user) => {
       name,
       email,
       password,
+      deviceId: '',
     });
 
     return response;
