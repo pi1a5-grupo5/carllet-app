@@ -8,3 +8,4 @@ export {default as HomeScreen} from './Home';
 export {default as PlayScreen} from './Play';
 export {default as AccountScreen} from './Account';
 export {default as DevelopmentScreen} from './Development';
+export {default as BudgetScreen} from './Budget';

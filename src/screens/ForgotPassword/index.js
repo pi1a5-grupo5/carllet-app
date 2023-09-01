@@ -7,7 +7,6 @@ import {
 const ForgotPassword = ({navigation}) => {
   return (
     <PageContainer>
-      {/* // BACK BUTTON */}
       <BackButton navigation={navigation} />
 
       <Text
@@ -27,7 +26,6 @@ const ForgotPassword = ({navigation}) => {
       >
         Para alterar a sua senha, preencha os campos abaixo.
       </Text>
-      {/* // RESET PASSWORD UP FORM */}
       <ForgotPasswordForm
         navigation={navigation}
       />

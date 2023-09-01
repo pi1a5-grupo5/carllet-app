@@ -28,9 +28,7 @@ const SecuredRoutes = () => {
         component={AccountScreen}
         options={{headerShown: false}}
       />
-
     </Stack.Navigator>
-
   );
 };
 

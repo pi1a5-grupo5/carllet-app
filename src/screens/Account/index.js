@@ -7,7 +7,6 @@ import {useUserContext} from '../../hooks/useUserContext';
 const Account = ({navigation}) => {
   const {user} = useUserContext();
 
-
   return (
     <PageContainer>
       <BackButton navigation={navigation} title='Minha conta' />

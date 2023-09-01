@@ -1,4 +1,6 @@
+import { Button } from 'native-base';
 import {
+  BudgetScreen,
   DevelopmentScreen,
   HomeScreen,
   PlayScreen,
@@ -23,8 +25,8 @@ const APP_ROUTES = [
     isCenter: true,
   },
   {
-    name: 'Metas',
-    component: DevelopmentScreen,
+    name: 'Budget',
+    component: BudgetScreen,
     icon: 'bar-chart',
   },
   {
