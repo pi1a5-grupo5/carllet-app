@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {View, useWindowDimensions} from 'react-native';
 import {TabView, SceneMap} from 'react-native-tab-view';
-import {PageContainer} from '../../components';
+import {FloatOptionsButton, PageContainer} from '../../components';
 import {Box, Text} from 'native-base';
 import {DAYS_OF_WEEK} from '../../constants/date.constants';
 import {StackedBarChart} from 'react-native-chart-kit';
@@ -99,6 +99,7 @@ const Budget = () => {
       />
 
       {/* Botao fixo */}
+      <FloatOptionsButton />
     </PageContainer>
   );
 };
