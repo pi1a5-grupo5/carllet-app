@@ -30,7 +30,7 @@ export const UserProvider = ({children}) => {
           setUser(user);
           setIsLogged(true);
         } else {
-          setIsLogged(false);
+          setIsLogged(true);
           clearStorage();
         }
 

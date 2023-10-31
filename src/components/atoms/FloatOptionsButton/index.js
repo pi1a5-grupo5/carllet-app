@@ -46,6 +46,7 @@ const FlotOptionsButton = ({
       position="absolute"
       bottom={24}
       right={10}
+      mb={2}
       {...rest}
     >
       <Animated.View

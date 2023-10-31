@@ -19,6 +19,7 @@ const ToastAlert = ({
     <Alert
       maxWidth="100%"
       alignSelf="center"
+      marginX={5}
       flexDirection="row"
       status={status ? status : 'info'}
       variant={variant}

@@ -1,66 +1,68 @@
 import * as React from 'react';
-import { TouchableOpacity, View, useWindowDimensions } from 'react-native';
-import { TabView, SceneMap } from 'react-native-tab-view';
-import { FloatOptionsButton, PageContainer } from '../../components';
-import { Box, Text } from 'native-base';
+import { Animated, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { FloatOptionsButton, HistoryBudget, PageContainer } from '../../components';
+import { Box, Pressable, Text, useColorModeValue } from 'native-base';
 import { DAYS_OF_WEEK } from '../../constants/date.constants';
 import { StackedBarChart } from 'react-native-chart-kit';
 
 const GanhosRoute = () => (
   <View>
-    <Box>
-      <Text>Ganhos</Text>
-    </Box>
+    <HistoryBudget
+      budgetItems={[
+        {
+          date: '2021-09-01',
+          value: 1000,
+          title: 'Salário'
+        },
+        {
+          date: '2021-09-02',
+          value: 1000,
+          title: 'Salário'
+        },
+        {
+          date: '2021-09-03',
+          value: 1000,
+          title: 'Salário'
+        },
+        {
+          date: '2021-09-01',
+          value: 1000,
+          title: 'Salário'
+        },
+      ]}
+    />
   </View>
 );
 
 const DespesasRoute = () => (
-  <View>
-    <Box>
-      <Text>Despesas</Text>
-    </Box>
-  </View>
+  <Box>
+    <HistoryBudget
+      budgetItems={[
+        {
+          date: '2021-09-01',
+          value: 100,
+          title: 'Gasolina'
+        },
+        {
+          date: '2021-09-02',
+          value: 50,
+          title: 'Gasolina'
+        },
+        {
+          date: '2021-09-03',
+          value: 120,
+          title: 'Gasolina'
+        },
+        {
+          date: '2021-09-01',
+          value: 200,
+          title: 'Gasolina'
+        },
+      ]}
+    />
+  </Box>
 );
-
-const _renderTabBar = props => {
-  const inputRange = props.navigationState.routes.map((x, i) => i);
-
-  console.log(props.navigationState.routes);
-
-  return (
-    <Box>
-      <Box
-        display="flex"
-        flexDirection="row"
-        justifyContent="space-around"
-        backgroundColor="#ff000000"
-        borderRadius={10}
-        marginBottom={10}
-      >
-        {props.navigationState.routes.map((route, i) => {
-          const color = props.position.interpolate({
-            inputRange,
-            outputRange: inputRange.map(
-              inputIndex => (inputIndex === i ? '#000' : '#00000030')
-            ),
-          });
-
-          return (
-            <Box
-              key={i}
-              borderBottomWidth={3}
-              borderBottomColor={color}
-              onPress={() => props.jumpTo(route.key)}
-            >
-              <Text>{route.title}</Text>
-            </Box>
-          );
-        }
-        )}
-      </Box>
-    </Box>
-  );
-};
 
 // eslint-disable-next-line
 const renderScene = SceneMap({
@@ -97,6 +99,38 @@ const Budget = () => {
       [2000, 700],
     ],
     barColors: ['#00ff0030', '#ff000030'],
+  };
+
+  const _renderTabBar = props => {
+    const inputRange = props.navigationState.routes.map((x, i) => i);
+    return <Box flexDirection="row">
+      {props.navigationState.routes.map((route, i) => {
+        const opacity = props.position.interpolate({
+          inputRange,
+          outputRange: inputRange.map(inputIndex => inputIndex === i ? 1 : 0.5)
+        });
+        const color = index === i ? useColorModeValue('#000', '#e5e5e5') : useColorModeValue('#1f2937', '#a1a1aa');
+        const borderColor = index === i ? 'primary.500' : useColorModeValue('coolGray.200', 'gray.400');
+        return <Pressable
+          onPress={() => {
+            setIndex(i);
+          }}
+          borderBottomWidth="3"
+          borderColor={borderColor}
+          flex={1}
+          alignItems="center"
+          p="3"
+          cursor="pointer"
+          marginBottom={5}
+        >
+          <Box>
+            <Animated.Text style={{
+              color
+            }}>{route.title}</Animated.Text>
+          </Box>
+        </Pressable>;
+      })}
+    </Box>;
   };
 
   return (
