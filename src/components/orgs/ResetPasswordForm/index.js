@@ -19,9 +19,6 @@ const ResetPasswordForm = ({navigation}) => {
 
   const handleResetPasswordSubmit = (values) => {
     setIsLoading(true);
-
-    console.log(values);
-
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
