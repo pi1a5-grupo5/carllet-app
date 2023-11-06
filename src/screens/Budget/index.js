@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Animated, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { FloatOptionsButton, HistoryBudget, PageContainer } from '../../components';
+import { CustomTabBar, FloatOptionsButton, HistoryBudget, PageContainer } from '../../components';
 import { Box, Pressable, Text, useColorModeValue } from 'native-base';
 import { DAYS_OF_WEEK } from '../../constants/date.constants';
 import { StackedBarChart } from 'react-native-chart-kit';
@@ -71,7 +71,7 @@ const renderScene = SceneMap({
 });
 
 
-const Budget = () => {
+const Budget = ({ navigation }) => {
   const layout = useWindowDimensions();
 
   const [index, setIndex] = React.useState(0);
@@ -102,36 +102,19 @@ const Budget = () => {
   };
 
   const _renderTabBar = props => {
-    const inputRange = props.navigationState.routes.map((x, i) => i);
-    return <Box flexDirection="row">
-      {props.navigationState.routes.map((route, i) => {
-        const opacity = props.position.interpolate({
-          inputRange,
-          outputRange: inputRange.map(inputIndex => inputIndex === i ? 1 : 0.5)
-        });
-        const color = index === i ? useColorModeValue('#000', '#e5e5e5') : useColorModeValue('#1f2937', '#a1a1aa');
-        const borderColor = index === i ? 'primary.500' : useColorModeValue('coolGray.200', 'gray.400');
-        return <Pressable
-          onPress={() => {
-            setIndex(i);
-          }}
-          borderBottomWidth="3"
-          borderColor={borderColor}
-          flex={1}
-          alignItems="center"
-          p="3"
-          cursor="pointer"
-          marginBottom={5}
-        >
-          <Box>
-            <Animated.Text style={{
-              color
-            }}>{route.title}</Animated.Text>
-          </Box>
-        </Pressable>;
-      })}
-    </Box>;
+    return <CustomTabBar _renderTabBarProps={props} tabView={index} setTabView={setIndex} />
   };
+
+  const subButtons = [
+    {
+      icon: 'add',
+      onPress: () => navigation.navigate('RegisterEarning'),
+    },
+    {
+      icon: 'remove',
+      onPress: () => navigation.navigate('RegisterExpense'),
+    },
+  ];
 
   return (
     <PageContainer
@@ -219,7 +202,10 @@ const Budget = () => {
       />
 
       {/* Botao fixo */}
-      <FloatOptionsButton />
+      <FloatOptionsButton 
+        navigation={navigation}
+        subButtons={subButtons}
+      />
     </PageContainer>
   );
 };

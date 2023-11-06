@@ -4,27 +4,29 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormControl, Stack, TextArea, Input, Icon, Button } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons';
-import DateTimePicker from '@react-native-community/datetimepicker';
 
-const RegisterEarningForm = () => {
-  const [earningTypes, setEarningTypes] = useState();
+const RegisterOthersExpensesForm = () => {
+  const [otherExpensesTypes, setOtherExpensesTypes] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [showDateTimePicker, setShowDateTimePicker] = useState(false);
 
   const registerEarningValidationSchema = Yup.object().shape({
-    earningDate: Yup
-      .string()
-      .required('Campo obrigatório'),
-    earningValue: Yup
+    userVehicleId: Yup
       .number()
       .required('Campo obrigatório'),
-    earningDetails: Yup
+    otherExpenseDate: Yup
       .string()
       .required('Campo obrigatório'),
-    earningTypeId: Yup
+    otherExpenseValue: Yup
+      .number()
+      .required('Campo obrigatório'),
+    otherExpenseDetails: Yup
+      .string()
+      .required('Campo obrigatório'),
+    otherExpensesTyped: Yup
       .number()
       .required('Campo Obrigatório'),
-  })
+  });
 
 
   const getEarningTypes = async () => {
@@ -34,7 +36,7 @@ const RegisterEarningForm = () => {
   useEffect(() => {
     getEarningTypes()
       .then(res => {
-        setEarningTypes(res);
+        setOtherExpensesTypes(res);
       })
       .catch(err => {
         console.log(err);
@@ -45,10 +47,11 @@ const RegisterEarningForm = () => {
     <>
       <Formik
         initialValues={{
-          earningDate: '',
-          earningValue: '',
-          earningDetails: '',
-          earningTypeId: '',
+          userVehicleId: '',
+          otherExpenseDate: '',
+          otherExpenseValue: '',
+          otherExpenseDetails: '',
+          otherExpensesTyped: '',
         }}
         validationSchema={registerEarningValidationSchema}
         onSubmit={values => {
@@ -65,16 +68,37 @@ const RegisterEarningForm = () => {
           >
             <Stack
               space={4}
-              alignItems="center"
-              width={'100%'}
             >
               <FormControl
                 isRequired
-                isInvalid={!!(errors.earningDate && touched.earningDate)}
+                isInvalid={!!(errors.userVehicleId && touched.userVehicleId)}
               >
                 <Input
-                  onChangeText={handleChange('earningDate')}
-                  onBlur={handleBlur('earningDate')}
+                  onChangeText={handleChange('userVehicleId')}
+                  onBlur={handleBlur('userVehicleId')}
+                  value={values.userVehicleId}
+                  size={'md'}
+                  placeholder="Veículo"
+                  variant="outline"
+                  keyboardType="numeric"
+                  InputLeftElement={
+                    <Icon
+                      as={<MaterialIcons name="directions-car" />}
+                      marginLeft="2"
+                    />
+                  }
+                />
+                <FormControl.ErrorMessage>
+                  {errors.userVehicleId}
+                </FormControl.ErrorMessage>
+              </FormControl>
+              <FormControl
+                isRequired
+                isInvalid={!!(errors.otherExpenseDate && touched.otherExpenseDate)}
+              >
+                <Input
+                  onChangeText={handleChange('otherExpenseDate')}
+                  onBlur={handleBlur('otherExpenseDate')}
                   size={'md'}
                   onFocus={() => setShowDateTimePicker(true)}
                   placeholder="Data"
@@ -84,21 +108,21 @@ const RegisterEarningForm = () => {
                     <Icon as={<MaterialIcons name="date-range" />} marginLeft={2} />
                   }
                   type='date'
-                  value={values.earningDate}
+                  value={values.otherExpenseDate}
                 />
                 <FormControl.ErrorMessage
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
                 >
-                  {errors.earningDate}
+                  {errors.otherExpenseDate}
                 </FormControl.ErrorMessage>
               </FormControl>
               <FormControl
                 isRequired
-                isInvalid={!!(errors.earningValue && touched.earningValue)}
+                isInvalid={!!(errors.otherExpenseValue && touched.otherExpenseValue)}
               >
                 <Input
-                  onChangeText={handleChange('earningValue')}
-                  onBlur={handleBlur('earningValue')}
+                  onChangeText={handleChange('otherExpenseValue')}
+                  onBlur={handleBlur('otherExpenseValue')}
                   size={'md'}
                   placeholder="Valor"
                   variant="outline"
@@ -107,25 +131,51 @@ const RegisterEarningForm = () => {
                     <Icon as={<MaterialIcons name="attach-money" />} marginLeft={2} />
                   }
                   type='number'
-                  value={values.earningValue}
+                  value={values.otherExpenseValue}
                 />
                 <FormControl.ErrorMessage
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
                 >
-                  {errors.earningValue}
+                  {errors.otherExpenseValue}
                 </FormControl.ErrorMessage>
               </FormControl>
               <FormControl
                 isRequired
-                isInvalid={!!(errors.earningDetails && touched.earningDetails)}
+                isInvalid={!!(errors.otherExpensesTyped && touched.otherExpensesTyped)}
+              >
+                <Input
+                  onChangeText={handleChange('otherExpensesTyped')}
+                  onBlur={handleBlur('otherExpensesTyped')}
+                  size={'md'}
+                  placeholder="Tipo de despesa"
+                  variant="outline"
+                  width={'100%'}
+                  value={values.otherExpensesTyped}
+                  InputLeftElement={
+                    <Icon
+                      as={<MaterialIcons name="description" />}
+                      marginLeft={2}
+                    />
+                  }
+                />
+                <FormControl.ErrorMessage
+                  leftIcon={<MaterialIcons name="error" size={16} color="red" />}
+                >
+                  {errors.otherExpensesTyped}
+                </FormControl.ErrorMessage>
+              </FormControl>
+              <FormControl
+                isRequired
+                isInvalid={!!(errors.otherExpenseDetails && touched.otherExpenseDetails)}
               >
                 <TextArea
-                  onChangeText={handleChange('earningDetails')}
-                  onBlur={handleBlur('earningDetails')}
+                  onChangeText={handleChange('otherExpenseDetails')}
+                  onBlur={handleBlur('otherExpenseDetails')}
                   size={'md'}
                   placeholder="Detalhes"
                   variant="outline"
                   width={'100%'}
+                  value={values.otherExpenseDetails}
                   InputLeftElement={
                     <Icon
                       as={<MaterialIcons name="description" />}
@@ -133,13 +183,11 @@ const RegisterEarningForm = () => {
                       marginBottom={12}
                     />
                   }
-                  type='text'
-                  value={values.earningDetails}
                 />
                 <FormControl.ErrorMessage
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
                 >
-                  {errors.earningDetails}
+                  {errors.otherExpenseDetails}
                 </FormControl.ErrorMessage>
               </FormControl>
             </Stack>
@@ -159,7 +207,7 @@ const RegisterEarningForm = () => {
                 isLoading={isLoading}
                 isLoadingText='Carregando...'
               >
-                Enviar ganho
+                Enviar despesa
               </Button>
               <Button
                 variant="ghost"
@@ -178,4 +226,4 @@ const RegisterEarningForm = () => {
   )
 }
 
-export default RegisterEarningForm
+export default RegisterOthersExpensesForm

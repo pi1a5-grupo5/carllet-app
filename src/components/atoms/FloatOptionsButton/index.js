@@ -7,20 +7,7 @@ const FlotOptionsButton = ({
   navigation,
   icon = 'insights',
   options,
-  subButtons = [
-    {
-      icon: 'add',
-      onPress: () => console.log('plus'),
-    },
-    {
-      icon: 'remove',
-      onPress: () => console.log('minus'),
-    },
-    {
-      icon: 'edit',
-      onPress: () => console.log('edit'),
-    },
-  ],
+  subButtons = [],
   ...rest
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -37,7 +24,7 @@ const FlotOptionsButton = ({
   };
 
   const handleSubButtonPress = (onPress) => {
-    setIsOpen(false);
+    handlePress();
     onPress();
   };
 
