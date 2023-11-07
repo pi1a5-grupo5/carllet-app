@@ -1,7 +1,8 @@
 import React from 'react'
-import { Box, ScrollView, Text } from 'native-base'
+import { Box, FlatList, ScrollView, Text } from 'native-base'
 import dayjs from 'dayjs'
 import { currencyFormat } from '../../../utils/currencyFormart'
+import { Platform } from 'react-native'
 
 const HistoryBudget = ({ title = "Histórico", budgetItems = [] }) => {
   return (
@@ -9,7 +10,7 @@ const HistoryBudget = ({ title = "Histórico", budgetItems = [] }) => {
       bg="white"
       p={4}
       mx={2}
-      mb={-10}
+      marginBottom={Platform.OS == "android" ? -20 : -10}
       h="100%"
       rounded="lg"
       shadow={1}
@@ -26,9 +27,7 @@ const HistoryBudget = ({ title = "Histórico", budgetItems = [] }) => {
             key={index}
             flex={1}
             flexDirection="row"
-            justifyContent="space-between"
           >
-
             <Box
               position="relative"
               w={100}
@@ -70,7 +69,7 @@ const HistoryBudget = ({ title = "Histórico", budgetItems = [] }) => {
                 <Box
                   flexDirection="row"
                   gap={2}
-                  justifyContent="top"
+                  //justifyContent="top"
                 >
                   <Text
                     fontWeight="bold"
