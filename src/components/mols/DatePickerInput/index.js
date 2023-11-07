@@ -11,6 +11,7 @@ const DatePickerInput = ({
   name,
   error,
   touched,
+  pickerStylesIOS,
   ...rest
 }) => {
 
@@ -85,7 +86,7 @@ const DatePickerInput = ({
 
       {show && Platform.OS == "ios" && (
         <Box
-          style={styles.datePickerIOS}
+          style={pickerStylesIOS}
         >
           <Box
             flex={1}
@@ -118,16 +119,3 @@ const DatePickerInput = ({
 }
 
 export default DatePickerInput
-
-const styles = StyleSheet.create({
-  datePickerIOS: {
-    position: 'absolute',
-    top: Dimensions.get('window').height - 400,
-    padding: 10,
-    left: -20,
-    width: Dimensions.get('window').width,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-})

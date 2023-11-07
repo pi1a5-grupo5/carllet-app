@@ -1,9 +1,10 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet, Dimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { FormControl, Stack, TextArea, Input, Icon, Button } from 'native-base'
+import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons';
+import { DatePickerInput } from '../../';
 
 const RegisterOthersExpensesForm = () => {
   const [otherExpensesTypes, setOtherExpensesTypes] = useState();
@@ -44,7 +45,11 @@ const RegisterOthersExpensesForm = () => {
   }, [])
 
   return (
-    <>
+    <Box
+      marginHorizontal={4}
+      borderWidth={5}
+      borderColor={'red.300'}
+    >
       <Formik
         initialValues={{
           userVehicleId: '',
@@ -59,7 +64,7 @@ const RegisterOthersExpensesForm = () => {
           console.log(values)
         }}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
           <View
             style={{
               width: '100%',
@@ -96,7 +101,7 @@ const RegisterOthersExpensesForm = () => {
                 isRequired
                 isInvalid={!!(errors.otherExpenseDate && touched.otherExpenseDate)}
               >
-                <Input
+                {/*                 <Input
                   onChangeText={handleChange('otherExpenseDate')}
                   onBlur={handleBlur('otherExpenseDate')}
                   size={'md'}
@@ -114,7 +119,15 @@ const RegisterOthersExpensesForm = () => {
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
                 >
                   {errors.otherExpenseDate}
-                </FormControl.ErrorMessage>
+                </FormControl.ErrorMessage> */}
+                <DatePickerInput
+                  placeholder="Data"
+                  value={values.otherExpenseDate}
+                  onChange={setFieldValue}
+                  editable={false}
+                  name={'otherExpenseDate'}
+                  pickerStylesIOS={styles.datePickerIOS}
+                />
               </FormControl>
               <FormControl
                 isRequired
@@ -222,8 +235,19 @@ const RegisterOthersExpensesForm = () => {
           </View>
         )}
       </Formik>
-    </>
+    </Box>
   )
 }
+
+const styles = StyleSheet.create({
+  datePickerIOS: {
+    position: 'absolute',
+    zIndex: 10,
+    top: Dimensions.get('window').height - 500,
+    padding: 10,
+    right: -25,
+    width: Dimensions.get('window').width,
+  },
+})
 
 export default RegisterOthersExpensesForm

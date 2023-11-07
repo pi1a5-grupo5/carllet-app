@@ -1,16 +1,15 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet, Dimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { FormControl, Stack, TextArea, Input, Icon, Button } from 'native-base'
+import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { DatePickerInput } from '../../';
 
 
 const RegisterMaintenanceExpenseForm = ({ navigation }) => {
   const [maintenanceTypes, setMaintenanceTypes] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [showDateTimePicker, setShowDateTimePicker] = useState(false);
 
   const registerEarningValidationSchema = Yup.object().shape({
     userVehicleId: Yup
@@ -49,7 +48,9 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
   }, [])
 
   return (
-    <>
+    <Box
+      marginHorizontal={4}
+    >
       <Formik
         initialValues={{
           userVehicleId: '',
@@ -65,7 +66,7 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
           console.log(values)
         }}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
           <View
             style={{
               width: '100%',
@@ -74,6 +75,8 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
           >
             <Stack
               space={4}
+              width={'100%'}
+              alignItems="center"
             >
               <FormControl
                 isRequired
@@ -102,7 +105,7 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
                 isRequired
                 isInvalid={!!(errors.maintenanceDate && touched.maintenanceDate)}
               >
-                <Input
+                {/*                 <Input
                   onChangeText={handleChange('maintenanceDate')}
                   onBlur={handleBlur('maintenanceDate')}
                   onFocus={() => setShowDateTimePicker(true)}
@@ -120,7 +123,15 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
                 >
                   {errors.maintenanceDate}
-                </FormControl.ErrorMessage>
+                </FormControl.ErrorMessage> */}
+                <DatePickerInput
+                  placeholder="Data"
+                  value={values.maintenanceDate}
+                  onChange={setFieldValue}
+                  editable={false}
+                  name={'maintenanceDate'}
+                  pickerStylesIOS={styles.datePickerIOS}
+                />
               </FormControl>
               <FormControl
                 isRequired
@@ -253,8 +264,19 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
           </View>
         )}
       </Formik>
-    </>
+    </Box>
   )
 }
+
+const styles = StyleSheet.create({
+  datePickerIOS: {
+    position: 'absolute',
+    zIndex: 10,
+    top: Dimensions.get('window').height - 500,
+    padding: 10,
+    right: -25,
+    width: Dimensions.get('window').width,
+  },
+})
 
 export default RegisterMaintenanceExpenseForm

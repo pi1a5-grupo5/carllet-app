@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet, Dimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
@@ -98,6 +98,7 @@ const RegisterEarningForm = () => {
                   onChange={setFieldValue}
                   editable={false}
                   name={'earningDate'}
+                  pickerStylesIOS={styles.datePickerIOS}
                 />
               </FormControl>
               <FormControl
@@ -185,5 +186,18 @@ const RegisterEarningForm = () => {
     </Box>
   )
 }
+
+const styles = StyleSheet.create({
+  datePickerIOS: {
+    position: 'absolute',
+    top: Dimensions.get('window').height - 400,
+    padding: 10,
+    left: -25,
+    width: Dimensions.get('window').width,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
 
 export default RegisterEarningForm
