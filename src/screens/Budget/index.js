@@ -135,9 +135,9 @@ const Budget = ({ navigation }) => {
           height={220}
           chartConfig={{
             barPercentage: 0.5,
-            backgroundColor: '#fff',
-            backgroundGradientFrom: '#fff0000',
-            backgroundGradientTo: '#fff0000',
+            backgroundColor: '#fff00',
+            backgroundGradientFrom: '#fff00',
+            backgroundGradientTo: '#fff00',
             color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
             style: {
@@ -190,7 +190,7 @@ const Budget = ({ navigation }) => {
         </Box>
       </View>
 
-      <TabView
+{/*       <TabView
         navigationState={{
           index,
           routes
@@ -199,7 +199,7 @@ const Budget = ({ navigation }) => {
         renderTabBar={_renderTabBar}
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
-      />
+      /> */}
 
       {/* Botao fixo */}
       <FloatOptionsButton 

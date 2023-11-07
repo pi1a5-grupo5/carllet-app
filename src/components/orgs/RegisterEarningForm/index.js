@@ -2,9 +2,10 @@ import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { FormControl, Stack, TextArea, Input, Icon, Button } from 'native-base'
+import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePickerInput from '../../mols/DatePickerInput'
 
 const RegisterEarningForm = () => {
   const [earningTypes, setEarningTypes] = useState();
@@ -42,7 +43,7 @@ const RegisterEarningForm = () => {
   }, [])
 
   return (
-    <>
+    <Box>
       <Formik
         initialValues={{
           earningDate: '',
@@ -56,7 +57,7 @@ const RegisterEarningForm = () => {
           console.log(values)
         }}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
           <View
             style={{
               width: '100%',
@@ -72,7 +73,7 @@ const RegisterEarningForm = () => {
                 isRequired
                 isInvalid={!!(errors.earningDate && touched.earningDate)}
               >
-                <Input
+{/*                 <Input
                   onChangeText={handleChange('earningDate')}
                   onBlur={handleBlur('earningDate')}
                   size={'md'}
@@ -90,7 +91,14 @@ const RegisterEarningForm = () => {
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
                 >
                   {errors.earningDate}
-                </FormControl.ErrorMessage>
+                </FormControl.ErrorMessage> */}
+                <DatePickerInput
+                  placeholder="Data"
+                  value={values.earningDate}
+                  onChange={setFieldValue}
+                  editable={false}
+                  name={'earningDate'}
+                />
               </FormControl>
               <FormControl
                 isRequired
@@ -174,7 +182,7 @@ const RegisterEarningForm = () => {
           </View>
         )}
       </Formik>
-    </>
+    </Box>
   )
 }
 

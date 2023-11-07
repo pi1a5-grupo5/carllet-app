@@ -18,6 +18,7 @@ const CustomTabBar = ({ _renderTabBarProps: props, tabView, setTabView }) => {
 					onPress={() => {
 						setTabView(i);
 					}}
+					key={i}
 					borderBottomWidth="3"
 					borderColor={borderColor}
 					flex={1}
