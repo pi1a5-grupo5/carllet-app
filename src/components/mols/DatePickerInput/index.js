@@ -1,7 +1,8 @@
 import { View, TextInput, Platform, StyleSheet, Dimensions } from 'react-native'
 import React from 'react'
-import { Input, Pressable, Box, Button } from 'native-base';
+import { Input, Pressable, Box, Button, Icon } from 'native-base';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const DatePickerInput = ({
   value,
@@ -41,20 +42,30 @@ const DatePickerInput = ({
   return (
     <>
       {Platform.OS === 'ios' && (
-        <Box
+        <Pressable
           borderWidth={1}
           borderColor={'gray.300'}
           borderRadius={5}
           p={2}
+          flexDirection={'row'}
+          onPressIn={toggleDatePicker}
         >
+          <Icon
+
+            as={<MaterialIcons name="date-range" />}
+            size={4}
+            color={'gray.400'}
+            marginRight={3}
+            zIndex={-1}
+          />
           <TextInput
             placeholder={placeholder}
             value={value ? value.toLocaleDateString() : ''}
-            onPressIn={toggleDatePicker}
             isDisabled={true}
             {...rest}
           />
-        </Box>
+          
+        </Pressable>
       )}
 
       {(Platform.OS === 'android') && (
