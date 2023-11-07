@@ -6,3 +6,4 @@ export {default as UpdateProfileForm} from './UpdateProfileForm';
 export {default as RegisterExpenseForm} from './RegisterMaintenanceExpenseForm';
 export {default as RegisterOthersExpensesForm} from './RegisterOthersExpensesForm';
 export {default as RegisterEarningForm} from './RegisterEarningForm';
+export {default as RegisterVehicleForm} from './RegisterVehicleForm';

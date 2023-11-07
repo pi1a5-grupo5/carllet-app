@@ -1,10 +1,10 @@
 import { View } from 'react-native';
-import { Box, ScrollView, Spinner, Text } from 'native-base';
-import { PageContainer, VehicleCard } from '../../components';
+import { Box, Button, Spinner, Text } from 'native-base';
+import { PageContainer } from '../../components';
 import React, { useEffect, useState } from 'react';
 import { VehiclesService } from '../../services/vehicles.service';
 
-const Veicles = () => {
+const Vehicles = ({ navigation }) => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,9 +36,25 @@ const Veicles = () => {
 
 
   return (
-    <PageContainer
-      pageTitle={'Veículos'}
-    >
+    <PageContainer>
+      <Box
+        mb={4}
+        flexDirection={'row'}
+        justifyContent={'space-between'}
+      >
+        <Text
+          fontSize={'xl'}
+          fontWeight={'bold'}
+        >Veículos</Text>
+        <Button
+          variant={'solid'}
+          colorScheme={'primary'}
+          onPress={() => navigation.navigate('NewVehicle')}
+        >
+          Novo veículo
+        </Button>
+      </Box>
+
       {(loading || !loading && vehicles.length === 0) && (
         <View
           style={{
@@ -70,14 +86,8 @@ const Veicles = () => {
           )}
         </View>
       )}
-
-      {/* {!loading && vehicles.length > 0 && <Text>Veículos cadastrados</Text>} */}
-      <ScrollView>
-        <VehicleCard />
-      </ScrollView>
-
     </PageContainer>
   );
 };
 
-export default Veicles;
+export default Vehicles;
