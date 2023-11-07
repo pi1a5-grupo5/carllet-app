@@ -1,12 +1,12 @@
-import {View, Text} from 'react-native';
-import {ScrollView, Spinner} from 'native-base';
-import {PageContainer, VehicleCard} from '../../components';
-import React from 'react';
-import {VehiclesService} from '../../services/vehicles.service';
+import { View } from 'react-native';
+import { Box, ScrollView, Spinner, Text } from 'native-base';
+import { PageContainer, VehicleCard } from '../../components';
+import React, { useEffect, useState } from 'react';
+import { VehiclesService } from '../../services/vehicles.service';
 
 const Veicles = () => {
-  const [vehicles, setVehicles] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
+  const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getVehicles = async () => {
     try {
@@ -23,7 +23,7 @@ const Veicles = () => {
   };
 
 
-  React.useEffect(() => {
+  useEffect(() => {
     getVehicles().then((vehicles) => {
       setVehicles(vehicles);
     }).catch((error) => {
@@ -39,18 +39,42 @@ const Veicles = () => {
     <PageContainer
       pageTitle={'Veículos'}
     >
-      <View>
-        {loading && <Spinner />}
+      {(loading || !loading && vehicles.length === 0) && (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: 20,
+          }}
+        >
+          {loading && <Spinner />}
+          {!loading && vehicles.length === 0 && (
+            <Box
+              padding={4}
+            >
+              <Text
+                fontSize={'xl'}
+                fontWeight={'bold'}
+                textAlign={'center'}
+              >Voce não possui veículos cadastrados</Text>
+              <Text
+                textAlign={'center'}
+                color={'gray.500'}
+                mt={2}
+                fontStyle={'italic'}
+              >
+                Antes de começar a usar o app, cadastre um veículo para que possamos te ajudar a fazer a gestão completa dos seus ganhos, despesas e muito mais!
+              </Text>
+            </Box>
+          )}
+        </View>
+      )}
 
-        {!loading && vehicles.length === 0 && <Text>Nenhum veículo cadastrado</Text>}
-
-        {!loading && vehicles.length > 0 && <Text>Veículos cadastrados</Text>}
-
-        <ScrollView>
-          <VehicleCard />
-        </ScrollView>
-      </View>
-
+      {/* {!loading && vehicles.length > 0 && <Text>Veículos cadastrados</Text>} */}
+      <ScrollView>
+        <VehicleCard />
+      </ScrollView>
 
     </PageContainer>
   );

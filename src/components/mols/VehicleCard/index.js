@@ -1,19 +1,19 @@
 import {
-  Box, Text, Icon, Pressable,
+  Box, Text, Icon, Pressable, Tag, HStack,
 } from 'native-base';
 import React from 'react';
-import {FontAwesome5} from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 const VehicleCard = ({
   color = 'gray',
   brand = 'Chevrolet',
   model = 'Camaro',
-  odometer,
+  odometer = 300,
   rented,
   id,
   ...props
 }) => {
-  const {navigation} = props;
+  const { navigation } = props;
 
   return (
     <Pressable
@@ -25,34 +25,37 @@ const VehicleCard = ({
       p={2}
       mb={2}
       flex={1}
+      gap={2}
       flexDirection="row"
       justifyContent="space-between"
       alignItems={'center'}
 
       onPress={() => {
         console.log('VehicleCard pressed');
-        navigation.navigate('VehicleDetails', {id});
+        navigation.navigate('VehicleDetails', { id });
       }}
       _pressed={
-        {bg: 'light.100'}
+        { bg: 'light.100' }
       }
     >
       <Box
         rounded="lg"
-        width={'25%'}
+        maxW={'30%'}
         p={2}
+        flex={1}
+        alignItems={'center'}
+        justifyContent={'center'}
       >
         <Icon
           as={FontAwesome5}
           name="car"
           resizeMode="cover"
-          size={75}
+          size={70}
           color={`dark.100`}
         />
       </Box>
       <Box
-        p={2}
-        width={'75%'}
+        px={2}
         rounded="lg"
         flex={1}
         flexDirection="column"
@@ -62,41 +65,46 @@ const VehicleCard = ({
             fontSize="md"
             fontWeight="bold"
           >
-            {brand} - {model}
+            {brand.toUpperCase()} - {model}
           </Text>
         </Box>
-        <Box>
+        <Box
+          borderColor="gray.300"
+          rounded="lg"
+          mt={1}
+        >
           <Box
-            mt={2}
             flex={1}
             flexDirection="row"
             gap={2}
+            alignItems={'center'}
           >
-            <Text
-              fontWeight="bold"
-            >
-              Hodometro:
-            </Text>
-            <Text>
-              {odometer ?? 0} km registrados
-            </Text>
+            <Box size={18}>
+              <Icon
+                as={FontAwesome5}
+                name="road"
+                size={18}
+                color={`dark.100`}
+                style={{ width: '115%' }}
+              />
+            </Box>
+              <Text>{odometer} KM</Text>
           </Box>
-
           <Box
-            mt={2}
-            flex={1}
-            flexDirection="row"
-            gap={2}
+            marginTop={5}
           >
-            <Text
-              fontWeight="bold"
+            <HStack
+              space={2}
             >
-              Alugado:
-            </Text>
-            <Text fontWeight="light">{rented ? 'Sim' : 'Não'}</Text>
+              <Tag
+                size="sm"
+                variant="solid"
+                px={2}
+              >
+                {rented ? 'Alugado' : 'Próprio'}
+              </Tag>
+            </HStack>
           </Box>
-
-
         </Box>
       </Box>
     </Pressable >

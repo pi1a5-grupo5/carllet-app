@@ -4,6 +4,7 @@ import {
   HomeScreen,
   PlayScreen,
   ProfileScreen,
+  VehiclesScreen,
 } from '../screens';
 
 const APP_ROUTES = [
@@ -14,7 +15,7 @@ const APP_ROUTES = [
   },
   {
     name: 'Veiculos',
-    component: DevelopmentScreen,
+    component: VehiclesScreen,
     icon: 'directions-car',
   },
   {
