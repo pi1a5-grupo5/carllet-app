@@ -2,10 +2,11 @@ import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import { FormControl, Stack, TextArea, Input, Icon, Button, Switch, ScrollView } from 'native-base'
+import { FormControl, Stack, TextArea, Input, Icon, Button, Switch, ScrollView, Box } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { VEHICLES_MAKE } from '../../../constants/lorem.constants'
+import { VEHICLES_COLOR, VEHICLES_MAKE, VEHICLES_MODEL, VEHICLES_YEAR } from '../../../constants/lorem.constants'
+import SelectComponent from '../../mols/SelectInput';
 
 const RegisterVehicleForm = ({ navigation }) => {
   const [maintenanceTypes, setMaintenanceTypes] = useState();
@@ -67,10 +68,8 @@ const RegisterVehicleForm = ({ navigation }) => {
               >
                 <FormControl.Label>Marca</FormControl.Label>
                 <SelectComponent
-                  value={values.make}
-                  onValueChange={e => setFieldValue('make', e)}
                   placeholder={{
-                    label: 'Tipo de despesa',
+                    label: 'Fabricante do veículo',
                     value: null,
                     color: '#9EA0A4',
                   }}
@@ -79,12 +78,30 @@ const RegisterVehicleForm = ({ navigation }) => {
                     label: item,
                     value: index,
                   }))}
-
+                  onValueChange={e => setFieldValue('make', e)}
+                  value={values.make}
+                  style={{
+                    inputIOS: {
+                      color: 'black',
+                    },
+                    inputAndroid: {
+                      color: 'black',
+                      fontSize: 14,
+                      paddingHorizontal: 2,
+                      paddingVertical: 8,
+                      fontStyle: '100',
+                    },
+                    placeholder: {
+                      color: '#A1A1AA',
+                      fontStyle: '100',
+                    },
+                  }}
+                  useNativeAndroidPickerStyle={false}
                   Icon={() => (
                     <Icon
-                      as={<MaterialIcons name="description" />}
+                      as={<MaterialIcons name="directions-car" />}
+                      margin={2}
                       size={4}
-                      marginRight={3}
                       zIndex={-1}
                     />
                   )}
@@ -98,19 +115,44 @@ const RegisterVehicleForm = ({ navigation }) => {
                 isInvalid={!!(errors.model && touched.model)}
               >
                 <FormControl.Label>Modelo</FormControl.Label>
-                <Input
-                  onChangeText={handleChange('model')}
-                  onBlur={handleBlur('model')}
+                <SelectComponent
+                  placeholder={{
+                    label: 'Modelo do veículo',
+                    value: null,
+                    color: '#9EA0A4',
+                  }}
+                  placeholderTextColor={'#A1A1AA'}
+                  items={VEHICLES_MODEL.map((item, index) => ({
+                    label: item,
+                    value: index,
+                  }))}
+                  onValueChange={e => setFieldValue('model', e)}
                   value={values.model}
-                  size={'md'}
-                  placeholder="Modelo"
-                  variant="outline"
-                  InputLeftElement={
+                  style={{
+                    inputIOS: {
+                      color: 'black',
+                    },
+                    inputAndroid: {
+                      color: 'black',
+                      fontSize: 14,
+                      paddingHorizontal: 2,
+                      paddingVertical: 8,
+                      fontStyle: '100',
+                    },
+                    placeholder: {
+                      color: '#A1A1AA',
+                      fontStyle: '100',
+                    },
+                  }}
+                  useNativeAndroidPickerStyle={false}
+                  Icon={() => (
                     <Icon
                       as={<MaterialIcons name="directions-car" />}
-                      marginLeft="2"
+                      margin={2}
+                      size={4}
+                      zIndex={-1}
                     />
-                  }
+                  )}
                 />
                 <FormControl.ErrorMessage>
                   {errors.model}
@@ -121,19 +163,44 @@ const RegisterVehicleForm = ({ navigation }) => {
                 isInvalid={!!(errors.year && touched.year)}
               >
                 <FormControl.Label>Ano</FormControl.Label>
-                <Input
-                  onChangeText={handleChange('year')}
-                  onBlur={handleBlur('year')}
+                <SelectComponent
+                  placeholder={{
+                    label: 'Ano do veículo',
+                    value: null,
+                    color: '#9EA0A4',
+                  }}
+                  placeholderTextColor={'#A1A1AA'}
+                  items={VEHICLES_YEAR.map((item, index) => ({
+                    label: item,
+                    value: index,
+                  }))}
+                  onValueChange={e => setFieldValue('year', e)}
                   value={values.year}
-                  size={'md'}
-                  placeholder="Ano"
-                  variant="outline"
-                  InputLeftElement={
+                  style={{
+                    inputIOS: {
+                      color: 'black',
+                    },
+                    inputAndroid: {
+                      color: 'black',
+                      fontSize: 14,
+                      paddingHorizontal: 2,
+                      paddingVertical: 8,
+                      fontStyle: '100',
+                    },
+                    placeholder: {
+                      color: '#A1A1AA',
+                      fontStyle: '100',
+                    },
+                  }}
+                  useNativeAndroidPickerStyle={false}
+                  Icon={() => (
                     <Icon
                       as={<MaterialIcons name="directions-car" />}
-                      marginLeft="2"
+                      margin={2}
+                      size={4}
+                      zIndex={-1}
                     />
-                  }
+                  )}
                 />
                 <FormControl.ErrorMessage>
                   {errors.year}
@@ -144,19 +211,44 @@ const RegisterVehicleForm = ({ navigation }) => {
                 isInvalid={!!(errors.color && touched.color)}
               >
                 <FormControl.Label>Cor</FormControl.Label>
-                <Input
-                  onChangeText={handleChange('color')}
-                  onBlur={handleBlur('color')}
+                <SelectComponent
+                  placeholder={{
+                    label: 'Cor do veículo',
+                    value: null,
+                    color: '#9EA0A4',
+                  }}
+                  placeholderTextColor={'#A1A1AA'}
+                  items={VEHICLES_COLOR.map((item, index) => ({
+                    label: item,
+                    value: index,
+                  }))}
+                  onValueChange={e => setFieldValue('color', e)}
                   value={values.color}
-                  size={'md'}
-                  placeholder="Cor"
-                  variant="outline"
-                  InputLeftElement={
+                  style={{
+                    inputIOS: {
+                      color: 'black',
+                    },
+                    inputAndroid: {
+                      color: 'black',
+                      fontSize: 14,
+                      paddingHorizontal: 2,
+                      paddingVertical: 8,
+                      fontStyle: '100',
+                    },
+                    placeholder: {
+                      color: '#A1A1AA',
+                      fontStyle: '100',
+                    },
+                  }}
+                  useNativeAndroidPickerStyle={false}
+                  Icon={() => (
                     <Icon
                       as={<MaterialIcons name="directions-car" />}
-                      marginLeft="2"
+                      margin={2}
+                      size={4}
+                      zIndex={-1}
                     />
-                  }
+                  )}
                 />
                 <FormControl.ErrorMessage>
                   {errors.color}
@@ -166,12 +258,19 @@ const RegisterVehicleForm = ({ navigation }) => {
                 isInvalid={!!(errors.isRented && touched.isRented)}
               >
                 <FormControl.Label>Alugado</FormControl.Label>
-                <Switch
-                  size={'md'}
-                  onToggle={value => setFieldValue('isRented', value)}
-                  value={values.isRented}
-                  colorScheme={'primary'}
-                />
+                <Box
+                  flexDirection={'row'}
+                  flex={1}
+                >
+                  <Switch
+                    size={'md'}
+                    m={0}
+                    p={0}
+                    onToggle={value => setFieldValue('isRented', value)}
+                    value={values.isRented}
+                    colorScheme={'primary'}
+                  />
+                </Box>
               </FormControl>
 
 

@@ -5,6 +5,8 @@ import * as Yup from 'yup'
 import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons';
 import { DatePickerInput } from '../../';
+import { OTHER_MAINTENANCE_TYPE, VEHICLES_MODEL } from '../../../constants/lorem.constants'
+import SelectComponent from '../../mols/SelectInput';
 
 const RegisterOthersExpensesForm = () => {
   const [otherExpensesTypes, setOtherExpensesTypes] = useState();
@@ -75,20 +77,44 @@ const RegisterOthersExpensesForm = () => {
                 isRequired
                 isInvalid={!!(errors.userVehicleId && touched.userVehicleId)}
               >
-                <Input
-                  onChangeText={handleChange('userVehicleId')}
-                  onBlur={handleBlur('userVehicleId')}
+                <SelectComponent
+                  placeholder={{
+                    label: 'Veículo',
+                    value: null,
+                    color: '#9EA0A4',
+                  }}
+                  placeholderTextColor={'#A1A1AA'}
+                  items={VEHICLES_MODEL.map((item, index) => ({
+                    label: item,
+                    value: index,
+                  }))}
+                  onValueChange={e => setFieldValue('userVehicleId', e)}
                   value={values.userVehicleId}
-                  size={'md'}
-                  placeholder="Veículo"
-                  variant="outline"
-                  keyboardType="numeric"
-                  InputLeftElement={
+                  style={{
+                    inputIOS: {
+                      color: 'black',
+                    },
+                    inputAndroid: {
+                      color: 'black',
+                      fontSize: 14,
+                      paddingHorizontal: 2,
+                      paddingVertical: 8,
+                      fontStyle: '100',
+                    },
+                    placeholder: {
+                      color: '#A1A1AA',
+                      fontStyle: '100',
+                    },
+                  }}
+                  useNativeAndroidPickerStyle={false}
+                  Icon={() => (
                     <Icon
-                      as={<MaterialIcons name="directions-car" />}
-                      marginLeft="2"
+                      as={<MaterialIcons name="description" />}
+                      margin={2}
+                      size={4}
+                      zIndex={-1}
                     />
-                  }
+                  )}
                 />
                 <FormControl.ErrorMessage>
                   {errors.userVehicleId}
@@ -134,20 +160,44 @@ const RegisterOthersExpensesForm = () => {
                 isRequired
                 isInvalid={!!(errors.otherExpensesTyped && touched.otherExpensesTyped)}
               >
-                <Input
-                  onChangeText={handleChange('otherExpensesTyped')}
-                  onBlur={handleBlur('otherExpensesTyped')}
-                  size={'md'}
-                  placeholder="Tipo de despesa"
-                  variant="outline"
-                  width={'100%'}
+                <SelectComponent
+                  placeholder={{
+                    label: 'Outras despesas',
+                    value: null,
+                    color: '#9EA0A4',
+                  }}
+                  placeholderTextColor={'#A1A1AA'}
+                  items={OTHER_MAINTENANCE_TYPE.map((item, index) => ({
+                    label: item,
+                    value: index,
+                  }))}
+                  onValueChange={e => setFieldValue('otherExpensesTyped', e)}
                   value={values.otherExpensesTyped}
-                  InputLeftElement={
+                  style={{
+                    inputIOS: {
+                      color: 'black',
+                    },
+                    inputAndroid: {
+                      color: 'black',
+                      fontSize: 14,
+                      paddingHorizontal: 2,
+                      paddingVertical: 8,
+                      fontStyle: '100',
+                    },
+                    placeholder: {
+                      color: '#A1A1AA',
+                      fontStyle: '100',
+                    },
+                  }}
+                  useNativeAndroidPickerStyle={false}
+                  Icon={() => (
                     <Icon
                       as={<MaterialIcons name="description" />}
-                      marginLeft={2}
+                      margin={2}
+                      size={4}
+                      zIndex={-1}
                     />
-                  }
+                  )}
                 />
                 <FormControl.ErrorMessage
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
