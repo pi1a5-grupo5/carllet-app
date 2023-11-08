@@ -2,9 +2,10 @@ import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import { FormControl, Stack, TextArea, Input, Icon, Button, Switch } from 'native-base'
+import { FormControl, Stack, TextArea, Input, Icon, Button, Switch, ScrollView } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { VEHICLES_MAKE } from '../../../constants/lorem.constants'
 
 const RegisterVehicleForm = ({ navigation }) => {
   const [maintenanceTypes, setMaintenanceTypes] = useState();
@@ -30,7 +31,12 @@ const RegisterVehicleForm = ({ navigation }) => {
   });
 
   return (
-    <>
+    <ScrollView
+      style={{
+        width: '100%',
+        flex: 1,
+      }}
+    >
       <Formik
         initialValues={{
           make: '',
@@ -46,10 +52,10 @@ const RegisterVehicleForm = ({ navigation }) => {
         }}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
-          <View
+          <ScrollView
             style={{
               width: '100%',
-              justifyContent: 'space-between',
+              flex: 1,
             }}
           >
             <Stack
@@ -60,19 +66,28 @@ const RegisterVehicleForm = ({ navigation }) => {
                 isInvalid={!!(errors.make && touched.make)}
               >
                 <FormControl.Label>Marca</FormControl.Label>
-                <Input
-                  onChangeText={handleChange('make')}
-                  onBlur={handleBlur('make')}
+                <SelectComponent
                   value={values.make}
-                  size={'md'}
-                  placeholder="Marca"
-                  variant="outline"
-                  InputLeftElement={
+                  onValueChange={e => setFieldValue('make', e)}
+                  placeholder={{
+                    label: 'Tipo de despesa',
+                    value: null,
+                    color: '#9EA0A4',
+                  }}
+                  placeholderTextColor={'#A1A1AA'}
+                  items={VEHICLES_MAKE.map((item, index) => ({
+                    label: item,
+                    value: index,
+                  }))}
+
+                  Icon={() => (
                     <Icon
-                      as={<MaterialIcons name="directions-car" />}
-                      marginLeft="2"
+                      as={<MaterialIcons name="description" />}
+                      size={4}
+                      marginRight={3}
+                      zIndex={-1}
                     />
-                  }
+                  )}
                 />
                 <FormControl.ErrorMessage>
                   {errors.make}
@@ -190,10 +205,10 @@ const RegisterVehicleForm = ({ navigation }) => {
                 Cancelar
               </Button>
             </View>
-          </View>
+          </ScrollView>
         )}
       </Formik>
-    </>
+    </ScrollView>
   )
 }
 

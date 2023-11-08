@@ -1,18 +1,22 @@
 import React from 'react'
 import { BackButton, CustomTabBar, PageContainer, RegisterExpenseForm, RegisterOthersExpensesForm } from '../../components'
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { useWindowDimensions } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 
 const MaintenanceRoute = () => (
-	<RegisterExpenseForm
-		title='Manutenção'
-	/>
+	<View>
+		<RegisterExpenseForm
+			title='Manutenção'
+		/>
+	</View>
 );
 
 const OthersExpenseRoute = () => (
-	<RegisterOthersExpensesForm
-		title='Outras despesas'
-	/>
+	<View>
+		<RegisterOthersExpensesForm
+			title='Outras despesas'
+		/>
+	</View>
 );
 
 const ExpensePage = ({ navigation }) => {

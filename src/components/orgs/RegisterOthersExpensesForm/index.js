@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
@@ -65,14 +65,11 @@ const RegisterOthersExpensesForm = () => {
         }}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
-          <View
-            style={{
-              width: '100%',
-              justifyContent: 'space-between',
-            }}
-          >
+          <ScrollView>
             <Stack
               space={4}
+              width={'100%'}
+              alignItems="center"
             >
               <FormControl
                 isRequired
@@ -101,25 +98,6 @@ const RegisterOthersExpensesForm = () => {
                 isRequired
                 isInvalid={!!(errors.otherExpenseDate && touched.otherExpenseDate)}
               >
-                {/*                 <Input
-                  onChangeText={handleChange('otherExpenseDate')}
-                  onBlur={handleBlur('otherExpenseDate')}
-                  size={'md'}
-                  onFocus={() => setShowDateTimePicker(true)}
-                  placeholder="Data"
-                  variant="outline"
-                  width={'100%'}
-                  InputLeftElement={
-                    <Icon as={<MaterialIcons name="date-range" />} marginLeft={2} />
-                  }
-                  type='date'
-                  value={values.otherExpenseDate}
-                />
-                <FormControl.ErrorMessage
-                  leftIcon={<MaterialIcons name="error" size={16} color="red" />}
-                >
-                  {errors.otherExpenseDate}
-                </FormControl.ErrorMessage> */}
                 <DatePickerInput
                   placeholder="Data"
                   value={values.otherExpenseDate}
@@ -232,7 +210,7 @@ const RegisterOthersExpensesForm = () => {
                 Cancelar
               </Button>
             </View>
-          </View>
+          </ScrollView>
         )}
       </Formik>
     </Box>

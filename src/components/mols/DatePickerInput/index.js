@@ -26,7 +26,7 @@ const DatePickerInput = ({
     if (type === 'set') {
       const currentDate = selectedDate;
 
-      if(Platform.OS === 'ios') {
+      if (Platform.OS === 'ios') {
         onChange(name, currentDate);
       }
       if (Platform.OS === 'android') {
@@ -51,27 +51,37 @@ const DatePickerInput = ({
           onPressIn={toggleDatePicker}
         >
           <Icon
-
             as={<MaterialIcons name="date-range" />}
             size={4}
-            color={'gray.400'}
             marginRight={3}
             zIndex={-1}
           />
           <TextInput
             placeholder={placeholder}
+            placeholderTextColor={'#A1A1AA'}
             value={value ? value.toLocaleDateString() : ''}
             isDisabled={true}
             {...rest}
           />
-          
         </Pressable>
       )}
 
       {(Platform.OS === 'android') && (
         <Pressable
+          borderWidth={1}
+          borderColor={'gray.300'}
+          borderRadius={5}
+          p={2}
+          alignItems={'center'}
+          flexDirection={'row'}
           onPress={toggleDatePicker}
         >
+          <Icon
+            as={<MaterialIcons name="date-range" />}
+            size={4}
+            marginRight={3}
+            zIndex={-1}   
+          />
           <TextInput
             placeholder={placeholder}
             value={value}
@@ -81,7 +91,7 @@ const DatePickerInput = ({
           />
         </Pressable>
       )}
-    
+
       {show && Platform.OS == "android" && (
         <DateTimePicker
           testID="dateTimePicker"

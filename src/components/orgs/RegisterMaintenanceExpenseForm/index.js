@@ -1,11 +1,13 @@
-import { View, Text, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Formik } from 'formik'
+import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons';
 import { DatePickerInput } from '../../';
-
+import SelectComponent from '../../mols/SelectInput';
+import { MAINTENANCE_TYPE, ORIGIN_MAINTENANCE_TYPE } from '../../../constants/lorem.constants';
+import RNPickerSelect from 'react-native-picker-select'
 
 const RegisterMaintenanceExpenseForm = ({ navigation }) => {
   const [maintenanceTypes, setMaintenanceTypes] = useState();
@@ -67,12 +69,7 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
         }}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
-          <View
-            style={{
-              width: '100%',
-              justifyContent: 'space-between',
-            }}
-          >
+          <ScrollView>
             <Stack
               space={4}
               width={'100%'}
@@ -105,25 +102,6 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
                 isRequired
                 isInvalid={!!(errors.maintenanceDate && touched.maintenanceDate)}
               >
-                {/*                 <Input
-                  onChangeText={handleChange('maintenanceDate')}
-                  onBlur={handleBlur('maintenanceDate')}
-                  onFocus={() => setShowDateTimePicker(true)}
-                  size={'md'}
-                  placeholder="Data"
-                  variant="outline"
-                  width={'100%'}
-                  InputLeftElement={
-                    <Icon as={<MaterialIcons name="date-range" />} marginLeft={2} />
-                  }
-                  type='date'
-                  value={values.maintenanceDate}
-                />
-                <FormControl.ErrorMessage
-                  leftIcon={<MaterialIcons name="error" size={16} color="red" />}
-                >
-                  {errors.maintenanceDate}
-                </FormControl.ErrorMessage> */}
                 <DatePickerInput
                   placeholder="Data"
                   value={values.maintenanceDate}
@@ -156,24 +134,45 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
                   {errors.maintenanceValue}
                 </FormControl.ErrorMessage>
               </FormControl>
-              <FormControl
-                isRequired
-                isInvalid={!!(errors.maintenanceExpenseTypeId && touched.maintenanceExpenseTypeId)}
-              >
-                <Input
-                  onChangeText={handleChange('maintenanceExpenseTypeId')}
-                  onBlur={handleBlur('maintenanceExpenseTypeId')}
-                  size={'md'}
-                  placeholder="Tipo de despesa"
-                  variant="outline"
-                  width={'100%'}
+              <FormControl>
+                <SelectComponent
+                  placeholder={{
+                    label: 'Tipo de despesa',
+                    value: null,
+                    color: '#9EA0A4',
+                  }}
+                  placeholderTextColor={'#A1A1AA'}
+                  items={MAINTENANCE_TYPE.map((item, index) => ({
+                    label: item,
+                    value: index,
+                  }))}
+                  onValueChange={e => setFieldValue('maintenanceExpenseTypeId', e)}
                   value={values.maintenanceExpenseTypeId}
-                  InputLeftElement={
+                  style={{
+                    inputIOS: {
+                      color: 'black',
+                    },
+                    inputAndroid: {
+                      color: 'black',
+                      fontSize: 14,
+                      paddingHorizontal: 2,
+                      paddingVertical: 8,
+                      fontStyle: '100',
+                    },
+                    placeholder: {
+                      color: '#A1A1AA',
+                      fontStyle: '100',
+                    },
+                  }}
+                  useNativeAndroidPickerStyle={false}
+                  Icon={() => (
                     <Icon
                       as={<MaterialIcons name="description" />}
-                      marginLeft={2}
+                      margin={2}
+                      size={4}
+                      zIndex={-1}
                     />
-                  }
+                  )}
                 />
                 <FormControl.ErrorMessage
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
@@ -181,24 +180,45 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
                   {errors.maintenanceExpenseTypeId}
                 </FormControl.ErrorMessage>
               </FormControl>
-              <FormControl
-                isRequired
-                isInvalid={!!(errors.originatingExpenseId && touched.originatingExpenseId)}
-              >
-                <Input
-                  onChangeText={handleChange('originatingExpenseId')}
-                  onBlur={handleBlur('originatingExpenseId')}
-                  size={'md'}
-                  placeholder="Despesa de origem"
-                  variant="outline"
-                  width={'100%'}
+              <FormControl>
+                <SelectComponent
+                  placeholder={{
+                    label: 'Tipo de despesa',
+                    value: null,
+                    color: '#9EA0A4',
+                  }}
+                  placeholderTextColor={'#A1A1AA'}
+                  items={ORIGIN_MAINTENANCE_TYPE.map((item, index) => ({
+                    label: item,
+                    value: index,
+                  }))}
+                  onValueChange={e => setFieldValue('originatingExpenseId', e)}
                   value={values.originatingExpenseId}
-                  InputLeftElement={
+                  style={{
+                    inputIOS: {
+                      color: 'black',
+                    },
+                    inputAndroid: {
+                      color: 'black',
+                      fontSize: 14,
+                      paddingHorizontal: 2,
+                      paddingVertical: 8,
+                      fontStyle: '100',
+                    },
+                    placeholder: {
+                      color: '#A1A1AA',
+                      fontStyle: '100',
+                    },
+                  }}
+                  useNativeAndroidPickerStyle={false}
+                  Icon={() => (
                     <Icon
                       as={<MaterialIcons name="description" />}
-                      marginLeft={2}
+                      margin={2}
+                      size={4}
+                      zIndex={-1}
                     />
-                  }
+                  )}
                 />
                 <FormControl.ErrorMessage
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
@@ -222,6 +242,8 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
                     <Icon
                       as={<MaterialIcons name="description" />}
                       marginLeft={2}
+                      marginTop={1.5}
+                      size={4}
                       marginBottom={12}
                     />
                   }
@@ -261,7 +283,7 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
                 Cancelar
               </Button>
             </View>
-          </View>
+          </ScrollView>
         )}
       </Formik>
     </Box>
