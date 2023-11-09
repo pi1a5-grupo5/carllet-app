@@ -5,3 +5,5 @@ export {default as VehicleCard} from './VehicleCard';
 export {default as HistoryBudget} from './HistoryBudget';
 export {default as CustomTabBar} from './CustomTabBar';
 export {default as DatePickerInput} from './DatePickerInput';
+export {default as ActionSheetContainer} from './BottomSheetModal';
+export {default as CarActionSheetItem} from './CarActionSheetItem';

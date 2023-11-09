@@ -1,47 +1,39 @@
-import {
-  Box, Text, Icon, Pressable, Tag, HStack,
-} from 'native-base';
-import React, { useContext } from 'react';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { UserVehiclesContext } from '../../../contexts/UserVehiclesContex';
+import React from 'react'
+import { Box, Button, Icon, Pressable, Text } from 'native-base'
+import { FontAwesome5 } from '@expo/vector-icons'
 
-const VehicleCard = ({
-  color = 'gray',
-  brand = 'Chevrolet',
-  model = 'Camaro',
+const CarActionSheetItem = ({
+  brand = 'Fiat',
+  model = 'Uno',
+  color = 'black',
   odometer = 300,
-  rented,
-  id,
-  onPress,
-  vehicleId,
-  ...props
+  isLastChild,
+  onClick,
 }) => {
-
-  const { userPrincipalVehicle } = useContext(UserVehiclesContext);
 
   return (
     <Pressable
-      bg="white"
-      shadow={1}
+      variant={'ghost'}
+      flex={1}
+      flexDirection={'row'}
       rounded="lg"
       width="100%"
       alignSelf="center"
-      p={2}
-      mb={2}
-      flex={1}
+      borderBottomColor={'gray.300'}
+      borderBottomWidth={isLastChild ? 0 : 1}
       gap={2}
-      flexDirection="row"
       justifyContent="space-between"
       alignItems={'center'}
+      onPress={onClick}
 
-      onPress={() => {
-        onPress?.(id);
-      }}
       _pressed={
-        { bg: 'light.100' }
+        {
+          backgroundColor: 'gray.100',
+        }
       }
+
     >
-      <Box
+    <Box
         rounded="lg"
         maxW={'30%'}
         p={2}
@@ -93,34 +85,10 @@ const VehicleCard = ({
             </Box>
             <Text>{odometer} KM</Text>
           </Box>
-          <Box
-            marginTop={5}
-          >
-            <HStack
-              space={2}
-            >
-              <Tag
-                size="sm"
-                variant="solid"
-                px={2}
-              >
-                {rented ? 'Alugado' : 'Próprio'}
-              </Tag> 
-              {userPrincipalVehicle && userPrincipalVehicle.vehicleId === vehicleId && (
-                <Tag
-                  size="sm"
-                  variant="solid"
-                  px={2}
-                >
-                  Principal
-                </Tag>
-              )}
-            </HStack>
-          </Box>
         </Box>
       </Box>
-    </Pressable >
-  );
-};
+    </Pressable>
+  )
+}
 
-export default VehicleCard;
+export default CarActionSheetItem

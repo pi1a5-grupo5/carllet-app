@@ -9,8 +9,10 @@ export const UserProvider = ({children}) => {
   const [isLogged, setIsLogged] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const clearStorage = () => AsyncStorage.removeItem('@CARLLET:USER');
+  const removeUserFromStorage = () => AsyncStorage.removeItem('@CARLLET:USER');
 
+  const clearStorage = () => AsyncStorage.clear();
+ 
   const handleLogout = () => {
     setIsLoading(true);
     setUser({});
@@ -30,8 +32,8 @@ export const UserProvider = ({children}) => {
           setUser(user);
           setIsLogged(true);
         } else {
-          setIsLogged(true);
-          clearStorage();
+          setIsLogged(false);
+          removeUserFromStorage();
         }
 
         setIsLoading(false);
@@ -39,7 +41,6 @@ export const UserProvider = ({children}) => {
         console.error(error);
       }
     };
-
     getUserData();
   }, []);
 
@@ -47,7 +48,7 @@ export const UserProvider = ({children}) => {
 
   useEffect(() => {
     if (Object.keys(user).length) {
-      clearStorage();
+      removeUserFromStorage();
       AsyncStorage.setItem('@CARLLET:USER', JSON.stringify({...user}));
     }
   }, [user]);
@@ -57,7 +58,10 @@ export const UserProvider = ({children}) => {
 
   useEffect(() => {
     if (!isLogged) {
-      clearStorage();
+      clearStorage().then((res) => {
+      }).catch((error) => {
+        console.error(error);
+      }); 
     }
   }, [isLogged]);
 

@@ -1,34 +1,33 @@
 import { View } from 'react-native';
-import { Box, Button, Spinner, Text } from 'native-base';
-import { PageContainer } from '../../components';
-import React, { useEffect, useState } from 'react';
+import { Box, Button, FlatList, Spinner, Text } from 'native-base';
+import { PageContainer, VehicleCard } from '../../components';
+import React, { useEffect, useState, useContext } from 'react';
 import { VehiclesService } from '../../services/vehicles.service';
+import { UserContext } from '../../contexts/UserContext';
 
 const Vehicles = ({ navigation }) => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useContext(UserContext);
 
   const getVehicles = async () => {
     try {
-      const vehicles = await VehiclesService.getVehiclesByUser(1);
+      const vehicles = await VehiclesService.getVehiclesByUser(user?.id);
 
-      if (vehicles.length > 0) {
-        return vehicles;
+      if (!vehicles.length === 0 || !vehicles) {
+        return [];
       }
-
-      return [];
+      return vehicles;
     } catch (error) {
       throw new Error(error);
     }
   };
-
 
   useEffect(() => {
     getVehicles().then((vehicles) => {
       setVehicles(vehicles);
     }).catch((error) => {
       setVehicles([]);
-      console.log(error);
     }).finally(() => {
       setLoading(false);
     });
@@ -85,6 +84,19 @@ const Vehicles = ({ navigation }) => {
             </Box>
           )}
         </View>
+      )}
+
+      {!loading && vehicles.length > 0 && (
+        <FlatList
+          data={vehicles}
+          renderItem={({ item: vehicle }) => (
+            <VehicleCard
+              onPress={() => navigation.navigate('VehicleDetails', { vehicle })}
+              {...vehicle}
+            />
+          )}
+          keyExtractor={(item) => item.vehicleId}
+        />
       )}
     </PageContainer>
   );

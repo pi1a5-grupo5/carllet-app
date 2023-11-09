@@ -1,35 +1,150 @@
 import { View, Text } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Form, Formik } from 'formik'
+import React, { useEffect, useState, useContext } from 'react'
+import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { FormControl, Stack, TextArea, Input, Icon, Button, Switch, ScrollView, Box } from 'native-base'
+import { FormControl, Stack, Input, Icon, Button, Switch, ScrollView, Box } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { VEHICLES_COLOR, VEHICLES_MAKE, VEHICLES_MODEL, VEHICLES_YEAR } from '../../../constants/lorem.constants'
 import SelectComponent from '../../mols/SelectInput';
+import { openToast } from '../../../utils/openToast'
+import { UserContext } from '../../../contexts/UserContext'
+
+import { VehiclesService } from '../../../services/vehicles.service'
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry'
 
 const RegisterVehicleForm = ({ navigation }) => {
-  const [maintenanceTypes, setMaintenanceTypes] = useState();
+  const [brandTypes, setbrandTypes] = useState([]);
+  const [selectedBrand, setSelectedBrand] = useState(null);
+  const [vehicleModels, setVehicleModels] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [showDateTimePicker, setShowDateTimePicker] = useState(false);
+  const { user } = useContext(UserContext);
 
   const registerVehicleValidationSchema = Yup.object().shape({
     make: Yup
-      .string()
+      .number()
       .required('Campo obrigatório'),
-    model: Yup
-      .string()
+    vehicleTypeId: Yup
+      .number()
       .required('Campo obrigatório'),
-    year: Yup
-      .string()
+    fabricationYear: Yup
+      .number()
+      .required('Campo obrigatório'),
+    odometer: Yup
+      .number()
       .required('Campo obrigatório'),
     color: Yup
       .string()
       .required('Campo obrigatório'),
-    isRented: Yup
+    rented: Yup
       .boolean()
       .required('Campo obrigatório'),
   });
+
+  const handleFormSubmit = async (values) => {
+
+    const { make, vehicleTypeId, fabricationYear, odometer, color, rented } = values;
+
+    setIsLoading(true);
+
+    const request = {
+      color,
+      vehicleTypeId,
+      fabricationYear,
+      odometer,
+      rented,
+      userId: user.id,
+    };
+
+    try {
+      const res = await VehiclesService.addNewVehicleFromUser(request);
+
+      if (!res) {
+        openToast({
+          status: 'error',
+          title: 'Erro',
+          description: 'Não conseguimos registrar o veículo, tente novamente mais tarde.',
+        });
+        return;
+      }
+
+      openToast({
+        status: 'success',
+        title: 'Sucesso',
+        description: 'Veículo registrado com sucesso.',
+      });
+
+      navigation.goBack();
+
+    } catch (err) {
+      openToast({
+        status: 'error',
+        title: 'Erro',
+        description: 'Não conseguimos registrar o veículo, tente novamente mais tarde.',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const getVehiclesBrands = async () => {
+    try {
+      const res = await VehiclesService.getVehiclesBrands();
+
+      if (!res || res.length === 0) {
+        openToast({
+          status: 'error',
+          title: 'Erro',
+          description: 'Não conseguimos recuperar as fabricantes presentes em nosso sistema, tente novamente mais tarde.',
+        });
+        navigation.goBack();
+      }
+
+      setbrandTypes(res);
+    }
+    catch (err) {
+      openToast({
+        status: 'error',
+        title: 'Erro',
+        description: 'Não conseguimos recuperar as fabricantes presentes em nosso sistema, tente novamente mais tarde.',
+      });
+      navigation.goBack();
+    }
+  }
+
+  const getVehiclesTypesByBrand = async (brandId) => {
+    try {
+      const res = await VehiclesService.getVehiclesTypesByBrand(brandId);
+
+      if (!res || res.length === 0) {
+        openToast({
+          status: 'error',
+          title: 'Erro',
+          description: 'Não conseguimos recuperar os modelos presentes em nosso sistema, tente novamente mais tarde.',
+        });
+        navigation.goBack();
+      }
+
+      setVehicleModels(res);
+    }
+    catch (err) {
+      openToast({
+        status: 'error',
+        title: 'Erro',
+        description: 'Não conseguimos recuperar os modelos presentes em nosso sistema, tente novamente mais tarde.',
+      });
+      navigation.goBack();
+    }
+  }
+
+  useEffect(() => {
+    getVehiclesBrands();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedBrand) return;
+
+    getVehiclesTypesByBrand(selectedBrand);
+  }, [selectedBrand]);
 
   return (
     <ScrollView
@@ -41,16 +156,14 @@ const RegisterVehicleForm = ({ navigation }) => {
       <Formik
         initialValues={{
           make: '',
-          model: '',
-          year: '',
+          vehicleTypeId: '',
+          fabricationYear: '',
+          odometer: '',
           color: '',
-          isRented: false,
+          rented: false,
         }}
         validationSchema={registerVehicleValidationSchema}
-        onSubmit={values => {
-          setIsLoading(true);
-          console.log(values)
-        }}
+        onSubmit={values => handleFormSubmit(values)}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
           <ScrollView
@@ -69,16 +182,20 @@ const RegisterVehicleForm = ({ navigation }) => {
                 <FormControl.Label>Marca</FormControl.Label>
                 <SelectComponent
                   placeholder={{
-                    label: 'Fabricante do veículo',
+                    label: 'Selecione o fabricante',
                     value: null,
                     color: '#9EA0A4',
                   }}
                   placeholderTextColor={'#A1A1AA'}
-                  items={VEHICLES_MAKE.map((item, index) => ({
-                    label: item,
-                    value: index,
+                  items={brandTypes?.map((item, index) => ({
+                    label: item.name,
+                    value: item.vehicleBrandId,
+                    key: index
                   }))}
-                  onValueChange={e => setFieldValue('make', e)}
+                  onValueChange={e => {
+                    setFieldValue('make', e);
+                  }}
+                  onDonePress={e => setSelectedBrand(e)}
                   value={values.make}
                   style={{
                     inputIOS: {
@@ -112,22 +229,23 @@ const RegisterVehicleForm = ({ navigation }) => {
               </FormControl>
               <FormControl
                 isRequired
-                isInvalid={!!(errors.model && touched.model)}
+                isInvalid={!!(errors.vehicleTypeId && touched.vehicleTypeId)}
               >
                 <FormControl.Label>Modelo</FormControl.Label>
                 <SelectComponent
+                  disabled={brandTypes.length === 0 || (typeof values.make !== 'number' && !values.make)}
                   placeholder={{
-                    label: 'Modelo do veículo',
+                    label: 'Selecione o modelo',
                     value: null,
                     color: '#9EA0A4',
                   }}
                   placeholderTextColor={'#A1A1AA'}
-                  items={VEHICLES_MODEL.map((item, index) => ({
+                  items={VEHICLES_MODEL.map((item, index) => ({ // TODO: Change this to get from API
                     label: item,
                     value: index,
                   }))}
-                  onValueChange={e => setFieldValue('model', e)}
-                  value={values.model}
+                  onValueChange={e => setFieldValue('vehicleTypeId', e)}
+                  value={values.vehicleTypeId}
                   style={{
                     inputIOS: {
                       color: 'black',
@@ -155,15 +273,52 @@ const RegisterVehicleForm = ({ navigation }) => {
                   )}
                 />
                 <FormControl.ErrorMessage>
-                  {errors.model}
+                  {errors.vehicleTypeId}
                 </FormControl.ErrorMessage>
               </FormControl>
               <FormControl
                 isRequired
-                isInvalid={!!(errors.year && touched.year)}
+                isInvalid={!!(errors.odometer && touched.odometer)}
+              >
+                <FormControl.Label>Odômetro</FormControl.Label>
+                <Input
+                  onChangeText={handleChange('odometer')}
+                  onBlur={handleBlur('odometer')}
+                  size={'md'}
+                  placeholder="Odômetro"
+                  variant="outline"
+                  width={'100%'}
+                  InputLeftElement={
+                    <Icon as={<MaterialIcons name="speed" />} marginLeft={2} />
+                  }
+                  type='number'
+                  keyboardType='numeric'
+                  value={values.odometer}
+                  InputRightElement={
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        color: '#A1A1AA',
+                        fontStyle: '100',
+                        marginRight: 10,
+                      }}
+                    >
+                      KM
+                    </Text>
+                  }
+                />
+                <FormControl.ErrorMessage>
+                  {errors.odometer}
+                </FormControl.ErrorMessage>
+              </FormControl>
+
+              <FormControl
+                isRequired
+                isInvalid={!!(errors.fabricationYear && touched.fabricationYear)}
               >
                 <FormControl.Label>Ano</FormControl.Label>
                 <SelectComponent
+                  disabled={VEHICLES_MODEL.length === 0 || (typeof values.vehicleTypeId !== 'number' && !values.vehicleTypeId)}
                   placeholder={{
                     label: 'Ano do veículo',
                     value: null,
@@ -172,10 +327,10 @@ const RegisterVehicleForm = ({ navigation }) => {
                   placeholderTextColor={'#A1A1AA'}
                   items={VEHICLES_YEAR.map((item, index) => ({
                     label: item,
-                    value: index,
+                    value: item,
                   }))}
-                  onValueChange={e => setFieldValue('year', e)}
-                  value={values.year}
+                  onValueChange={e => setFieldValue('fabricationYear', e)}
+                  value={values.fabricationYear}
                   style={{
                     inputIOS: {
                       color: 'black',
@@ -203,7 +358,7 @@ const RegisterVehicleForm = ({ navigation }) => {
                   )}
                 />
                 <FormControl.ErrorMessage>
-                  {errors.year}
+                  {errors.fabricationYear}
                 </FormControl.ErrorMessage>
               </FormControl>
               <FormControl
@@ -212,6 +367,7 @@ const RegisterVehicleForm = ({ navigation }) => {
               >
                 <FormControl.Label>Cor</FormControl.Label>
                 <SelectComponent
+                  disabled={VEHICLES_MODEL.length === 0 || (typeof values.vehicleTypeId !== 'number' && !values.vehicleTypeId)}
                   placeholder={{
                     label: 'Cor do veículo',
                     value: null,
@@ -220,7 +376,7 @@ const RegisterVehicleForm = ({ navigation }) => {
                   placeholderTextColor={'#A1A1AA'}
                   items={VEHICLES_COLOR.map((item, index) => ({
                     label: item,
-                    value: index,
+                    value: item,
                   }))}
                   onValueChange={e => setFieldValue('color', e)}
                   value={values.color}
@@ -255,7 +411,7 @@ const RegisterVehicleForm = ({ navigation }) => {
                 </FormControl.ErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={!!(errors.isRented && touched.isRented)}
+                isInvalid={!!(errors.rented && touched.rented)}
               >
                 <FormControl.Label>Alugado</FormControl.Label>
                 <Box
@@ -266,8 +422,8 @@ const RegisterVehicleForm = ({ navigation }) => {
                     size={'md'}
                     m={0}
                     p={0}
-                    onToggle={value => setFieldValue('isRented', value)}
-                    value={values.isRented}
+                    onToggle={value => setFieldValue('rented', value)}
+                    value={values.rented}
                     colorScheme={'primary'}
                   />
                 </Box>

@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import * as Notifications from 'expo-notifications';
 import * as Location from 'expo-location';
-import {NativeBaseProvider} from 'native-base';
-import {theme} from './src/theme/theme';
-import {NavigationContainer} from '@react-navigation/native';
-import {UserProvider} from './src/contexts/UserContext';
+import { NativeBaseProvider } from 'native-base';
+import { theme } from './src/theme/theme';
+import { NavigationContainer } from '@react-navigation/native';
+import { UserProvider } from './src/contexts/UserContext';
 import {
   useFonts,
   Roboto_100Thin,
@@ -15,6 +15,10 @@ import {
 
 
 import Routes from './src/routes';
+import { UserVehiclesProvider } from './src/contexts/UserVehiclesContex';
+import {
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -58,9 +62,13 @@ export default function App() {
   return (
     <NavigationContainer>
       <NativeBaseProvider theme={theme}>
-        <UserProvider>
-          <Routes />
-        </UserProvider>
+        <BottomSheetModalProvider>
+          <UserProvider>
+            <UserVehiclesProvider>
+              <Routes />
+            </UserVehiclesProvider>
+          </UserProvider>
+        </BottomSheetModalProvider>
       </NativeBaseProvider >
     </NavigationContainer>
   );

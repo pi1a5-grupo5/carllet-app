@@ -1,33 +1,65 @@
 import React, {
-  useEffect, useState, useRef,
+  useEffect, useState, useRef, useContext, useMemo, useCallback,
 } from 'react';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import {View, Text} from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { View, Text } from 'react-native';
 import {
   getCurrentPositionAsync,
   watchPositionAsync,
 } from 'expo-location';
-import {PageContainer} from '../../components';
+import { ActionSheetContainer, CarActionSheetItem, PageContainer } from '../../components';
 import haversine from 'haversine';
 import {
-  Button, Icon,
+  Actionsheet,
+  Button, Icon, ScrollView, useDisclose,
 } from 'native-base';
-import {MaterialIcons} from '@expo/vector-icons';
-import {CourseService} from '../../services/course.service';
-import {openToast} from '../../utils/openToast';
-import {useUserContext} from '../../hooks/useUserContext';
+import { MaterialIcons } from '@expo/vector-icons';
+import { CourseService } from '../../services/course.service';
+import { openToast } from '../../utils/openToast';
+import { useUserContext } from '../../hooks/useUserContext';
+import ActionSheet from '../../components/mols/BottomSheetModal';
+import { VehiclesService } from '../../services/vehicles.service';
+import { UserVehiclesContext } from '../../contexts/UserVehiclesContex';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-const Play = ({navigation}) => {
-  const {user} = useUserContext();
-
+const Play = ({ navigation }) => {
+  const { user } = useUserContext();
+  const { userPrincipalVehicle, handleUpdateUserPrincipalVehicle } = useContext(UserVehiclesContext);
   const [startTracking, setStartTracking] = useState(false);
   const [coords, setCoords] = useState({});
   const [prevCoord, setPrevCoord] = useState({});
   const [distance, setDistance] = useState(0);
+  const [vehicles, setVehicles] = useState([]);
 
   const mapRef = useRef(null);
+  const bottomSheetModalRef = useRef(null);
+
+  const snapPoints = useMemo(() => ['25%', '50%'], []);
+
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handleCloseBottomSheet = useCallback(() => {
+    bottomSheetModalRef.current?.close();
+  }, []);
+
+  const handleSheetChanges = useCallback((index) => {
+    console.log('handleSheetChanges', index);
+  }, []);
 
   const handleTracking = async () => {
+
+    if (!Object.keys(userPrincipalVehicle).length > 0) {
+      openToast({
+        status: 'warning',
+        title: 'Oops!',
+        description: 'Você precisa selecionar seu veiculo principal para iniciar um percurso!',
+      });
+      handlePresentModalPress();
+      return;
+    }
+
     if (startTracking) {
       try {
         setStartTracking(!startTracking);
@@ -74,13 +106,34 @@ const Play = ({navigation}) => {
     setStartTracking(!startTracking);
   };
 
+  const onUpdateUserPrincipalVehicle = (vehicle) => {
+    handleUpdateUserPrincipalVehicle(vehicle);
+    handleCloseBottomSheet();
+  };
+
+  const getVehicles = async () => {
+    try {
+      const vehicles = await VehiclesService.getVehiclesByUser(user?.id);
+
+      if (!vehicles.length === 0 || !vehicles) {
+        return [];
+      }
+      return vehicles;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   useEffect(() => {
     const getPosition = async () => {
-      const {coords} = await getCurrentPositionAsync();
+      const { coords } = await getCurrentPositionAsync();
       setCoords(coords);
     };
 
     getPosition();
+    getVehicles().then((vehicles) => {
+      setVehicles(vehicles);
+    })
   }, []);
 
   useEffect(() => {
@@ -88,7 +141,7 @@ const Play = ({navigation}) => {
       accuracy: 5,
       timeInterval: 1000,
       distanceInterval: 1,
-    }, ({coords}) => {
+    }, ({ coords }) => {
       setCoords((prevCoords) => {
         setPrevCoord(prevCoords);
         return coords;
@@ -105,7 +158,7 @@ const Play = ({navigation}) => {
 
   useEffect(() => {
     if (startTracking) {
-      const distance = haversine(prevCoord, coords, {unit: 'km'});
+      const distance = haversine(prevCoord, coords, { unit: 'km' });
       setDistance((prevDistance) => prevDistance + distance);
     }
   }, [coords]);
@@ -193,8 +246,32 @@ const Play = ({navigation}) => {
               {startTracking ? 'Parar' : 'Iniciar'}
             </Button>
           </View>
+
         </>
       )}
+
+      {!Object.keys(userPrincipalVehicle).length > 0 && vehicles.length > 0 && (
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+        >
+          <ScrollView>
+            {vehicles.map((vehicle, index) => (
+              <CarActionSheetItem key={vehicle.vehicleId}
+                brand={vehicle.brand}
+                model={vehicle.model}
+                odometer={vehicle.odometer}
+                rented={vehicle.rented}
+                onClick={() => onUpdateUserPrincipalVehicle(vehicle)}
+              />
+            )
+            )}
+          </ScrollView>
+        </BottomSheetModal>
+      )}
+
     </PageContainer>
   );
 };

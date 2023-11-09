@@ -10,3 +10,4 @@ export {default as AccountScreen} from './Account';
 export {default as DevelopmentScreen} from './Development';
 export {default as BudgetScreen} from './Budget';
 export {default as NewVehicleScreen} from './NewVehicle';
+export {default as VehicleDetailsScreen} from './VehicleDetails';

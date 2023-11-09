@@ -9,11 +9,9 @@ const ApiService = axios.create({
 
 ApiService.interceptors.response.use(
     (response) => {
-      return response.data;
+      return Promise.resolve(response.data);
     },
     (error) => {
-      console.log(error);
-
       return Promise.reject(error);
     },
 );
