@@ -1,14 +1,8 @@
 import ApiService from './api.service';
 
 const registerCourse = async (course) => {
-  const {ownerId, courseLength, courseEndTime} = course;
-
   try {
-    const response = ApiService.post('/Course', {
-      ownerId,
-      courseLength,
-      courseEndTime,
-    });
+    const response = ApiService.post('/Course', course);
 
     return response;
   } catch (error) {

@@ -59,6 +59,7 @@ export const UserProvider = ({children}) => {
   useEffect(() => {
     if (!isLogged) {
       clearStorage().then((res) => {
+        console.log('storage clear')
       }).catch((error) => {
         console.error(error);
       }); 

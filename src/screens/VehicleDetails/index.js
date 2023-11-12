@@ -8,6 +8,10 @@ const VehicleDetails = ({ navigation, route }) => {
 
   const { userPrincipalVehicle, handleUpdateUserPrincipalVehicle } = useContext(UserVehiclesContext);
 
+  useEffect(() => {
+    console.log('route.params.vehicle', route.params.vehicle);
+  }, []);
+
   const handlePrincipalVehicle = (vehicle) => {
     handleUpdateUserPrincipalVehicle(vehicle)
   }
@@ -17,7 +21,7 @@ const VehicleDetails = ({ navigation, route }) => {
       <BackButton navigation={navigation} title={'Detalhes do veiculo'} />
       <Text>VehicleDetails</Text>
 
-      {userPrincipalVehicle && !(userPrincipalVehicle.vehicleId === route.params.vehicle.vehicleId) && (
+      {userPrincipalVehicle && !(userPrincipalVehicle.userVehicleId === route.params.vehicle.userVehicleId) && (
         <Button
           variant={'solid'}
           colorScheme={'primary'}
@@ -26,14 +30,6 @@ const VehicleDetails = ({ navigation, route }) => {
           Setar como principal
         </Button>
       )}
-
-      <Button
-        variant={'solid'}
-        colorScheme={'primary'}
-        onPress={onOpen}
-      >
-        Ações
-      </Button>
     </PageContainer>
   );
 };

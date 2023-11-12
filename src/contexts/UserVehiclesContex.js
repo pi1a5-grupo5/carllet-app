@@ -6,7 +6,7 @@ export const UserVehiclesContext = createContext(null);
 export const UserVehiclesProvider = ({ children }) => {
   const [userPrincipalVehicle, setUserPrincipalVehicle] = React.useState({});
 
-  const clearStorage = async () => await AsyncStorage.removeItem('@CARLLET:USER_VEHICLES');
+  const removeUserVehicles = async () => await AsyncStorage.removeItem('@CARLLET:USER_VEHICLES');
 
   const handleUpdateUserPrincipalVehicle = (vehicle) => {
     setUserPrincipalVehicle(vehicle);
@@ -15,7 +15,7 @@ export const UserVehiclesProvider = ({ children }) => {
   // Update userPrincipalVehicle on userPrincipalVehicleData change;
   useEffect(() => {
     if (Object.keys(userPrincipalVehicle).length) {
-      clearStorage();
+      removeUserVehicles();
       AsyncStorage.setItem('@CARLLET:USER_VEHICLES', JSON.stringify({ ...userPrincipalVehicle }));
     }
   }, [userPrincipalVehicle]);

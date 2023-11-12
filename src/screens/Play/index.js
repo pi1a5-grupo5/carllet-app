@@ -65,11 +65,11 @@ const Play = ({ navigation }) => {
         setStartTracking(!startTracking);
 
         const course = {
-          ownerId: user.id,
+          userVehicleId: userPrincipalVehicle.userVehicleId,
           courseLength: distance.toFixed(2),
-          courseEndTime: new Date(),
+          courseEndTime: new Date().toISOString(),
         };
-
+        
         const registeredCourse = await CourseService.registerCourse(course);
 
         if (registeredCourse) {
@@ -94,7 +94,7 @@ const Play = ({ navigation }) => {
           description: 'Não foi possível registrar o percurso!',
         });
 
-        console.error(error);
+        console.error(error.message);
       } finally {
         navigation.navigate('Home');
       }
