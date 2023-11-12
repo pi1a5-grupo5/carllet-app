@@ -4,3 +4,6 @@ export {default as TabBarCustomButton} from './TabBarCustomButton';
 export {default as PageContainer} from './PageContainer';
 export {default as MenuItem} from './MenuItem';
 export {default as FloatOptionsButton} from './FloatOptionsButton';
+export {default as CardInformation} from './CardInformation';
+export {default as CustomDivider} from './CustomDivider';
+export {default as CourseCard} from './CourseCard';

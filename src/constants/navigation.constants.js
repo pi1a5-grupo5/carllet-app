@@ -25,7 +25,7 @@ const APP_ROUTES = [
     isCenter: true,
   },
   {
-    name: 'Budget',
+    name: 'Gestão',
     component: BudgetScreen,
     icon: 'bar-chart',
   },

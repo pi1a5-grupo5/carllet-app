@@ -3,8 +3,8 @@ import { Box, Button, Icon, Pressable, Text } from 'native-base'
 import { FontAwesome5 } from '@expo/vector-icons'
 
 const CarActionSheetItem = ({
-  brand = 'Fiat',
-  model = 'Uno',
+  brand = 'Chevrolet',
+  model = 'Camaro',
   color = 'black',
   odometer = 300,
   isLastChild,
@@ -31,7 +31,6 @@ const CarActionSheetItem = ({
           backgroundColor: 'gray.100',
         }
       }
-
     >
     <Box
         rounded="lg"

@@ -19,6 +19,7 @@ import { UserVehiclesProvider } from './src/contexts/UserVehiclesContex';
 import {
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
+import { CourseProvider } from './src/contexts/CourseContext';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -65,7 +66,9 @@ export default function App() {
         <BottomSheetModalProvider>
           <UserProvider>
             <UserVehiclesProvider>
-              <Routes />
+              <CourseProvider>
+                <Routes />
+              </CourseProvider>
             </UserVehiclesProvider>
           </UserProvider>
         </BottomSheetModalProvider>
