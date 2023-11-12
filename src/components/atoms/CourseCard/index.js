@@ -3,13 +3,14 @@ import { Box, Icon, Text } from 'native-base'
 import { MaterialCommunityIcons, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
 import dayjs from 'dayjs'
 
-const CourseCard = ({ course, lastChild }) => {
+const CourseCard = ({ course, lastChild, ...props }) => {
   return (
     <Box
       key={course.id}
       borderRadius={10}
       px={4}
       flex={1}
+      {...props}
     >
       <Box
         flex={1}

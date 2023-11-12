@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, useCallback,
+  useState, useEffect, useCallback, useContext,
 } from 'react';
 import {
   Avatar,
@@ -14,14 +14,15 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import { currencyFormat } from '../../utils/currencyFormart';
 import ProfileImage from '../../../assets/profile.webp';
+import { CourseContext } from '../../contexts/CourseContext';
 
 const ProfileImageUri = Image.resolveAssetSource(ProfileImage).uri;
 
-
 const HomeScreen = ({ navigation }) => {
   const { user } = useUserContext();
+  const [todayCourses, setTodayCourses] = useState([]);
+  const { courses, setCourses } = useContext(CourseContext) 
 
-  const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
 
 
@@ -57,6 +58,10 @@ const HomeScreen = ({ navigation }) => {
     getCourses();
   }, []);
 
+  useEffect(() => {
+    setTodayCourses(courses.filter((course) => dayjs(course.courseEndTime).isSame(dayjs(), 'day')));
+  }, [courses]);
+
   return (
     <PageContainer>
       <ScrollView
@@ -71,7 +76,6 @@ const HomeScreen = ({ navigation }) => {
           />
         }
       >
-
         {/* Create an avatar and a buttom to register new goal */}
         <Box>
           <Box
@@ -179,25 +183,27 @@ const HomeScreen = ({ navigation }) => {
               </Box>
             )}
 
-            {!loading && courses.length === 0 && (
+            {!loading && todayCourses.length === 0 && (
               <Box
                 flex={1}
                 justifyContent='center'
                 alignItems='center'
                 marginBottom={40}
               >
-                <Text> Você ainda não possui percursos registrados.</Text>
+                <Text> Você não tem percursos registrados hoje.</Text>
               </Box>
 
             )}
 
-            {!loading && courses.length > 0 && (
+            {!loading && todayCourses.length > 0 && (
               <Box
                 flex={1}
                 gap={2}
               >
-                {courses.map((course, index) => (
-                  <CourseCard course={course} lastChild={index === courses.length -1}/>
+                {todayCourses
+                .sort((a, b) => dayjs(a.courseEndTime).isBefore(dayjs(b.courseEndTime)) ? 1 : -1)
+                .map((course, index) => (
+                  <CourseCard course={course} lastChild={index === todayCourses.length -1} key={index}/>
                 ))}
               </Box>
             )}
@@ -211,7 +217,7 @@ const HomeScreen = ({ navigation }) => {
               <Button
                 variant='ghost'
                 bgColor={'#f2f2f2'}
-                onPress={() => console.log('teste')}
+                onPress={() => navigation.navigate('AllCourses')}
               >
                 ver mais
               </Button>

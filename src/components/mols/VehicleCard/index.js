@@ -7,8 +7,8 @@ import { UserVehiclesContext } from '../../../contexts/UserVehiclesContex';
 
 const VehicleCard = ({
   color = 'gray',
-  brand = 'Chevrolet',
-  model = 'Camaro',
+  vehicleBrandName = 'Chevrolet',
+  vehicleTypeName = 'Camaro',
   odometer = 300,
   rented,
   id,
@@ -68,7 +68,7 @@ const VehicleCard = ({
             fontSize="md"
             fontWeight="bold"
           >
-            {brand.toUpperCase()} - {model}
+            {vehicleBrandName.toUpperCase()} - {vehicleTypeName}
           </Text>
         </Box>
         <Box

@@ -1,23 +1,20 @@
-import React, {createContext, useEffect} from 'react';
-import {ActivityIndicator} from 'react-native';
+import React, { createContext, useEffect } from 'react';
+import { ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const UserContext = createContext(null);
 
-export const UserProvider = ({children}) => {
+export const UserProvider = ({ children }) => {
   const [user, setUser] = React.useState({});
   const [isLogged, setIsLogged] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const removeUserFromStorage = () => AsyncStorage.removeItem('@CARLLET:USER');
-
   const clearStorage = () => AsyncStorage.clear();
- 
+
   const handleLogout = () => {
-    setIsLoading(true);
-    setUser({});
     setIsLogged(false);
-    setIsLoading(false);
+    clearStorage();
   };
 
   // Get user from async storage on app load
@@ -25,15 +22,25 @@ export const UserProvider = ({children}) => {
     const getUserData = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem('@CARLLET:USER');
-
         const user = jsonValue != null ? JSON.parse(jsonValue) : null;
 
+        // TODO: Check if token is valid
         if (user) {
           setUser(user);
           setIsLogged(true);
-        } else {
+        }
+
+        /*   // TODO: Refresh token
+        if(false) {
+           // TODO: Create refresh token service
+           if(true) {
+             // TODO: Update user on token refreshed
+           }
+         }  */
+
+        else {
           setIsLogged(false);
-          removeUserFromStorage();
+          clearStorage();
         }
 
         setIsLoading(false);
@@ -45,27 +52,21 @@ export const UserProvider = ({children}) => {
   }, []);
 
   // Update user on userData change
-
   useEffect(() => {
     if (Object.keys(user).length) {
       removeUserFromStorage();
-      AsyncStorage.setItem('@CARLLET:USER', JSON.stringify({...user}));
+      AsyncStorage.setItem('@CARLLET:USER', JSON.stringify({ ...user }));
     }
   }, [user]);
 
 
   // Clear storage on isLogged false
-
   useEffect(() => {
+    console.log('isLogged', isLogged)
     if (!isLogged) {
-      clearStorage().then((res) => {
-        console.log('storage clear')
-      }).catch((error) => {
-        console.error(error);
-      }); 
+      removeUserFromStorage();
     }
   }, [isLogged]);
-
 
   return (
     <UserContext.Provider value={{

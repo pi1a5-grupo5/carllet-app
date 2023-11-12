@@ -3,6 +3,7 @@ import { Box, Text } from 'native-base'
 
 const CustomDivider = ({
   title,
+  ...props
 }) => {
   return (
     <Box
@@ -12,6 +13,7 @@ const CustomDivider = ({
       justifyContent={'space-between'}
       my={2}
       gap={5}
+      {...props}
     >
       <Box
         flex={1}

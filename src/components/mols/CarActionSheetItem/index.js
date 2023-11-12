@@ -3,8 +3,8 @@ import { Box, Button, Icon, Pressable, Text } from 'native-base'
 import { FontAwesome5 } from '@expo/vector-icons'
 
 const CarActionSheetItem = ({
-  brand = 'Chevrolet',
-  model = 'Camaro',
+  vehicleBrandName = 'Chevrolet',
+  vehicleTypeName = 'Camaro',
   color = 'black',
   odometer = 300,
   isLastChild,
@@ -59,7 +59,7 @@ const CarActionSheetItem = ({
             fontSize="md"
             fontWeight="bold"
           >
-            {brand.toUpperCase()} - {model}
+            {vehicleBrandName.toUpperCase()} - {vehicleTypeName}
           </Text>
         </Box>
         <Box

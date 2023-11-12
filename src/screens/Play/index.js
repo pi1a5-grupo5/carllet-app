@@ -21,10 +21,12 @@ import ActionSheet from '../../components/mols/BottomSheetModal';
 import { VehiclesService } from '../../services/vehicles.service';
 import { UserVehiclesContext } from '../../contexts/UserVehiclesContex';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { CourseContext } from '../../contexts/CourseContext';
 
 const Play = ({ navigation }) => {
   const { user } = useUserContext();
   const { userPrincipalVehicle, handleUpdateUserPrincipalVehicle } = useContext(UserVehiclesContext);
+  const { handleUpdateCourses } = useContext(CourseContext);
   const [startTracking, setStartTracking] = useState(false);
   const [coords, setCoords] = useState({});
   const [prevCoord, setPrevCoord] = useState({});
@@ -71,8 +73,8 @@ const Play = ({ navigation }) => {
         };
         
         const registeredCourse = await CourseService.registerCourse(course);
-
         if (registeredCourse) {
+          handleUpdateCourses(registeredCourse);
           openToast({
             status: 'success',
             title: 'Sucesso',
