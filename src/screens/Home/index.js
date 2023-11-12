@@ -9,7 +9,7 @@ import { CardInformation, CourseCard, CustomDivider, PageContainer } from '../..
 import { useUserContext } from '../../hooks/useUserContext';
 import { openToast } from '../../utils/openToast';
 import { CourseService } from '../../services/course.service';
-import { RefreshControl, Image } from 'react-native';
+import { RefreshControl, Image, Platform } from 'react-native';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import { currencyFormat } from '../../utils/currencyFormart';
@@ -65,7 +65,7 @@ const HomeScreen = ({ navigation }) => {
     <PageContainer>
       <ScrollView
         contentContainerStyle={{
-          paddingBottom: 40,
+          paddingBottom: Platform.OS === 'ios' ? 40 : 60,
         }}
         refreshControl={
           <RefreshControl

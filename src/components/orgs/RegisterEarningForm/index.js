@@ -4,58 +4,81 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { TextInputMask } from 'react-native-masked-text';
 import DatePickerInput from '../../mols/DatePickerInput'
+import { useUserContext } from '../../../hooks/useUserContext'
+import { EarningService } from '../../../services/earning.service'
+import { openToast } from '../../../utils/openToast'
+import { toFloat } from '../../../utils/currencyFormart'
 
-const RegisterEarningForm = () => {
-  const [earningTypes, setEarningTypes] = useState();
+
+const RegisterEarningForm = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showDateTimePicker, setShowDateTimePicker] = useState(false);
+  const { user } = useUserContext();
 
   const registerEarningValidationSchema = Yup.object().shape({
     earningDate: Yup
       .string()
       .required('Campo obrigatório'),
     earningValue: Yup
-      .number()
-      .required('Campo obrigatório'),
-    earningDetails: Yup
       .string()
-      .required('Campo obrigatório'),
-    earningTypeId: Yup
-      .number()
-      .required('Campo Obrigatório'),
+      .required('Campo obrigatório')
   })
 
+  const handleFormSubmit = async (values) => {
+    setIsLoading(true);
 
-  const getEarningTypes = async () => {
-    return 0;
-  }
+    try {
+      const { earningDate, earningValue } = values;
+      console.log(registeredEarning)
 
-  useEffect(() => {
-    getEarningTypes()
-      .then(res => {
-        setEarningTypes(res);
-      })
-      .catch(err => {
-        console.log(err);
+      const registeredEarning = await EarningService.registerEarning({
+        ownerId: user.id,
+        earningValue: toFloat(earningValue, 'R$ '),
+        insertionDateTime: earningDate,
       });
-  }, [])
+
+
+      if (registeredEarning) {
+        openToast({
+          status: 'success',
+          title: 'Sucesso',
+          description: 'Ganho registrado com sucesso',
+        });
+      }
+
+      if (!registeredEarning) {
+        openToast({
+          status: 'warning',
+          title: 'Erro',
+          description: 'Não foi possível registrar o ganho',
+        });
+      }
+
+      setIsLoading(false);
+    } catch (error) {
+      openToast({
+        status: 'error',
+        title: 'Erro',
+        description: 'Nao conseguimos completar a sua requisicao. Tente novamente mais tarde.',
+      });
+
+      throw new Error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <Box>
       <Formik
         initialValues={{
-          earningDate: '',
-          earningValue: '',
-          earningDetails: '',
-          earningTypeId: '',
+          earningDate: new Date(),
+          earningValue: 0,
         }}
         validationSchema={registerEarningValidationSchema}
-        onSubmit={values => {
-          setIsLoading(true);
-          console.log(values)
-        }}
+        onSubmit={values => handleFormSubmit(values)}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
           <View
@@ -73,25 +96,6 @@ const RegisterEarningForm = () => {
                 isRequired
                 isInvalid={!!(errors.earningDate && touched.earningDate)}
               >
-{/*                 <Input
-                  onChangeText={handleChange('earningDate')}
-                  onBlur={handleBlur('earningDate')}
-                  size={'md'}
-                  onFocus={() => setShowDateTimePicker(true)}
-                  placeholder="Data"
-                  variant="outline"
-                  width={'100%'}
-                  InputLeftElement={
-                    <Icon as={<MaterialIcons name="date-range" />} marginLeft={2} />
-                  }
-                  type='date'
-                  value={values.earningDate}
-                />
-                <FormControl.ErrorMessage
-                  leftIcon={<MaterialIcons name="error" size={16} color="red" />}
-                >
-                  {errors.earningDate}
-                </FormControl.ErrorMessage> */}
                 <DatePickerInput
                   placeholder="Data"
                   value={values.earningDate}
@@ -105,50 +109,43 @@ const RegisterEarningForm = () => {
                 isRequired
                 isInvalid={!!(errors.earningValue && touched.earningValue)}
               >
-                <Input
-                  onChangeText={handleChange('earningValue')}
-                  onBlur={handleBlur('earningValue')}
-                  size={'md'}
-                  placeholder="Valor"
-                  variant="outline"
+                <Box
                   width={'100%'}
-                  InputLeftElement={
-                    <Icon as={<MaterialIcons name="attach-money" />} marginLeft={2} />
-                  }
-                  type='number'
-                  value={values.earningValue}
-                />
+                  flexDirection={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  borderWidth={1}
+                  borderRadius={5}
+                  borderColor={'gray.300'}
+                  padding={2}
+                >
+                  <Icon as={<MaterialIcons name="attach-money" />} marginRight={2} />
+                  <TextInputMask
+                    type={'money'}
+                    options={{
+                      precision: 2,
+                      separator: ',',
+                      delimiter: '.',
+                      unit: 'R$ ',
+                      suffixUnit: ''
+                    }}
+                    value={values.earningValue}
+                    onChangeText={handleChange('earningValue')}
+                    onBlur={handleBlur('earningValue')}
+                    size={'md'}
+                    placeholder="Valor"
+                    variant="outline"
+                    width={'100%'}
+                    InputLeftElement={
+                      <Icon as={<MaterialIcons name="attach-money" />} marginLeft={2} />
+                    }
+                    keyboardType='numeric'
+                  />
+                </Box>
                 <FormControl.ErrorMessage
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
                 >
                   {errors.earningValue}
-                </FormControl.ErrorMessage>
-              </FormControl>
-              <FormControl
-                isRequired
-                isInvalid={!!(errors.earningDetails && touched.earningDetails)}
-              >
-                <TextArea
-                  onChangeText={handleChange('earningDetails')}
-                  onBlur={handleBlur('earningDetails')}
-                  size={'md'}
-                  placeholder="Detalhes"
-                  variant="outline"
-                  width={'100%'}
-                  InputLeftElement={
-                    <Icon
-                      as={<MaterialIcons name="description" />}
-                      marginLeft={2}
-                      marginBottom={12}
-                    />
-                  }
-                  type='text'
-                  value={values.earningDetails}
-                />
-                <FormControl.ErrorMessage
-                  leftIcon={<MaterialIcons name="error" size={16} color="red" />}
-                >
-                  {errors.earningDetails}
                 </FormControl.ErrorMessage>
               </FormControl>
             </Stack>
