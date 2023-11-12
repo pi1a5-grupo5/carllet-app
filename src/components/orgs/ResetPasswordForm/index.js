@@ -6,6 +6,8 @@ import {
 } from 'native-base';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {AuthService} from '../../../services/auth.service';
+import {openToast} from '../../../utils/openToast';
 
 const ResetPasswordForm = ({navigation}) => {
   const validationSchema = Yup.object().shape({
@@ -17,13 +19,36 @@ const ResetPasswordForm = ({navigation}) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleResetPasswordSubmit = (values) => {
+  const handleResetPasswordSubmit = async (values) => {
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    
+    const {email} = values;
 
-    navigation.navigate('ForgotPassword');
+    try {
+      const response = await AuthService.forgotPassword(email);
+
+      console.log(response)
+
+      if (!response) {
+        return openToast({
+          status: 'warning',
+          title: 'Erro',
+          description: 'Email não encontrado',
+        });
+      }
+
+      return navigation.navigate('ForgotPassword');
+    } catch (error) {
+      openToast({
+        status: 'error',
+        title: 'Erro',
+        description: 'Nao conseguimos completar a sua requisicao. Tente novamente mais tarde.',
+      });
+
+      throw new Error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

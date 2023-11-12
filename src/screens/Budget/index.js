@@ -5,6 +5,7 @@ import { CustomTabBar, FloatOptionsButton, HistoryBudget, PageContainer } from '
 import { Box, Pressable, Text, useColorModeValue } from 'native-base';
 import { DAYS_OF_WEEK } from '../../constants/date.constants';
 import { StackedBarChart } from 'react-native-chart-kit';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const GanhosRoute = () => (
   <View>
@@ -114,6 +115,10 @@ const Budget = ({ navigation }) => {
       icon: 'remove',
       onPress: () => navigation.navigate('RegisterExpense'),
     },
+    {
+      icon: 'local-gas-station',
+      onPress: () => navigation.navigate('RegisterFuel'),
+    }
   ];
 
   return (

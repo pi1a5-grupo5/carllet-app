@@ -46,11 +46,21 @@ const logout = async () => {
 
 const resetPassword = async (user) => {
   try {
-    const response = await ApiService.post('/auth/reset-password', user);
+    const response = await ApiService.post('/user/ResetPassword', user);
 
     return response;
   } catch (error) {
     console.error(error);
+  }
+};
+
+const forgotPassword = async (userEmail) => {
+  try {
+    const response = await ApiService.get(`/user/ForgotPassword/${userEmail}`);
+
+    return response;
+  } catch (error) {
+    return Promise.reject(error);
   }
 };
 
@@ -71,4 +81,5 @@ export const AuthService = {
   logout,
   resetPassword,
   changePassword,
+  forgotPassword
 };

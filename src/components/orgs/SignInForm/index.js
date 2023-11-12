@@ -147,7 +147,6 @@ const SignInForm = ({navigation}) => {
               <Button
                 onPress={() => navigation.navigate('ResetPassword')}
                 variant="link"
-                isDisabled
                 colorScheme="primary"
                 marginTop={2}
                 style={{alignSelf: 'flex-end'}}
@@ -185,7 +184,7 @@ const SignInForm = ({navigation}) => {
         )}
       </Formik>
 
-      <View
+   {/*    <View
         style={{
           width: '100%',
           flexDirection: 'row',
@@ -207,9 +206,9 @@ const SignInForm = ({navigation}) => {
         >
           ou continue com
         </Text>
-      </View>
+      </View> */}
 
-      <Stack
+    {/*   <Stack
         space={4}
         alignItems="center"
         direction="row"
@@ -258,7 +257,7 @@ const SignInForm = ({navigation}) => {
           }
           flex={1}
         />
-      </Stack>
+      </Stack> */}
     </>
   );
 };

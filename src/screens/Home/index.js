@@ -25,7 +25,6 @@ const HomeScreen = ({ navigation }) => {
 
   const [loading, setLoading] = useState(false);
 
-
   const onRefresh = useCallback(() => {
     setLoading(true);
     getCourses();
@@ -66,7 +65,6 @@ const HomeScreen = ({ navigation }) => {
     <PageContainer>
       <ScrollView
         contentContainerStyle={{
-          flexGrow: 1,
           paddingBottom: 40,
         }}
         refreshControl={
@@ -116,21 +114,19 @@ const HomeScreen = ({ navigation }) => {
                 <Text
                   fontWeight={100}
                   fontSize='24'
-                  lineHeight={0}
                 >
                   Olá,
                 </Text>
                 <Text
                   fontSize='24'
                   fontWeight='bold'
-                  lineHeight={0}
+                  lineHeight={25}
                 >
                   {user.name}
                 </Text>
                 <Text
                   fontSize='md'
                   fontWeight='bold'
-                  lineHeight={0}
                   color={'gray.500'}
                   paddingY={3}
                 >
@@ -211,7 +207,6 @@ const HomeScreen = ({ navigation }) => {
             <Box
               flex={1}
               flexDirection='row'
-              alignItems={''}
               justifyContent={'flex-end'}
             >
               <Button
