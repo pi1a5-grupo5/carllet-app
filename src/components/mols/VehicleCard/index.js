@@ -18,7 +18,6 @@ const VehicleCard = ({
 }) => {
 
   const { userPrincipalVehicle } = useContext(UserVehiclesContext);
-  console.log(rented, 'lorem')
   return (
     <Pressable
       bg="white"

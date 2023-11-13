@@ -10,6 +10,7 @@ import { useUserContext } from '../../../hooks/useUserContext'
 import { EarningService } from '../../../services/earning.service'
 import { openToast } from '../../../utils/openToast'
 import { toFloat } from '../../../utils/currencyFormart'
+import dayjs from 'dayjs'
 
 
 const RegisterEarningForm = ({ navigation }) => {
@@ -31,14 +32,12 @@ const RegisterEarningForm = ({ navigation }) => {
 
     try {
       const { earningDate, earningValue } = values;
-      console.log(registeredEarning)
-
+      
       const registeredEarning = await EarningService.registerEarning({
         ownerId: user.id,
         earningValue: toFloat(earningValue, 'R$ '),
-        insertionDateTime: earningDate,
+        insertionDateTime: dayjs(earningDate),
       });
-
 
       if (registeredEarning) {
         openToast({

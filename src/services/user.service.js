@@ -2,7 +2,7 @@ import ApiService from './api.service';
 
 const getUser = async (id) => {
   try {
-    const response = await ApiService.get(`/users/${id}`);
+    const response = await ApiService.get(`/user/${id}`);
 
     return response;
   } catch (error) {

@@ -1,6 +1,6 @@
 import ApiService from "./api.service";
 
-const registerEarning = async (earningData) => {
+const registerEarning = async (earningData) => { 
   try {
     const response = await ApiService.post('/Earning', earningData);
     return response;

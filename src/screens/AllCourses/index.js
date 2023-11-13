@@ -70,6 +70,7 @@ const AllCoursesScreen = ({ navigation }) => {
             >
               <CustomDivider
                 title={title}
+                my={2}
               />
             </Box>
           )}

@@ -75,7 +75,12 @@ const HomeScreen = ({ navigation }) => {
         }
       >
         {/* Create an avatar and a buttom to register new goal */}
-        <Box>
+        <Box
+          flex={1}
+          flexDirection={'column'}
+          height={'100%'}
+          
+        >
           <Box
             flex={1}
             gap={5}
@@ -168,7 +173,10 @@ const HomeScreen = ({ navigation }) => {
             </Box>
           </Box>
 
-          <Box>
+          <Box 
+            borderWidth={1}
+            marginBottom={8}
+          >
             <CustomDivider title='Percursos do dia' />
 
             {loading && (
@@ -184,7 +192,8 @@ const HomeScreen = ({ navigation }) => {
                 flex={1}
                 justifyContent='center'
                 alignItems='center'
-                marginBottom={40}
+                height={'100%'}
+                paddingY={20}
               >
                 <Text> Você não tem percursos registrados hoje.</Text>
               </Box>
@@ -214,7 +223,7 @@ const HomeScreen = ({ navigation }) => {
                 bgColor={'#f2f2f2'}
                 onPress={() => navigation.navigate('AllCourses')}
               >
-                ver mais
+                {todayCourses.length > 0 ? 'ver mais' : 'ver todos'}
               </Button>
             </Box>
           </Box>

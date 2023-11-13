@@ -11,7 +11,6 @@ const CustomDivider = ({
       flexDirection='row'
       alignItems='center'
       justifyContent={'space-between'}
-      my={2}
       gap={5}
       {...props}
     >
