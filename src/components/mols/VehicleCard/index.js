@@ -41,7 +41,7 @@ const VehicleCard = ({
       }
     >
       <Box
-        rounded="lg"
+        rounded="md"
         maxW={'30%'}
         p={2}
         flex={1}
@@ -52,7 +52,10 @@ const VehicleCard = ({
           as={FontAwesome5}
           name="car"
           resizeMode="cover"
-          size={70}
+          size={[
+            50,
+            70,
+          ]}
           color={`dark.100`}
         />
       </Box>
@@ -64,7 +67,10 @@ const VehicleCard = ({
       >
         <Box>
           <Text
-            fontSize="md"
+            fontSize={[
+              'sm',
+              'md'
+            ]}
             fontWeight="bold"
           >
             {vehicleBrandName.toUpperCase()} - {vehicleTypeName}
@@ -104,7 +110,7 @@ const VehicleCard = ({
                 px={2}
               >
                 {rented ? 'Alugado' : 'Próprio'}
-              </Tag> 
+              </Tag>
               {userPrincipalVehicle && userPrincipalVehicle.vehicleId === vehicleId && (
                 <Tag
                   size="sm"

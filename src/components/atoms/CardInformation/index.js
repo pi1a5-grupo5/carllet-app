@@ -20,7 +20,10 @@ const CardInformation = ({
       {...props}
     >
       <Text
-        fontSize='md'
+        fontSize={{
+          base: 'md',
+          md: 'xl',
+        }}
         fontWeight='bold'
         pb={2}
       >{title}</Text>
@@ -28,7 +31,7 @@ const CardInformation = ({
         flex={1}
         flexDirection='row'
         alignItems='center'
-        justifyContent={'space-between'}     
+        justifyContent={'space-between'}
       >
         {icon && (
           <Icon
@@ -42,13 +45,15 @@ const CardInformation = ({
 
         {description && (
           <Text
-            fontSize='xl'
+            fontSize={[
+              'md',
+              'xl',
+            ]}
             fontWeight='bold'
             py={2}
           >{description}</Text>
         )}
       </Box>
-
       {children}
     </Box>
   )

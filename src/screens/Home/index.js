@@ -174,7 +174,6 @@ const HomeScreen = ({ navigation }) => {
           </Box>
 
           <Box 
-            borderWidth={1}
             marginBottom={8}
           >
             <CustomDivider title='Percursos do dia' />
@@ -195,7 +194,9 @@ const HomeScreen = ({ navigation }) => {
                 height={'100%'}
                 paddingY={20}
               >
-                <Text> Você não tem percursos registrados hoje.</Text>
+                <Text
+                  textAlign={'center'}
+                > Você não tem percursos registrados hoje.</Text>
               </Box>
 
             )}
