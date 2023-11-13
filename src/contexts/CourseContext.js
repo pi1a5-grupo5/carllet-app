@@ -1,10 +1,10 @@
-import React, { createContext, useEffect } from 'react';
+import React, {createContext, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CourseService } from '../services/course.service';
+import {CourseService} from '../services/course.service';
 
 export const CourseContext = createContext(null);
 
-export const CourseProvider = ({ children }) => {
+export const CourseProvider = ({children}) => {
   const [courses, setCourses] = React.useState([]);
 
   const handleUpdateCourses = (course) => {
@@ -21,13 +21,12 @@ export const CourseProvider = ({ children }) => {
 
         AsyncStorage.setItem('@CARLLET:COURSES', JSON.stringify(newCourses));
       }
-
     } catch (error) {
       console.error(error);
-    } 
-  }
+    }
+  };
 
-  // Save course on async storage on update at API data has error 
+  // Save course on async storage on update at API data has error
   const saveCourseOnAsyncStorage = async (course) => {
     try {
       const jsonValue = await AsyncStorage.getItem('@CARLLET:COURSES');
@@ -38,11 +37,10 @@ export const CourseProvider = ({ children }) => {
       } else {
         AsyncStorage.setItem('@CARLLET:COURSES', JSON.stringify([course]));
       }
-
     } catch (error) {
       console.error(error);
-    } 
-  }
+    }
+  };
 
   // Send courses on async storage to API
   const sendCoursesOnAsyncStorageToAPI = async () => {
@@ -58,11 +56,10 @@ export const CourseProvider = ({ children }) => {
           });
         });
       }
-
     } catch (error) {
       console.error(error);
-    } 
-  }
+    }
+  };
 
   useEffect(() => {
     sendCoursesOnAsyncStorageToAPI();
@@ -80,4 +77,4 @@ export const CourseProvider = ({ children }) => {
       {children}
     </CourseContext.Provider>
   );
-}
+};

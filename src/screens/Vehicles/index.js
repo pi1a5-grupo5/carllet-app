@@ -1,14 +1,14 @@
-import { View } from 'react-native';
-import { Box, Button, FlatList, Spinner, Text } from 'native-base';
-import { PageContainer, VehicleCard } from '../../components';
-import React, { useEffect, useState, useContext } from 'react';
-import { VehiclesService } from '../../services/vehicles.service';
-import { UserContext } from '../../contexts/UserContext';
+import {View} from 'react-native';
+import {Box, Button, FlatList, Spinner, Text} from 'native-base';
+import {PageContainer, VehicleCard} from '../../components';
+import React, {useEffect, useState, useContext} from 'react';
+import {VehiclesService} from '../../services/vehicles.service';
+import {UserContext} from '../../contexts/UserContext';
 
-const Vehicles = ({ navigation }) => {
+const Vehicles = ({navigation}) => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useContext(UserContext);
+  const {user} = useContext(UserContext);
 
   const getVehicles = async () => {
     try {
@@ -89,9 +89,9 @@ const Vehicles = ({ navigation }) => {
       {!loading && vehicles.length > 0 && (
         <FlatList
           data={vehicles}
-          renderItem={({ item: vehicle }) => (
+          renderItem={({item: vehicle}) => (
             <VehicleCard
-              onPress={() => navigation.navigate('VehicleDetails', { vehicle })}
+              onPress={() => navigation.navigate('VehicleDetails', {vehicle})}
               {...vehicle}
             />
           )}

@@ -1,48 +1,47 @@
-import { View, Text } from 'react-native'
-import React, { useEffect, useState, useContext } from 'react'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
-import { FormControl, Stack, Input, Icon, Button, Switch, ScrollView, Box } from 'native-base'
-import { MaterialIcons } from '@expo/vector-icons';
-import { VEHICLES_COLOR, VEHICLES_MAKE, VEHICLES_MODEL, VEHICLES_YEAR } from '../../../constants/lorem.constants'
+import {View, Text} from 'react-native';
+import React, {useEffect, useState, useContext} from 'react';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {FormControl, Stack, Input, Icon, Button, Switch, ScrollView, Box} from 'native-base';
+import {MaterialIcons} from '@expo/vector-icons';
+import {VEHICLES_COLOR, VEHICLES_MAKE, VEHICLES_MODEL, VEHICLES_YEAR} from '../../../constants/lorem.constants';
 import SelectComponent from '../../mols/SelectInput';
-import { openToast } from '../../../utils/openToast'
-import { UserContext } from '../../../contexts/UserContext'
+import {openToast} from '../../../utils/openToast';
+import {UserContext} from '../../../contexts/UserContext';
 
-import { VehiclesService } from '../../../services/vehicles.service'
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry'
+import {VehiclesService} from '../../../services/vehicles.service';
+import {get} from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
-const RegisterVehicleForm = ({ navigation }) => {
+const RegisterVehicleForm = ({navigation}) => {
   const [brandTypes, setbrandTypes] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [vehicleModels, setVehicleModels] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useContext(UserContext);
+  const {user} = useContext(UserContext);
 
   const registerVehicleValidationSchema = Yup.object().shape({
     make: Yup
-      .number()
-      .required('Campo obrigatório'),
+        .number()
+        .required('Campo obrigatório'),
     vehicleTypeId: Yup
-      .number()
-      .required('Campo obrigatório'),
+        .number()
+        .required('Campo obrigatório'),
     fabricationYear: Yup
-      .number()
-      .required('Campo obrigatório'),
+        .number()
+        .required('Campo obrigatório'),
     odometer: Yup
-      .number()
-      .required('Campo obrigatório'),
+        .number()
+        .required('Campo obrigatório'),
     color: Yup
-      .string()
-      .required('Campo obrigatório'),
+        .string()
+        .required('Campo obrigatório'),
     rented: Yup
-      .boolean()
-      .required('Campo obrigatório'),
+        .boolean()
+        .required('Campo obrigatório'),
   });
 
   const handleFormSubmit = async (values) => {
-
-    const { make, vehicleTypeId, fabricationYear, odometer, color, rented } = values;
+    const {make, vehicleTypeId, fabricationYear, odometer, color, rented} = values;
 
     setIsLoading(true);
 
@@ -74,7 +73,6 @@ const RegisterVehicleForm = ({ navigation }) => {
       });
 
       navigation.goBack();
-
     } catch (err) {
       openToast({
         status: 'error',
@@ -84,7 +82,7 @@ const RegisterVehicleForm = ({ navigation }) => {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   const getVehiclesBrands = async () => {
     try {
@@ -100,8 +98,7 @@ const RegisterVehicleForm = ({ navigation }) => {
       }
 
       setbrandTypes(res);
-    }
-    catch (err) {
+    } catch (err) {
       openToast({
         status: 'error',
         title: 'Erro',
@@ -109,7 +106,7 @@ const RegisterVehicleForm = ({ navigation }) => {
       });
       navigation.goBack();
     }
-  }
+  };
 
   const getVehiclesTypesByBrand = async (brandId) => {
     try {
@@ -125,8 +122,7 @@ const RegisterVehicleForm = ({ navigation }) => {
       }
 
       setVehicleModels(res);
-    }
-    catch (err) {
+    } catch (err) {
       openToast({
         status: 'error',
         title: 'Erro',
@@ -134,7 +130,7 @@ const RegisterVehicleForm = ({ navigation }) => {
       });
       navigation.goBack();
     }
-  }
+  };
 
   useEffect(() => {
     getVehiclesBrands();
@@ -163,9 +159,9 @@ const RegisterVehicleForm = ({ navigation }) => {
           rented: false,
         }}
         validationSchema={registerVehicleValidationSchema}
-        onSubmit={values => handleFormSubmit(values)}
+        onSubmit={(values) => handleFormSubmit(values)}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
+        {({handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue}) => (
           <ScrollView
             style={{
               width: '100%',
@@ -190,12 +186,12 @@ const RegisterVehicleForm = ({ navigation }) => {
                   items={brandTypes?.map((item, index) => ({
                     label: item.name,
                     value: item.vehicleBrandId,
-                    key: index
+                    key: index,
                   }))}
-                  onValueChange={e => {
+                  onValueChange={(e) => {
                     setFieldValue('make', e);
                   }}
-                  onDonePress={e => setSelectedBrand(e)}
+                  onDonePress={(e) => setSelectedBrand(e)}
                   value={values.make}
                   style={{
                     inputIOS: {
@@ -244,7 +240,7 @@ const RegisterVehicleForm = ({ navigation }) => {
                     label: item,
                     value: index,
                   }))}
-                  onValueChange={e => setFieldValue('vehicleTypeId', e)}
+                  onValueChange={(e) => setFieldValue('vehicleTypeId', e)}
                   value={values.vehicleTypeId}
                   style={{
                     inputIOS: {
@@ -329,7 +325,7 @@ const RegisterVehicleForm = ({ navigation }) => {
                     label: item,
                     value: item,
                   }))}
-                  onValueChange={e => setFieldValue('fabricationYear', e)}
+                  onValueChange={(e) => setFieldValue('fabricationYear', e)}
                   value={values.fabricationYear}
                   style={{
                     inputIOS: {
@@ -378,7 +374,7 @@ const RegisterVehicleForm = ({ navigation }) => {
                     label: item,
                     value: item,
                   }))}
-                  onValueChange={e => setFieldValue('color', e)}
+                  onValueChange={(e) => setFieldValue('color', e)}
                   value={values.color}
                   style={{
                     inputIOS: {
@@ -422,13 +418,12 @@ const RegisterVehicleForm = ({ navigation }) => {
                     size={'md'}
                     m={0}
                     p={0}
-                    onToggle={value => setFieldValue('rented', value)}
+                    onToggle={(value) => setFieldValue('rented', value)}
                     value={values.rented}
                     colorScheme={'primary'}
                   />
                 </Box>
               </FormControl>
-
 
 
             </Stack>
@@ -464,7 +459,7 @@ const RegisterVehicleForm = ({ navigation }) => {
         )}
       </Formik>
     </ScrollView>
-  )
-}
+  );
+};
 
-export default RegisterVehicleForm
+export default RegisterVehicleForm;

@@ -1,6 +1,6 @@
-import React from 'react'
-import { Box, Button, Icon, Pressable, Text } from 'native-base'
-import { FontAwesome5 } from '@expo/vector-icons'
+import React from 'react';
+import { Box, Button, Icon, Pressable, Text } from 'native-base';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 const CarActionSheetItem = ({
   vehicleBrandName = 'Chevrolet',
@@ -10,7 +10,6 @@ const CarActionSheetItem = ({
   isLastChild,
   onClick,
 }) => {
-
   return (
     <Pressable
       variant={'ghost'}
@@ -32,7 +31,7 @@ const CarActionSheetItem = ({
         }
       }
     >
-    <Box
+      <Box
         rounded="lg"
         maxW={'30%'}
         p={2}
@@ -56,7 +55,11 @@ const CarActionSheetItem = ({
       >
         <Box>
           <Text
-            fontSize="md"
+            fontSize={{
+              base: 'sm',
+              sm: 'md',
+              md: 'xl',
+            }}
             fontWeight="bold"
           >
             {vehicleBrandName.toUpperCase()} - {vehicleTypeName}
@@ -87,7 +90,7 @@ const CarActionSheetItem = ({
         </Box>
       </Box>
     </Pressable>
-  )
-}
+  );
+};
 
-export default CarActionSheetItem
+export default CarActionSheetItem;

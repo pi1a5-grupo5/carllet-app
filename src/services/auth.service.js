@@ -81,5 +81,5 @@ export const AuthService = {
   logout,
   resetPassword,
   changePassword,
-  forgotPassword
+  forgotPassword,
 };

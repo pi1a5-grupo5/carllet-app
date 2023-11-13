@@ -1,16 +1,16 @@
-import React from 'react'
-import { Box, FlatList, ScrollView, Text } from 'native-base'
-import dayjs from 'dayjs'
-import { currencyFormat } from '../../../utils/currencyFormart'
-import { Platform } from 'react-native'
+import React from 'react';
+import {Box, FlatList, ScrollView, Text} from 'native-base';
+import dayjs from 'dayjs';
+import {currencyFormat} from '../../../utils/currencyFormart';
+import {Platform} from 'react-native';
 
-const HistoryBudget = ({ title = "Histórico", budgetItems = [] }) => {
+const HistoryBudget = ({title = 'Histórico', budgetItems = []}) => {
   return (
     <Box
       bg="white"
       p={4}
       mx={2}
-      marginBottom={Platform.OS == "android" ? -20 : -10}
+      marginBottom={Platform.OS == 'android' ? -20 : -10}
       h="100%"
       rounded="lg"
       shadow={1}
@@ -45,7 +45,7 @@ const HistoryBudget = ({ title = "Histórico", budgetItems = [] }) => {
                 zIndex={99999}
                 bottom={75}
                 left={0}
-                w={"100%"}
+                w={'100%'}
                 h={1}
               />
 
@@ -56,10 +56,10 @@ const HistoryBudget = ({ title = "Histórico", budgetItems = [] }) => {
                   top={0}
                   left={5}
                   w={1}
-                  h={"100%"}
+                  h={'100%'}
                 />
               )}
-              
+
             </Box>
             <Box
               flex={1}
@@ -69,7 +69,7 @@ const HistoryBudget = ({ title = "Histórico", budgetItems = [] }) => {
                 <Box
                   flexDirection="row"
                   gap={2}
-                  //justifyContent="top"
+                  // justifyContent="top"
                 >
                   <Text
                     fontWeight="bold"
@@ -93,7 +93,7 @@ const HistoryBudget = ({ title = "Histórico", budgetItems = [] }) => {
         ))}
       </ScrollView>
     </Box>
-  )
-}
+  );
+};
 
-export default HistoryBudget
+export default HistoryBudget;

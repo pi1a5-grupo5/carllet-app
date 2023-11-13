@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
-import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-base'
-import { MaterialIcons } from '@expo/vector-icons';
-import { DatePickerInput } from '../../';
-import { OTHER_MAINTENANCE_TYPE, VEHICLES_MODEL } from '../../../constants/lorem.constants'
+import {View, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {FormControl, Stack, TextArea, Input, Icon, Button, Box} from 'native-base';
+import {MaterialIcons} from '@expo/vector-icons';
+import {DatePickerInput} from '../../';
+import {OTHER_MAINTENANCE_TYPE, VEHICLES_MODEL} from '../../../constants/lorem.constants';
 import SelectComponent from '../../mols/SelectInput';
 
 const RegisterOthersExpensesForm = () => {
@@ -15,36 +15,36 @@ const RegisterOthersExpensesForm = () => {
 
   const registerEarningValidationSchema = Yup.object().shape({
     userVehicleId: Yup
-      .number()
-      .required('Campo obrigatório'),
+        .number()
+        .required('Campo obrigatório'),
     otherExpenseDate: Yup
-      .string()
-      .required('Campo obrigatório'),
+        .string()
+        .required('Campo obrigatório'),
     otherExpenseValue: Yup
-      .number()
-      .required('Campo obrigatório'),
+        .number()
+        .required('Campo obrigatório'),
     otherExpenseDetails: Yup
-      .string()
-      .required('Campo obrigatório'),
+        .string()
+        .required('Campo obrigatório'),
     otherExpensesTyped: Yup
-      .number()
-      .required('Campo Obrigatório'),
+        .number()
+        .required('Campo Obrigatório'),
   });
 
 
   const getEarningTypes = async () => {
     return 0;
-  }
+  };
 
   useEffect(() => {
     getEarningTypes()
-      .then(res => {
-        setOtherExpensesTypes(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, [])
+        .then((res) => {
+          setOtherExpensesTypes(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, []);
 
   return (
     <Box
@@ -61,12 +61,12 @@ const RegisterOthersExpensesForm = () => {
           otherExpensesTyped: '',
         }}
         validationSchema={registerEarningValidationSchema}
-        onSubmit={values => {
+        onSubmit={(values) => {
           setIsLoading(true);
-          console.log(values)
+          console.log(values);
         }}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
+        {({handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue}) => (
           <ScrollView>
             <Stack
               space={4}
@@ -88,7 +88,7 @@ const RegisterOthersExpensesForm = () => {
                     label: item,
                     value: index,
                   }))}
-                  onValueChange={e => setFieldValue('userVehicleId', e)}
+                  onValueChange={(e) => setFieldValue('userVehicleId', e)}
                   value={values.userVehicleId}
                   style={{
                     inputIOS: {
@@ -171,7 +171,7 @@ const RegisterOthersExpensesForm = () => {
                     label: item,
                     value: index,
                   }))}
-                  onValueChange={e => setFieldValue('otherExpensesTyped', e)}
+                  onValueChange={(e) => setFieldValue('otherExpensesTyped', e)}
                   value={values.otherExpensesTyped}
                   style={{
                     inputIOS: {
@@ -264,8 +264,8 @@ const RegisterOthersExpensesForm = () => {
         )}
       </Formik>
     </Box>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   datePickerIOS: {
@@ -276,6 +276,6 @@ const styles = StyleSheet.create({
     right: -25,
     width: Dimensions.get('window').width,
   },
-})
+});
 
-export default RegisterOthersExpensesForm
+export default RegisterOthersExpensesForm;

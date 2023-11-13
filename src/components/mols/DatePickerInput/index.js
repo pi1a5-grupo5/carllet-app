@@ -1,8 +1,8 @@
-import { View, TextInput, Platform, StyleSheet, Dimensions } from 'react-native'
-import React from 'react'
-import { Input, Pressable, Box, Button, Icon } from 'native-base';
+import {View, TextInput, Platform, StyleSheet, Dimensions} from 'react-native';
+import React from 'react';
+import {Input, Pressable, Box, Button, Icon} from 'native-base';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { MaterialIcons } from '@expo/vector-icons';
+import {MaterialIcons} from '@expo/vector-icons';
 
 const DatePickerInput = ({
   value,
@@ -15,14 +15,13 @@ const DatePickerInput = ({
   pickerStylesIOS,
   ...rest
 }) => {
-
   const [show, setShow] = React.useState(false);
 
   const toggleDatePicker = () => {
     setShow(!show);
-  }
+  };
 
-  const handleDateChange = ({ type }, selectedDate) => {
+  const handleDateChange = ({type}, selectedDate) => {
     if (type === 'set') {
       const currentDate = selectedDate;
 
@@ -33,7 +32,6 @@ const DatePickerInput = ({
         toggleDatePicker();
         onChange(name, currentDate.toDateString());
       }
-
     } else {
       toggleDatePicker();
     }
@@ -80,7 +78,7 @@ const DatePickerInput = ({
             as={<MaterialIcons name="date-range" />}
             size={4}
             marginRight={3}
-            zIndex={-1}   
+            zIndex={-1}
           />
           <TextInput
             placeholder={placeholder}
@@ -92,7 +90,7 @@ const DatePickerInput = ({
         </Pressable>
       )}
 
-      {show && Platform.OS == "android" && (
+      {show && Platform.OS == 'android' && (
         <DateTimePicker
           testID="dateTimePicker"
           value={value ? new Date(value) : new Date()}
@@ -105,7 +103,7 @@ const DatePickerInput = ({
         />
       )}
 
-      {show && Platform.OS == "ios" && (
+      {show && Platform.OS == 'ios' && (
         <Box
           style={pickerStylesIOS}
         >
@@ -136,7 +134,7 @@ const DatePickerInput = ({
         </Box>
       )}
     </>
-  )
-}
+  );
+};
 
-export default DatePickerInput
+export default DatePickerInput;

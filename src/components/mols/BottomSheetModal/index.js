@@ -1,8 +1,8 @@
-import React from "react";
-import { Actionsheet, ScrollView, Text } from "native-base";
-import CarActionSheetItem from "../CarActionSheetItem";
-import { Dimensions } from "react-native";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import React from 'react';
+import {Actionsheet, ScrollView, Text} from 'native-base';
+import CarActionSheetItem from '../CarActionSheetItem';
+import {Dimensions} from 'react-native';
+import {BottomSheetModal} from '@gorhom/bottom-sheet';
 
 const ActionSheetContainer = ({
   children,
@@ -29,6 +29,6 @@ const ActionSheetContainer = ({
       </BottomSheetModal>
     </>
   );
-}
+};
 
 export default ActionSheetContainer;

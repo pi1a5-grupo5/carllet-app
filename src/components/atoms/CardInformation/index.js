@@ -1,7 +1,7 @@
-import { View } from 'react-native'
-import React from 'react'
-import { Box, Icon, Text } from 'native-base'
-import { MaterialIcons } from '@expo/vector-icons'
+import {View} from 'react-native';
+import React from 'react';
+import {Box, Icon, Text} from 'native-base';
+import {MaterialIcons} from '@expo/vector-icons';
 
 const CardInformation = ({
   title,
@@ -21,7 +21,8 @@ const CardInformation = ({
     >
       <Text
         fontSize={{
-          base: 'md',
+          base: 'sm',
+          sm: 'md',
           md: 'xl',
         }}
         fontWeight='bold'
@@ -45,10 +46,11 @@ const CardInformation = ({
 
         {description && (
           <Text
-            fontSize={[
-              'md',
-              'xl',
-            ]}
+            fontSize={{
+              base: 'sm',
+              sm: 'md',
+              md: 'xl',
+            }}
             fontWeight='bold'
             py={2}
           >{description}</Text>
@@ -56,7 +58,7 @@ const CardInformation = ({
       </Box>
       {children}
     </Box>
-  )
-}
+  );
+};
 
-export default CardInformation
+export default CardInformation;

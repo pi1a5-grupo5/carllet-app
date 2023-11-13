@@ -1,20 +1,19 @@
-import { Text } from 'react-native';
-import React, { useEffect, useContext } from 'react';
-import { BackButton, PageContainer } from '../../components';
-import { Button } from 'native-base';
-import { UserVehiclesContext } from '../../contexts/UserVehiclesContex';
+import {Text} from 'react-native';
+import React, {useEffect, useContext} from 'react';
+import {BackButton, PageContainer} from '../../components';
+import {Button} from 'native-base';
+import {UserVehiclesContext} from '../../contexts/UserVehiclesContex';
 
-const VehicleDetails = ({ navigation, route }) => {
-
-  const { userPrincipalVehicle, handleUpdateUserPrincipalVehicle } = useContext(UserVehiclesContext);
+const VehicleDetails = ({navigation, route}) => {
+  const {userPrincipalVehicle, handleUpdateUserPrincipalVehicle} = useContext(UserVehiclesContext);
 
   useEffect(() => {
     console.log('route.params.vehicle', route.params.vehicle);
   }, []);
 
   const handlePrincipalVehicle = (vehicle) => {
-    handleUpdateUserPrincipalVehicle(vehicle)
-  }
+    handleUpdateUserPrincipalVehicle(vehicle);
+  };
 
   return (
     <PageContainer>

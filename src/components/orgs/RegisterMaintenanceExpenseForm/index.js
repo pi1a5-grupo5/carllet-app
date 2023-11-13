@@ -1,53 +1,53 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Form, Formik } from 'formik'
-import * as Yup from 'yup'
-import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-base'
-import { MaterialIcons } from '@expo/vector-icons';
-import { DatePickerInput } from '../../';
+import {View, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Form, Formik} from 'formik';
+import * as Yup from 'yup';
+import {FormControl, Stack, TextArea, Input, Icon, Button, Box} from 'native-base';
+import {MaterialIcons} from '@expo/vector-icons';
+import {DatePickerInput} from '../../';
 import SelectComponent from '../../mols/SelectInput';
-import { MAINTENANCE_TYPE, ORIGIN_MAINTENANCE_TYPE } from '../../../constants/lorem.constants';
-import RNPickerSelect from 'react-native-picker-select'
+import {MAINTENANCE_TYPE, ORIGIN_MAINTENANCE_TYPE} from '../../../constants/lorem.constants';
+import RNPickerSelect from 'react-native-picker-select';
 
-const RegisterMaintenanceExpenseForm = ({ navigation }) => {
+const RegisterMaintenanceExpenseForm = ({navigation}) => {
   const [maintenanceTypes, setMaintenanceTypes] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   const registerEarningValidationSchema = Yup.object().shape({
     userVehicleId: Yup
-      .number()
-      .required('Campo obrigatório'),
+        .number()
+        .required('Campo obrigatório'),
     maintenanceDate: Yup
-      .string()
-      .required('Campo obrigatório'),
+        .string()
+        .required('Campo obrigatório'),
     maintenanceValue: Yup
-      .number()
-      .required('Campo obrigatório'),
+        .number()
+        .required('Campo obrigatório'),
     maintenanceDetails: Yup
-      .string()
-      .required('Campo obrigatório'),
+        .string()
+        .required('Campo obrigatório'),
     maintenanceExpenseTypeId: Yup
-      .number()
-      .required('Campo Obrigatório'),
+        .number()
+        .required('Campo Obrigatório'),
     originatingExpenseId: Yup
-      .number()
-      .required('Campo Obrigatório'),
+        .number()
+        .required('Campo Obrigatório'),
   });
 
 
   const getEarningTypes = async () => {
     return 0;
-  }
+  };
 
   useEffect(() => {
     getEarningTypes()
-      .then(res => {
-        setMaintenanceTypes(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, [])
+        .then((res) => {
+          setMaintenanceTypes(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, []);
 
   return (
     <Box
@@ -63,12 +63,12 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
           originatingExpenseId: '',
         }}
         validationSchema={registerEarningValidationSchema}
-        onSubmit={values => {
+        onSubmit={(values) => {
           setIsLoading(true);
-          console.log(values)
+          console.log(values);
         }}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
+        {({handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue}) => (
           <ScrollView>
             <Stack
               space={4}
@@ -146,7 +146,7 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
                     label: item,
                     value: index,
                   }))}
-                  onValueChange={e => setFieldValue('maintenanceExpenseTypeId', e)}
+                  onValueChange={(e) => setFieldValue('maintenanceExpenseTypeId', e)}
                   value={values.maintenanceExpenseTypeId}
                   style={{
                     inputIOS: {
@@ -192,7 +192,7 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
                     label: item,
                     value: index,
                   }))}
-                  onValueChange={e => setFieldValue('originatingExpenseId', e)}
+                  onValueChange={(e) => setFieldValue('originatingExpenseId', e)}
                   value={values.originatingExpenseId}
                   style={{
                     inputIOS: {
@@ -287,8 +287,8 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
         )}
       </Formik>
     </Box>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   datePickerIOS: {
@@ -299,6 +299,6 @@ const styles = StyleSheet.create({
     right: -25,
     width: Dimensions.get('window').width,
   },
-})
+});
 
-export default RegisterMaintenanceExpenseForm
+export default RegisterMaintenanceExpenseForm;

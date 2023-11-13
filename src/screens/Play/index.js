@@ -1,32 +1,32 @@
 import React, {
   useEffect, useState, useRef, useContext, useMemo, useCallback,
 } from 'react';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { View, Text } from 'react-native';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import {View, Text} from 'react-native';
 import {
   getCurrentPositionAsync,
   watchPositionAsync,
 } from 'expo-location';
-import { ActionSheetContainer, CarActionSheetItem, PageContainer } from '../../components';
+import {ActionSheetContainer, CarActionSheetItem, PageContainer} from '../../components';
 import haversine from 'haversine';
 import {
   Actionsheet,
   Button, Icon, ScrollView, useDisclose,
 } from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
-import { CourseService } from '../../services/course.service';
-import { openToast } from '../../utils/openToast';
-import { useUserContext } from '../../hooks/useUserContext';
+import {MaterialIcons} from '@expo/vector-icons';
+import {CourseService} from '../../services/course.service';
+import {openToast} from '../../utils/openToast';
+import {useUserContext} from '../../hooks/useUserContext';
 import ActionSheet from '../../components/mols/BottomSheetModal';
-import { VehiclesService } from '../../services/vehicles.service';
-import { UserVehiclesContext } from '../../contexts/UserVehiclesContex';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { CourseContext } from '../../contexts/CourseContext';
+import {VehiclesService} from '../../services/vehicles.service';
+import {UserVehiclesContext} from '../../contexts/UserVehiclesContex';
+import {BottomSheetModal} from '@gorhom/bottom-sheet';
+import {CourseContext} from '../../contexts/CourseContext';
 
-const Play = ({ navigation }) => {
-  const { user } = useUserContext();
-  const { userPrincipalVehicle, handleUpdateUserPrincipalVehicle } = useContext(UserVehiclesContext);
-  const { handleUpdateCourses } = useContext(CourseContext);
+const Play = ({navigation}) => {
+  const {user} = useUserContext();
+  const {userPrincipalVehicle, handleUpdateUserPrincipalVehicle} = useContext(UserVehiclesContext);
+  const {handleUpdateCourses} = useContext(CourseContext);
   const [startTracking, setStartTracking] = useState(false);
   const [coords, setCoords] = useState({});
   const [prevCoord, setPrevCoord] = useState({});
@@ -51,7 +51,6 @@ const Play = ({ navigation }) => {
   }, []);
 
   const handleTracking = async () => {
-
     if (!Object.keys(userPrincipalVehicle).length > 0) {
       openToast({
         status: 'warning',
@@ -71,7 +70,7 @@ const Play = ({ navigation }) => {
           courseLength: distance.toFixed(2),
           courseEndTime: new Date().toISOString(),
         };
-        
+
         const registeredCourse = await CourseService.registerCourse(course);
         if (registeredCourse) {
           handleUpdateCourses(registeredCourse);
@@ -128,14 +127,14 @@ const Play = ({ navigation }) => {
 
   useEffect(() => {
     const getPosition = async () => {
-      const { coords } = await getCurrentPositionAsync();
+      const {coords} = await getCurrentPositionAsync();
       setCoords(coords);
     };
 
     getPosition();
     getVehicles().then((vehicles) => {
       setVehicles(vehicles);
-    })
+    });
   }, []);
 
   useEffect(() => {
@@ -143,7 +142,7 @@ const Play = ({ navigation }) => {
       accuracy: 5,
       timeInterval: 1000,
       distanceInterval: 1,
-    }, ({ coords }) => {
+    }, ({coords}) => {
       setCoords((prevCoords) => {
         setPrevCoord(prevCoords);
         return coords;
@@ -160,7 +159,7 @@ const Play = ({ navigation }) => {
 
   useEffect(() => {
     if (startTracking) {
-      const distance = haversine(prevCoord, coords, { unit: 'km' });
+      const distance = haversine(prevCoord, coords, {unit: 'km'});
       setDistance((prevDistance) => prevDistance + distance);
     }
   }, [coords]);
@@ -268,7 +267,7 @@ const Play = ({ navigation }) => {
                 rented={vehicle.rented}
                 onClick={() => onUpdateUserPrincipalVehicle(vehicle)}
               />
-            )
+            ),
             )}
           </ScrollView>
         </BottomSheetModal>

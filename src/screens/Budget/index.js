@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Animated, TouchableOpacity, View, useWindowDimensions } from 'react-native';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { CustomTabBar, FloatOptionsButton, HistoryBudget, PageContainer } from '../../components';
-import { Box, Pressable, Text, useColorModeValue } from 'native-base';
-import { DAYS_OF_WEEK } from '../../constants/date.constants';
-import { StackedBarChart } from 'react-native-chart-kit';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {Animated, TouchableOpacity, View, useWindowDimensions} from 'react-native';
+import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {CustomTabBar, FloatOptionsButton, HistoryBudget, PageContainer} from '../../components';
+import {Box, Pressable, Text, useColorModeValue} from 'native-base';
+import {DAYS_OF_WEEK} from '../../constants/date.constants';
+import {StackedBarChart} from 'react-native-chart-kit';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 const GanhosRoute = () => (
   <View>
@@ -14,22 +14,22 @@ const GanhosRoute = () => (
         {
           date: '2021-09-01',
           value: 1000,
-          title: 'Salário'
+          title: 'Salário',
         },
         {
           date: '2021-09-02',
           value: 1000,
-          title: 'Salário'
+          title: 'Salário',
         },
         {
           date: '2021-09-03',
           value: 1000,
-          title: 'Salário'
+          title: 'Salário',
         },
         {
           date: '2021-09-01',
           value: 1000,
-          title: 'Salário'
+          title: 'Salário',
         },
       ]}
     />
@@ -43,22 +43,22 @@ const DespesasRoute = () => (
         {
           date: '2021-09-01',
           value: 100,
-          title: 'Gasolina'
+          title: 'Gasolina',
         },
         {
           date: '2021-09-02',
           value: 50,
-          title: 'Gasolina'
+          title: 'Gasolina',
         },
         {
           date: '2021-09-03',
           value: 120,
-          title: 'Gasolina'
+          title: 'Gasolina',
         },
         {
           date: '2021-09-01',
           value: 200,
-          title: 'Gasolina'
+          title: 'Gasolina',
         },
       ]}
     />
@@ -72,18 +72,18 @@ const renderScene = SceneMap({
 });
 
 
-const Budget = ({ navigation }) => {
+const Budget = ({navigation}) => {
   const layout = useWindowDimensions();
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {
       key: 'first',
-      title: 'Ganhos'
+      title: 'Ganhos',
     },
     {
       key: 'second',
-      title: 'Despesas'
+      title: 'Despesas',
     },
   ]);
 
@@ -102,8 +102,8 @@ const Budget = ({ navigation }) => {
     barColors: ['#00ff0030', '#ff000030'],
   };
 
-  const _renderTabBar = props => {
-    return <CustomTabBar _renderTabBarProps={props} tabView={index} setTabView={setIndex} />
+  const _renderTabBar = (props) => {
+    return <CustomTabBar _renderTabBarProps={props} tabView={index} setTabView={setIndex} />;
   };
 
   const subButtons = [
@@ -118,7 +118,7 @@ const Budget = ({ navigation }) => {
     {
       icon: 'local-gas-station',
       onPress: () => navigation.navigate('RegisterFuel'),
-    }
+    },
   ];
 
   return (
@@ -198,16 +198,16 @@ const Budget = ({ navigation }) => {
       <TabView
         navigationState={{
           index,
-          routes
+          routes,
         }}
         renderScene={renderScene}
         renderTabBar={_renderTabBar}
         onIndexChange={setIndex}
-        initialLayout={{ width: layout.width }}
+        initialLayout={{width: layout.width}}
       />
 
       {/* Botao fixo */}
-      <FloatOptionsButton 
+      <FloatOptionsButton
         navigation={navigation}
         subButtons={subButtons}
       />

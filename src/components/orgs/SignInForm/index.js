@@ -184,7 +184,7 @@ const SignInForm = ({navigation}) => {
         )}
       </Formik>
 
-   {/*    <View
+      {/*    <View
         style={{
           width: '100%',
           flexDirection: 'row',
@@ -208,7 +208,7 @@ const SignInForm = ({navigation}) => {
         </Text>
       </View> */}
 
-    {/*   <Stack
+      {/*   <Stack
         space={4}
         alignItems="center"
         direction="row"

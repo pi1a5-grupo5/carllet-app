@@ -21,13 +21,13 @@ const ResetPasswordForm = ({navigation}) => {
 
   const handleResetPasswordSubmit = async (values) => {
     setIsLoading(true);
-    
+
     const {email} = values;
 
     try {
       const response = await AuthService.forgotPassword(email);
 
-      console.log(response)
+      console.log(response);
 
       if (!response) {
         return openToast({

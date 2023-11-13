@@ -1,9 +1,9 @@
-import React from 'react'
-import { Box, Icon, Text } from 'native-base'
-import { MaterialCommunityIcons, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
-import dayjs from 'dayjs'
+import React from 'react';
+import {Box, Icon, Text} from 'native-base';
+import {MaterialCommunityIcons, FontAwesome5, MaterialIcons} from '@expo/vector-icons';
+import dayjs from 'dayjs';
 
-const CourseCard = ({ course, lastChild, ...props }) => {
+const CourseCard = ({course, lastChild, ...props}) => {
   return (
     <Box
       key={course.id}
@@ -41,7 +41,7 @@ const CourseCard = ({ course, lastChild, ...props }) => {
                 name="road"
                 color={'white'}
                 size={6}
-                style={{ width: '115%' }}
+                style={{width: '115%'}}
               />
             </Box>
           </Box>
@@ -109,7 +109,7 @@ const CourseCard = ({ course, lastChild, ...props }) => {
         />
       )}
     </Box>
-  )
-}
+  );
+};
 
-export default CourseCard
+export default CourseCard;

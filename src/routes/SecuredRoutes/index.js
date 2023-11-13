@@ -55,7 +55,7 @@ const SecuredRoutes = () => {
         component={AllCoursesScreen}
         options={{headerShown: false}}
       />
-      
+
     </Stack.Navigator>
   );
 };

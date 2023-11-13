@@ -77,7 +77,7 @@ export const ORIGIN_MAINTENANCE_TYPE = [
   'Posto de gasolina',
   'Borracharia',
   'Auto elétrico',
-]
+];
 
 
 export const OTHER_MAINTENANCE_TYPE = [

@@ -16,7 +16,6 @@ const VehicleCard = ({
   vehicleId,
   ...props
 }) => {
-
   const { userPrincipalVehicle } = useContext(UserVehiclesContext);
   return (
     <Pressable
@@ -53,6 +52,7 @@ const VehicleCard = ({
           name="car"
           resizeMode="cover"
           size={[
+            30,
             50,
             70,
           ]}
@@ -67,10 +67,11 @@ const VehicleCard = ({
       >
         <Box>
           <Text
-            fontSize={[
-              'sm',
-              'md'
-            ]}
+            fontSize={{
+              base: 'sm',
+              sm: 'md',
+              md: 'xl',
+            }}
             fontWeight="bold"
           >
             {vehicleBrandName.toUpperCase()} - {vehicleTypeName}

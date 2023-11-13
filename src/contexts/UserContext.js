@@ -1,10 +1,10 @@
-import React, { createContext, useEffect } from 'react';
-import { ActivityIndicator } from 'react-native';
+import React, {createContext, useEffect} from 'react';
+import {ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const UserContext = createContext(null);
 
-export const UserProvider = ({ children }) => {
+export const UserProvider = ({children}) => {
   const [user, setUser] = React.useState({});
   const [isLogged, setIsLogged] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -55,14 +55,14 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     if (Object.keys(user).length) {
       removeUserFromStorage();
-      AsyncStorage.setItem('@CARLLET:USER', JSON.stringify({ ...user }));
+      AsyncStorage.setItem('@CARLLET:USER', JSON.stringify({...user}));
     }
   }, [user]);
 
 
   // Clear storage on isLogged false
   useEffect(() => {
-    console.log('isLogged', isLogged)
+    console.log('isLogged', isLogged);
     if (!isLogged) {
       removeUserFromStorage();
     }

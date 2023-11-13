@@ -1,9 +1,9 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import RNPickerSelect from 'react-native-picker-select'
-import { Box } from 'native-base'
-import { MaterialIcons } from '@expo/vector-icons'
-import { StyleSheet } from 'react-native'
+import {View, Text} from 'react-native';
+import React from 'react';
+import RNPickerSelect from 'react-native-picker-select';
+import {Box} from 'native-base';
+import {MaterialIcons} from '@expo/vector-icons';
+import {StyleSheet} from 'react-native';
 
 const SelectComponent = ({
   placeholder,
@@ -66,7 +66,7 @@ const SelectComponent = ({
         />
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default SelectComponent
+export default SelectComponent;

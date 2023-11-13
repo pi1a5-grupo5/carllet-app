@@ -1,5 +1,5 @@
-import React from 'react'
-import { Box, Text } from 'native-base'
+import React from 'react';
+import {Box, Text} from 'native-base';
 
 const CustomDivider = ({
   title,
@@ -30,7 +30,7 @@ const CustomDivider = ({
         borderBottomColor='gray.400'
       />
     </Box>
-  )
-}
+  );
+};
 
-export default CustomDivider
+export default CustomDivider;

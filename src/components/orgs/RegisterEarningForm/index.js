@@ -1,38 +1,37 @@
-import { View, Text, StyleSheet, Dimensions } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
-import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-base'
-import { MaterialIcons } from '@expo/vector-icons';
-import { TextInputMask } from 'react-native-masked-text';
-import DatePickerInput from '../../mols/DatePickerInput'
-import { useUserContext } from '../../../hooks/useUserContext'
-import { EarningService } from '../../../services/earning.service'
-import { openToast } from '../../../utils/openToast'
-import { toFloat } from '../../../utils/currencyFormart'
-import dayjs from 'dayjs'
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {FormControl, Stack, TextArea, Input, Icon, Button, Box} from 'native-base';
+import {MaterialIcons} from '@expo/vector-icons';
+import {TextInputMask} from 'react-native-masked-text';
+import DatePickerInput from '../../mols/DatePickerInput';
+import {useUserContext} from '../../../hooks/useUserContext';
+import {EarningService} from '../../../services/earning.service';
+import {openToast} from '../../../utils/openToast';
+import {toFloat} from '../../../utils/currencyFormart';
+import dayjs from 'dayjs';
 
 
-const RegisterEarningForm = ({ navigation }) => {
+const RegisterEarningForm = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [showDateTimePicker, setShowDateTimePicker] = useState(false);
-  const { user } = useUserContext();
+  const {user} = useUserContext();
 
   const registerEarningValidationSchema = Yup.object().shape({
     earningDate: Yup
-      .string()
-      .required('Campo obrigatório'),
+        .string()
+        .required('Campo obrigatório'),
     earningValue: Yup
-      .string()
-      .required('Campo obrigatório')
-  })
+        .string()
+        .required('Campo obrigatório'),
+  });
 
   const handleFormSubmit = async (values) => {
     setIsLoading(true);
 
     try {
-      const { earningDate, earningValue } = values;
-      
+      const {earningDate, earningValue} = values;
+
       const registeredEarning = await EarningService.registerEarning({
         ownerId: user.id,
         earningValue: toFloat(earningValue, 'R$ '),
@@ -45,6 +44,8 @@ const RegisterEarningForm = ({ navigation }) => {
           title: 'Sucesso',
           description: 'Ganho registrado com sucesso',
         });
+
+        return navigation.goBack();
       }
 
       if (!registeredEarning) {
@@ -54,8 +55,6 @@ const RegisterEarningForm = ({ navigation }) => {
           description: 'Não foi possível registrar o ganho',
         });
       }
-
-      setIsLoading(false);
     } catch (error) {
       openToast({
         status: 'error',
@@ -67,7 +66,7 @@ const RegisterEarningForm = ({ navigation }) => {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Box>
@@ -77,9 +76,9 @@ const RegisterEarningForm = ({ navigation }) => {
           earningValue: 0,
         }}
         validationSchema={registerEarningValidationSchema}
-        onSubmit={values => handleFormSubmit(values)}
+        onSubmit={(values) => handleFormSubmit(values)}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
+        {({handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue}) => (
           <View
             style={{
               width: '100%',
@@ -126,7 +125,7 @@ const RegisterEarningForm = ({ navigation }) => {
                       separator: ',',
                       delimiter: '.',
                       unit: 'R$ ',
-                      suffixUnit: ''
+                      suffixUnit: '',
                     }}
                     value={values.earningValue}
                     onChangeText={handleChange('earningValue')}
@@ -180,8 +179,8 @@ const RegisterEarningForm = ({ navigation }) => {
         )}
       </Formik>
     </Box>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   datePickerIOS: {
@@ -194,6 +193,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-})
+});
 
-export default RegisterEarningForm
+export default RegisterEarningForm;
