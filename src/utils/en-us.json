@@ -1,127 +1,125 @@
 {
-    "alerts": {
-          "errors": {
-                  "wrongLogin": "Invalid email or password",
-                  "requiredField": "Required field",
-                  "invalidEmail": "Invalid email address",
-                  "passwordSize":"Password should be at least 8 characters long.",
-                  "passwordEqual":"Passwords must match",
-                  "mvp": "Our page is under development, stay tuned for updates!"
-           },
-           "success": {
-                  "resetPasswordSuccess": "Your password has been reset successfully"
-           }
-       }
-  ,
-   "pages": {
-    "home": {
-        "menuItems": {
-           "profile": "Profile",
-           "control": "Control",
-           "vehicles": "Vehicles"
-         },
-         "screenItems":{
-           "currentGoal": "Current Goal",
-           "earnings": "Earnings",
-           "expenses": "Expenses", 
-           "routes":{
-            "start":"Start",
-            "stop": "Stop",
-            "recorded": "Recorded route",
-            "daily": "Daily Routes",
-            "all": "All Routes",
-            "total": "Total Routes",
-            "totalTraveled": "Total km Traveled"
-           },
-           "newGoal": "New Goal"
-         },
-         "vehiclesTab":{
-            "title": "Cars",
-            "newVehicle": "Vehicles",
-            "vehicle": {
-                "brand": "Brand",
-                "brandPlaceholder": "Choose the Brand",
-                "model": "Model",
-                "modelPlaceholder": "Choose the Model",
-                "odometer": "Odometer",
-                "year": "Year",
-                "yearPlaceholder": "Vehicle year",
-                "color": "Color",
-                "colorPlaceholder": "Vehicle color",
-                "rented": "Rented",
-                "register": "Register Vehicle"
+    "alerts":{
+        "errors":{
+            "wrongLogin":"Invalid email or password",
+            "requiredField":"Required field",
+            "invalidEmail":"Invalid email address",
+            "passwordSize":"Password should be at least 8 characters long.",
+            "passwordEqual":"Passwords must match"
+        },
+        "success":{
+            "resetPasswordSuccess":"Your password has been reset successfully"
+        },
+        "info":{
+            "mvp":"Our page is under development, stay tuned for updates!"
+        }
+    },
+    "menuItems":{
+        "profile":"Profile",
+        "control":"Control",
+        "vehicles":"Vehicles"
+    },
+    "pages":{
+        "home":{
+            "screenItems":{
+                "currentGoal":"Current Goal",
+                "earnings":"Earnings",
+                "expenses":"Expenses",
+                "routes":{
+                    "start":"Start",
+                    "stop":"Stop",
+                    "recorded":"Recorded route",
+                    "daily":"Daily Routes",
+                    "all":"All Routes",
+                    "total":"Total Routes",
+                    "totalTraveled":"Total km Traveled"
+                },
+                "newGoal":"New Goal"
+            }
+        },
+        "vehiclesTab":{
+            "title":"Cars",
+            "newVehicle":"Vehicles",
+            "vehicle":{
+                "brand":"Brand",
+                "brandPlaceholder":"Choose the Brand",
+                "model":"Model",
+                "modelPlaceholder":"Choose the Model",
+                "odometer":"Odometer",
+                "year":"Year",
+                "yearPlaceholder":"Vehicle year",
+                "color":"Color",
+                "colorPlaceholder":"Vehicle color",
+                "rented":"Rented",
+                "register":"Register Vehicle"
             },
-            "details":  "Vehicle Details",
-            "primaryVehicle": "Set as Primary"
-
-         },
-         "controlTab":{
-            "budget": "Budget",
-            "earnings": "Earnings",
-            "history": "History",
-            "salary" : "Salary",
-            "newEarnings": "New Earnings",
-            "sendEarnings" : "Send Earnings",
+            "details":"Vehicle Details",
+            "primaryVehicle":"Set as Primary"
+        },
+        "controlTab":{
+            "budget":"Budget",
+            "earnings":"Earnings",
+            "history":"History",
+            "salary":"Salary",
+            "newEarnings":"New Earnings",
+            "sendEarnings":"Send Earnings",
             "expense":{
-                "expenses": "Expenses",
-                "new": "new Expense",
-                "maintenance" : "Maintenance",
-                "other": "Other Expenses",
-                "type": "Expense Type",
-                "place": "Expense Location",
-                "send" : "send Expense"
-            }},
-            "profile":{
-                "account":{
-                    "myAccount": "My Account",
-                    "myAccountText":"Gerencie suas informações",
-                    "update": "Update data",
-                    "delete": "Delete account"
-                }, 
-                "logout":"Logout",
-                "logoutText":"Log out of your account",
-                "more":"More",
-                "moreText":"Find out more about the app",
-                "help":"Help",
-                "helpText": "Need help?",
-                "termsOfUse": "Terms of use",
-                "termsOfUseText":"Read the terms of use",
-                "privacyPolicy": "Privacy Policy",
-                "privacyPolicyText": "Read the privacy policy"
+                "expenses":"Expenses",
+                "new":"new Expense",
+                "maintenance":"Maintenance",
+                "other":"Other Expenses",
+                "type":"Expense Type",
+                "place":"Expense Location",
+                "send":"send Expense"
+            }
+        },
+        "profile":{
+            "account":{
+                "myAccount":"My Account",
+                "myAccountText":"Gerencie suas informações",
+                "update":"Update data",
+                "delete":"Delete account"
             },
-        
-            "forms":{
-                "date": "Data",
-                "value": "Valor",
-                "datails": "Detalhes",
-                "vehicle": "Veículo"
-             }
-         },
-         
-       "login":{
-        "passwordPlaceholder": "Password",
-        "forgotPassword": "Forgot your password?",
-        "enter": "Log in"
-       },
-       "register":{
-        "name": "Name",
-        "password": "Password",
-        "passwordConfirmation": "Password Confirmation",
-        "creatAccount": "New to Carllet? Create an account",
-        "register": "Register",
-        "registrationTitle": "Sign up",
-        "registration text": "Fill in all the fields below to create your account on the platform and start using it."
-       },
-       "password": {
-        "passwordReset": "Reset password",
-        "passwordResetText": "Fill in the fields below to request your password change.",
-        "recoverPasword": "Recover password"
-       },
-       "buttons":{
-        "cancel": "Cancel",
-         "back": "Back",
-         "viewMore": "view more"
-   }
-    
+            "logout":"Logout",
+            "logoutText":"Log out of your account",
+            "more":"More",
+            "moreText":"Find out more about the app",
+            "help":"Help",
+            "helpText":"Need help?",
+            "termsOfUse":"Terms of use",
+            "termsOfUseText":"Read the terms of use",
+            "privacyPolicy":"Privacy Policy",
+            "privacyPolicyText":"Read the privacy policy"
+        },
+        "forms":{
+            "date":"Data",
+            "value":"Valor",
+            "datails":"Detalhes",
+            "vehicle":"Veículo"
+        }
+    },
+    "login":{
+        "passwordPlaceholder":"Password",
+        "forgotPassword":"Forgot your password?",
+        "enter":"Log in"
+    },
+    "register":{
+        "name":"Name",
+        "password":"Password",
+        "passwordConfirmation":"Password Confirmation",
+        "creatAccount":"New to Carllet? Create an account",
+        "register":"Register",
+        "registrationTitle":"Sign up",
+        "registration text":"Fill in all the fields below to create your account on the platform and start using it."
+    },
+    "password":{
+        "passwordReset":"Reset password",
+        "passwordResetText":"Fill in the fields below to request your password change.",
+        "recoverPasword":"Recover password"
+    },
+    "buttons":{
+        "cancel":"Cancelar",
+        "back":"Voltar",
+        "viewMore":"ver mais"
+    }
 }
-} 
