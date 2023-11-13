@@ -38,8 +38,8 @@
             }
         },
         "vehiclesTab":{
-            "title":"Cars",
-            "newVehicle":"Vehicles",
+            "title":"Vehicles",
+            "newVehicle":"New Vehicle",
             "vehicle":{
                 "brand":"Brand",
                 "brandPlaceholder":"Choose the Brand",
