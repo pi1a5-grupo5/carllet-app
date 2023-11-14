@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {CustomTabNavigation} from '../../components/mols';
 import {APP_ROUTES, INITIAL_ROUTE} from '../../constants/navigation.constants';
-import {AccountScreen, AllCoursesScreen, NewVehicleScreen, VehicleDetailsScreen} from '../../screens';
+import {AccountScreen, AllCoursesScreen, NewVehicleScreen, VehicleDetailsScreen, NewGoalScreen} from '../../screens';
 import ExpensePage from '../../screens/Expense';
 import EarningPage from '../../screens/Earnings';
 
@@ -53,6 +53,11 @@ const SecuredRoutes = () => {
       <Stack.Screen
         name="AllCourses"
         component={AllCoursesScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="NewGoal"
+        component={NewGoalScreen}
         options={{headerShown: false}}
       />
 

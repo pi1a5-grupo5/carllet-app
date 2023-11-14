@@ -9,6 +9,8 @@ const ApiService = axios.create({
 
 ApiService.interceptors.response.use(
     (response) => {
+      console.log(response);
+
       if (response.data || response.status < 400) {
         return Promise.resolve(response.data);
       } else {

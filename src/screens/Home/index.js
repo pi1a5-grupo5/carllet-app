@@ -3,25 +3,25 @@ import React, {
 } from 'react';
 import {
   Avatar,
-  Box, Button, ScrollView, Spinner, Text,
+  Box, Button, Spinner, Text, ScrollView
 } from 'native-base';
-import {CardInformation, CourseCard, CustomDivider, PageContainer} from '../../components';
-import {useUserContext} from '../../hooks/useUserContext';
-import {openToast} from '../../utils/openToast';
-import {CourseService} from '../../services/course.service';
-import {RefreshControl, Image, Platform} from 'react-native';
+import { CardInformation, CourseCard, CustomDivider, PageContainer } from '../../components';
+import { useUserContext } from '../../hooks/useUserContext';
+import { openToast } from '../../utils/openToast';
+import { CourseService } from '../../services/course.service';
+import { RefreshControl, Image, Platform } from 'react-native';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
-import {currencyFormat} from '../../utils/currencyFormart';
+import { currencyFormat } from '../../utils/currencyFormart';
 import ProfileImage from '../../../assets/profile.webp';
-import {CourseContext} from '../../contexts/CourseContext';
+import { CourseContext } from '../../contexts/CourseContext';
 
 const ProfileImageUri = Image.resolveAssetSource(ProfileImage).uri;
 
-const HomeScreen = ({navigation}) => {
-  const {user} = useUserContext();
+const HomeScreen = ({ navigation }) => {
+  const { user } = useUserContext();
   const [todayCourses, setTodayCourses] = useState([]);
-  const {courses, setCourses} = useContext(CourseContext);
+  const { courses, setCourses } = useContext(CourseContext);
 
   const [loading, setLoading] = useState(false);
 
@@ -107,7 +107,7 @@ const HomeScreen = ({navigation}) => {
 
                 <Box>
                   <Button
-                    onPress={() => console.log('teste')}
+                    onPress={() => navigation.navigate('NewGoal')}
                     colorScheme='primary'
                     variant='outline'
                   >
@@ -207,10 +207,10 @@ const HomeScreen = ({navigation}) => {
                 gap={2}
               >
                 {todayCourses
-                    .sort((a, b) => dayjs(a.courseEndTime).isBefore(dayjs(b.courseEndTime)) ? 1 : -1)
-                    .map((course, index) => (
-                      <CourseCard course={course} lastChild={index === todayCourses.length -1} key={index}/>
-                    ))}
+                  .sort((a, b) => dayjs(a.courseEndTime).isBefore(dayjs(b.courseEndTime)) ? 1 : -1)
+                  .map((course, index) => (
+                    <CourseCard course={course} lastChild={index === todayCourses.length - 1} key={index} />
+                  ))}
               </Box>
             )}
 

@@ -67,6 +67,8 @@ const VehicleCard = ({
       >
         <Box>
           <Text
+            adjustsFontSizeToFit
+            numberOfLines={1}
             fontSize={{
               base: 'sm',
               sm: 'md',

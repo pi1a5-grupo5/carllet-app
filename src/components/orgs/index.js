@@ -7,3 +7,4 @@ export {default as RegisterExpenseForm} from './RegisterMaintenanceExpenseForm';
 export {default as RegisterOthersExpensesForm} from './RegisterOthersExpensesForm';
 export {default as RegisterEarningForm} from './RegisterEarningForm';
 export {default as RegisterVehicleForm} from './RegisterVehicleForm';
+export {default as RegisterGoalForm} from './RegisterGoalForm';

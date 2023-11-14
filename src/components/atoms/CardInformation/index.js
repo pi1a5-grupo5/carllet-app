@@ -1,7 +1,7 @@
-import {View} from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
-import {Box, Icon, Text} from 'native-base';
-import {MaterialIcons} from '@expo/vector-icons';
+import { Box, Icon, Text } from 'native-base';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const CardInformation = ({
   title,
@@ -17,9 +17,11 @@ const CardInformation = ({
     <Box
       borderRadius="md"
       p={4}
+
       {...props}
     >
       <Text
+        adjustsFontSizeToFit
         fontSize={{
           base: 'sm',
           sm: 'md',
@@ -46,6 +48,8 @@ const CardInformation = ({
 
         {description && (
           <Text
+            adjustsFontSizeToFit
+            numberOfLines={1}
             fontSize={{
               base: 'sm',
               sm: 'md',

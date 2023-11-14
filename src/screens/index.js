@@ -12,3 +12,4 @@ export {default as BudgetScreen} from './Budget';
 export {default as NewVehicleScreen} from './NewVehicle';
 export {default as VehicleDetailsScreen} from './VehicleDetails';
 export {default as AllCoursesScreen} from './AllCourses';
+export {default as NewGoalScreen} from './Goals';
