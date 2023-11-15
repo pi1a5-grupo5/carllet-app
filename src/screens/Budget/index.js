@@ -6,6 +6,8 @@ import {Box, Pressable, Text, useColorModeValue} from 'native-base';
 import {DAYS_OF_WEEK} from '../../constants/date.constants';
 import {StackedBarChart} from 'react-native-chart-kit';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
+import { UserService } from '../../services/user.service';
+import { UserContext } from '../../contexts/UserContext';
 
 const GanhosRoute = () => (
   <View>
@@ -74,6 +76,8 @@ const renderScene = SceneMap({
 
 const Budget = ({navigation}) => {
   const layout = useWindowDimensions();
+  const { user } = React.useContext(UserContext);
+  const [graphData, setGraphData] = React.useState([]);
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -87,20 +91,36 @@ const Budget = ({navigation}) => {
     },
   ]);
 
+  const getLastWeekGraphData = async () => {
+    try {
+      const lastWeekValues = await UserService.getLastDaysUserExpensesAndEarns(user?.id);
+
+      if (!lastWeekValues) {
+        return [];
+      }
+
+      return lastWeekValues;
+    }
+    catch (error) {
+      console.error(error);
+    }
+  };
+
+
   const data = {
-    labels: DAYS_OF_WEEK,
+    labels: graphData.map((item) => DAYS_OF_WEEK[new Date(item[0]).getDay()]),
     lengend: ['Ganhos', 'Despesas'],
-    data: [
-      [700, 100],
-      [1000, 200],
-      [1200, 300],
-      [1400, 400],
-      [1600, 500],
-      [1800, 600],
-      [2000, 700],
-    ],
+    data: graphData.map((item) => [(item[1].totalEarnings > 0) && item[1].totalEarnings, (item[1].totalExpenses > 0) && item[1].totalExpenses]),
     barColors: ['#00ff0030', '#ff000030'],
   };
+
+
+  React.useEffect(() => {
+    getLastWeekGraphData().then((data) => {
+      setGraphData(Object.entries(data));
+    });
+  }, []);
+
 
   const _renderTabBar = (props) => {
     return <CustomTabBar _renderTabBarProps={props} tabView={index} setTabView={setIndex} />;

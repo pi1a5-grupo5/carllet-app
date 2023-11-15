@@ -30,9 +30,20 @@ const deleteUser = async (id) => {
   }
 };
 
+const getLastDaysUserExpensesAndEarns = async (id) => {
+  try {
+    const response = await ApiService.get(`/Earning/AndExpensesLastDays/${id}`);
+
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export const UserService = {
   getUser,
   updateUser,
   deleteUser,
+  getLastDaysUserExpensesAndEarns,
 };
 
