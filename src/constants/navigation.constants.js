@@ -14,7 +14,7 @@ const APP_ROUTES = [
     icon: 'home',
   },
   {
-    name: 'Veiculos',
+    name: 'menuItems.vehicles',
     component: VehiclesScreen,
     icon: 'directions-car',
   },
@@ -25,12 +25,12 @@ const APP_ROUTES = [
     isCenter: true,
   },
   {
-    name: 'Gestão',
+    name: 'menuItems.control',
     component: BudgetScreen,
     icon: 'bar-chart',
   },
   {
-    name: 'Perfil',
+    name: 'menuItems.profile',
     component: ProfileScreen,
     icon: 'person',
   },

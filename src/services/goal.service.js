@@ -10,6 +10,17 @@ const registerGoal = async (data) => {
   }
 }
 
+const getDailyGoalByUser = async (userId) => {
+  try {
+    const response = await ApiService.get(`/Goal/ByUser/${userId}`);
+
+     return response;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export const GoalService = {
   registerGoal,
+  getDailyGoalByUser
 };

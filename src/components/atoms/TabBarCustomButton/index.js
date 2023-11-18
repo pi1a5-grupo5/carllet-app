@@ -4,10 +4,11 @@ import {
 import React from 'react';
 import {Icon} from 'native-base';
 import {MaterialIcons} from '@expo/vector-icons';
-
+import {useTranslation} from 'react-i18next';
 
 const TabBarCustomButton = (props) => {
   const {item, onPress, accessibilityState} = props;
+  const { t } = useTranslation();
 
   return (
     <TouchableOpacity
@@ -29,7 +30,7 @@ const TabBarCustomButton = (props) => {
           fontSize: 10,
           color: !item.isCenter && accessibilityState.selected ? '#6AA68B' : '#808080',
           fontWeight: 'bold',
-        }}>{item.name}</Text>}
+        }}>{`${t(item.name)}`}</Text>}
     </TouchableOpacity>
   );
 };

@@ -47,7 +47,6 @@ const Play = ({navigation}) => {
   }, []);
 
   const handleSheetChanges = useCallback((index) => {
-    console.log('handleSheetChanges', index);
   }, []);
 
   const handleTracking = async () => {
@@ -256,7 +255,6 @@ const Play = ({navigation}) => {
           ref={bottomSheetModalRef}
           index={1}
           snapPoints={snapPoints}
-          onChange={handleSheetChanges}
         >
           <ScrollView>
             {vehicles.map((vehicle, index) => (

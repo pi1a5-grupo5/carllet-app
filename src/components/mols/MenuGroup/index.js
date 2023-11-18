@@ -1,11 +1,16 @@
 import {Box, Text} from 'native-base';
 import React from 'react';
 import {MenuItem} from '../../atoms';
+import {useTranslation} from 'react-i18next';
 
 const MenuGroup = ({
   title,
   items,
+  customItem,
 }) => {
+
+  const { t } = useTranslation();
+
   return (
     <>
       {title && (
@@ -16,7 +21,7 @@ const MenuGroup = ({
           textTransform={'uppercase'}
           mb={2}
         >
-          {title}
+          {t(title)}
         </Text>
       )}
       <Box

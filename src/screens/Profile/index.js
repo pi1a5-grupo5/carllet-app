@@ -2,54 +2,66 @@ import React from 'react';
 import {
   PageContainer, MenuGroup, ProfileCard,
 } from '../../components';
-import {MaterialIcons} from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import {
+  Box,
+  Modal,
   ScrollView, useToast,
 } from 'native-base';
+import { useTranslation } from 'react-i18next';
 
-import {useUserContext} from '../../hooks/useUserContext';
+import { useUserContext } from '../../hooks/useUserContext';
 import ToastAlert from '../../components/atoms/Alert';
+import LanguageSelector from '../../components/atoms/LanguageSelector';
 
-const Profile = ({navigation}) => {
+const Profile = ({ navigation }) => {
   const toast = useToast();
-  const {user, handleLogout} = useUserContext();
+  const [showModal, setShowModal] = React.useState(false);
+  const { user, handleLogout } = useUserContext();
+  const { t } = useTranslation();
 
-  const {email, name} = user;
+  const { email, name } = user;
 
   const handleMVPInformation = () => {
     return toast.show(
-        {
-          placement: 'top-left',
-          render: ({id}) => {
-            return (
-              <ToastAlert
-                id={id}
-                {
-                  ...{
-                    title: 'MVP',
-                    variant: 'left-accent',
-                    description: 'Nossa pagina está em desenvolvimento, em breve teremos novidades!',
-                    isClosable: false,
-                    placement: 'top',
-                  }
-                } />
-            );
-          },
-        });
+      {
+        placement: 'top-left',
+        render: ({ id }) => {
+          return (
+            <ToastAlert
+              id={id}
+              {
+              ...{
+                title: 'MVP',
+                variant: 'left-accent',
+                description: t("alerts.errors.mvp"),
+                isClosable: false,
+                placement: 'top',
+              }
+              } />
+          );
+        },
+      });
   };
 
   const MENU_ITEMS = [
     {
-      title: 'Minha Conta',
-      description: 'Gerencie suas informações',
+      title: t('pages.home.profile.account.myAccount'),
+      description: t('pages.home.profile.account.myAccountText'),
       onPress: () => navigation.navigate('Account'),
       iconAs: MaterialIcons,
       iconName: 'person',
     },
-
     {
-      title: 'Sair',
-      description: 'Desconecte-se da sua conta',
+      title: t('pages.home.profile.settings'),
+      description: t('pages.home.profile.settingsText'),
+      onPress: () => setShowModal(true),
+      iconAs: MaterialIcons,
+      iconName: 'settings',
+    },
+    {
+      title: t('pages.home.profile.logout'),
+      description: t('pages.home.profile.logoutText'),
       onPress: () => onSignOut(),
       iconAs: MaterialIcons,
       iconName: 'logout',
@@ -58,32 +70,32 @@ const Profile = ({navigation}) => {
 
   const MORE_MENU_ITEMS = [
     {
-      title: 'Sobre',
-      description: 'Saiba mais sobre o aplicativo',
+      title: t('pages.home.profile.about'),
+      description: t('pages.home.profile.aboutText'),
       onPress: handleMVPInformation,
       iconAs: MaterialIcons,
       iconName: 'info',
     },
 
     {
-      title: 'Ajuda',
-      description: 'Precisa de ajuda?',
+      title: t('pages.home.profile.help'),
+      description: t('pages.home.profile.helpText'),
       onPress: handleMVPInformation,
       iconAs: MaterialIcons,
       iconName: 'help',
     },
 
     {
-      title: 'Termos de Uso',
-      description: 'Leia os termos de uso',
+      title: t('pages.home.profile.termsOfUse'),
+      description: t('pages.home.profile.termsOfUseText'),
       onPress: handleMVPInformation,
       iconAs: MaterialIcons,
       iconName: 'description',
     },
 
     {
-      title: 'Política de Privacidade',
-      description: 'Leia a política de privacidade',
+      title: t('pages.home.profile.privacyPolicy'),
+      description: t('pages.home.profile.privacyPolicyText'),
       onPress: handleMVPInformation,
       iconAs: MaterialIcons,
       iconName: 'privacy-tip',
@@ -98,23 +110,30 @@ const Profile = ({navigation}) => {
 
   return (
     <PageContainer
-      pageTitle={'Perfil'}
+      pageTitle={t('menuItems.profile')}
     >
       <ProfileCard
         name={name}
         email={email}
       />
       <ScrollView
-        contentContainerStyle={{paddingBottom: 60}}
+        contentContainerStyle={{ paddingBottom: 60 }}
       >
         <MenuGroup
           items={MENU_ITEMS}
         />
         <MenuGroup
-          title={'Mais'}
+          title={t('pages.home.profile.more')}
           items={MORE_MENU_ITEMS}
         />
       </ScrollView>
+      <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        position={"center"}
+      >
+        <LanguageSelector />
+      </Modal>
     </PageContainer>
   );
 };

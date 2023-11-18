@@ -1,128 +1,137 @@
 {
-    "alerts": {
-          "errors": {
-            "wrongLogin": "Email ou senha inválidos",
-                  "requiredField": "Campo obrigatório",
-                  "invalidEmail": "Email inválido",
-                  "passwordSize":"A senha deve ter no mínimo 8 caracteres.",
-                  "passwordEqual":"Senhas devem ser iguais",
-                  "mvp": "Nossa página está em desenvolvimento, em breve teremos novidades!"
-        
-           },
-           "success": {
-                  "resetPasswordSuccess": "Sua senha foi resetada com sucesso"
-           }
-       }
-  ,
-   "pages": {
-       "home": {
-         "menuItems": {
-            "profile": "Perfil",
-            "control": "Gestão",
-            "vehicles": "Veículos"
-          },
-          "screenItems":{
-            "currentGoal": "Meta atual",
-            "earnings": "Ganhos",
-            "expenses": "Despesas",
-            "routes":{
-                "start":"Iniciar",
-                "stop": "Parar",
-                "recorded": "Percurso registrado",
-                "daily": "Percursos do dia",
-                "all": "Todos os percursos",
-                "total": "Total de percursos",
-                "totalTraveled": "Total de km rodados"
-               },
-            "newGoal": "Nova meta"
-          },
-          "vehiclesTab":{
-            "title": "Veículos",
-            "newVehicle": "Novo veículo",
-            "vehicle": {
-                "brand": "Marca",
-                "brandPlaceholder": "Selecione o fabricante",
-                "model": "Modelo",
-                "modelPlaceholder": "Selecione o modelo",
-                "odometer": "Odômetro",
-                "year": "Ano",
-                "yearPlaceholder": "Ano do veículo",
-                "color": "Cor",
-                "colorPlaceholder": "Cor do veículo",
-                "rented": "Alugado",
-                "register": "Registrar Veículo"
-            },
-            "vehicleDetails":  "Detalhes do veículo",
-            "primaryVehicle": "Setar como principal"
-         },
-         "controlTab":{
-            "budget": "Orçamento",
-            "earnings": "Ganhos",
-            "history": "Histórico",
-            "salary" : "Salário",
-            "newEarnings": "Novo ganho",
-            "sendEarnings" : "Enviar ganho",
-            "expense":{
-                "expenses": "Despesas",
-                "new": "Nova despesa",
-                "maintenance" : "Manutenção",
-                "otherExpenses": "Outras despesas",
-                "type": "Tipo de despesa",
-                "place": "Local da Despesa",
-                "send" : "Enviar despesa",
-
-            },
-            "profile":{
-                "account":{
-                    "myAccount": "Minha conta",
-                    "myAccountText":"Gerencie suas informações",
-                    "update": "Atualizar dados",
-                    "delete": "Deletar conta"
-                }, 
-                "logout":"Sair",
-                "logoutText":"Desconecte da sua conta",
-                "more":"Mais",
-                "moreText":"Saiba mais sobre o aplicativo",
-                "help":"Ajuda",
-                "helpText": "Precisa de ajuda?",
-                "termsOfUse": "Terms of use",
-                "termsOfUseText": "Leia os termos de uso",
-                "privacyPolicy": "Política de Privacidade",
-                "privacyPolicyText": "Leia a política de privacidade"
-            }
-            }
-         },
-         "forms":{
-            "date": "Data",
-            "value": "Valor",
-            "datails": "Detalhes",
-            "vehicle": "Veículo"
-         },
-       "login":{
-        "passwordPlaceholder": "senha",
-        "forgotPassword": "Esqueceu sua senha",
-        "enter": "Entrar"
-       },
-       "register":{
-        "name": "Nome",
-        "password": "Senha",
-        "passwordConfirmation": "Confirmar Senha",
-        "creatAccount": "Não tem uma conta? Cadastre-se",
-        "register": "Registrar",
-        "registrationTitle": "Cadastre-se",
-        "registration text": "Preencha todos os campos abaixo para criar sua conta na plataforma e começar a usar."
-       },
-       "password": {
-        "passwordReset": "Resetar Senha",
-        "passwordResetText": "Preencha os campos abaixo para solicitar a sua altração de senha.",
-        "recoverPasword": "Recuperar Senha"
-       },
-    "buttons":{
-        "cancel": "Cancelar",
-        "back": "Voltar",
-        "viewMore": "ver mais"
-    }
+	"menuItems": {
+		"profile": "Perfil",
+		"control": "Gestão",
+		"vehicles": "Veículos"
+	},
+	"alerts": {
+		"errors": {
+			"wrongLogin": "Email ou senha inválidos",
+			"requiredField": "Campo obrigatório",
+			"invalidEmail": "Email inválido",
+			"passwordSize": "A senha deve ter no mínimo 8 caracteres.",
+			"passwordEqual": "Senhas devem ser iguais",
+			"badRequest": "Nao conseguimos completar a sua requisicao. Tente novamente mais tarde.",
+			"mvp": "Nossa página está em desenvolvimento, em breve teremos novidades!",
+			"userCantCreated": "Não foi possível cadastrar o usuário"
+		},
+		"success": {
+			"resetPasswordSuccess": "Sua senha foi resetada com sucesso",
+			"registerSuccess": "Usuário cadastrado com sucesso"
+		}
+	},
+	"pages": {
+		"home": {
+			"screenItems": {
+				"saudations": "Olá,",
+				"currentGoal": "Meta atual",
+				"earnings": "Ganhos",
+				"expenses": "Despesas",
+				"routes": {
+					"start": "Iniciar",
+					"stop": "Parar",
+					"recorded": "Percurso registrado",
+					"daily": "Percursos do dia",
+					"all": "Todos os percursos",
+					"total": "Total de percursos",
+					"totalTraveled": "Total de km rodados"
+				},
+				"noCoursesFound": "Você não tem percursos registrados hoje.",
+				"newGoal": "Nova meta",
+				"registerGoal": "Registrar meta"
+			},
+			"vehiclesTab": {
+				"title": "Veículos",
+				"newVehicle": "Novo veículo",
+				"vehicle": {
+					"brand": "Marca",
+					"brandPlaceholder": "Selecione o fabricante",
+					"model": "Modelo",
+					"modelPlaceholder": "Selecione o modelo",
+					"odometer": "Odômetro",
+					"year": "Ano",
+					"yearPlaceholder": "Ano do veículo",
+					"color": "Cor",
+					"colorPlaceholder": "Cor do veículo",
+					"rented": "Alugado",
+					"owned": "Próprio",
+					"register": "Registrar Veículo",
+					"principal": "Principal"
+				},
+				"vehicleDetails": "Detalhes do veículo",
+				"primaryVehicle": "Setar como principal"
+			},
+			"controlTab": {
+				"budget": "Orçamento",
+				"earnings": "Ganhos",
+				"history": "Histórico",
+				"salary": "Salário",
+				"newEarnings": "Novo ganho",
+				"sendEarnings": "Enviar ganho",
+				"expense": {
+					"expenses": "Despesas",
+					"new": "Nova despesa",
+					"maintenance": "Manutenção",
+					"otherExpenses": "Outras despesas",
+					"type": "Tipo de despesa",
+					"place": "Local da Despesa",
+					"send": "Enviar despesa"
+				}
+			},
+			"profile": {
+				"account": {
+					"myAccount": "Minha conta",
+					"myAccountText": "Gerencie suas informações",
+					"update": "Atualizar dados",
+					"delete": "Deletar conta"
+				},
+				"settings": "Configurações",
+				"settingsText": "Configure seu aplicativo",
+				"logout": "Sair",
+				"logoutText": "Desconecte da sua conta",
+				"more": "Mais",
+				"about": "Sobre",
+				"aboutText": "Saiba mais sobre o aplicativo",
+				"help": "Ajuda",
+				"helpText": "Precisa de ajuda?",
+				"termsOfUse": "Termos de uso",
+				"termsOfUseText": "Leia os termos de uso",
+				"privacyPolicy": "Política de Privacidade",
+				"privacyPolicyText": "Leia a política de privacidade"
+			}
+		},
+		"forms": {
+			"date": "Data",
+			"value": "Valor",
+			"datails": "Detalhes",
+			"vehicle": "Veículo"
+		},
+		"login": {
+			"passwordPlaceholder": "senha",
+			"forgotPassword": "Esqueceu sua senha",
+			"enter": "Entrar"
+		},
+		"register": {
+			"name": "Nome",
+			"password": "Senha",
+			"passwordConfirmation": "Confirmar Senha",
+			"creatAccount": "Não tem uma conta? Cadastre-se",
+			"register": "Registrar",
+			"registrationTitle": "Cadastre-se",
+			"registrationText": "Preencha todos os campos abaixo para criar sua conta na plataforma e começar a usar."
+		},
+		"password": {
+			"passwordReset": "Resetar Senha",
+			"passwordResetText": "Preencha os campos abaixo para solicitar a sua altração de senha.",
+			"recoverPasword": "Recuperar Senha",
+			"forgotPasswordText": "Para alterar a sua senha, preencha os campos abaixo.",
+			"changePassword": "Alterar senha"
+		},
+		"buttons": {
+			"cancel": "Cancelar",
+			"back": "Voltar",
+			"viewMore": "ver mais",
+			"viewAll": "ver todos"
+		}
+	}
 }
-
-}
-   

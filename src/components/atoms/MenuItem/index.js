@@ -4,6 +4,7 @@ import {
 } from 'native-base';
 import {Entypo, MaterialIcons} from '@expo/vector-icons';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 
 const MenuItem = ({
   iconAs = MaterialIcons,
@@ -12,6 +13,8 @@ const MenuItem = ({
   description = 'Gerencie suas informações',
   onPress,
 }) => {
+  const {t} = useTranslation();
+
   return (
     <Pressable
       onPress={onPress}
@@ -42,14 +45,14 @@ const MenuItem = ({
             fontSize={'sm'}
             textTransform={'uppercase'}
           >
-            {title}
+            {t(title)}
           </Text>
           <Text
             color={'gray.400'}
             fontWeight={'thin'}
             fontSize={'sm'}
           >
-            {description}
+            {t(description)}
           </Text>
         </View>
         <Box

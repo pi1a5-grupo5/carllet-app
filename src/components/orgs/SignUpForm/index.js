@@ -8,7 +8,7 @@ import {Pressable} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {openToast} from '../../../utils/openToast';
-
+import {useTranslation} from 'react-i18next';
 import {AuthService} from '../../../services/auth.service';
 
 const SignUpForm = ({navigation}) => {
@@ -23,6 +23,7 @@ const SignUpForm = ({navigation}) => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const {t} = useTranslation();
 
   const handleShowPassword = () => setShowPassword(!showPassword);
 
@@ -42,7 +43,7 @@ const SignUpForm = ({navigation}) => {
         openToast({
           status: 'success',
           title: 'Sucesso',
-          description: 'Usuário cadastrado com sucesso',
+          description: t('alerts.success.registeredUser'),
         });
 
         navigation.navigate('SignIn');
@@ -52,14 +53,14 @@ const SignUpForm = ({navigation}) => {
         openToast({
           status: 'warning',
           title: 'Erro',
-          description: 'Não foi possível cadastrar o usuário',
+          description: t('alerts.error.userCantCreated'),
         });
       }
     } catch (error) {
       openToast({
         status: 'error',
         title: 'Erro',
-        description: 'Nao conseguimos completar a sua requisicao. Tente novamente mais tarde.',
+        description: t('alerts.errors.badRequest'),
       });
 
       throw new Error(error);
@@ -228,7 +229,7 @@ const SignUpForm = ({navigation}) => {
                 width={'100%'}
                 onPress={() => navigation.navigate('SignIn')}
               >
-                Cancelar
+                {t('pages.buttons.cancel')}
               </Button>
             </View>
           </View>

@@ -3,8 +3,11 @@ import React from 'react';
 import {
   BackButton, SignUpForm, PageContainer,
 } from '../../components';
+import {useTranslation} from 'react-i18next';
 
 const SignUp = ({navigation}) => {
+  const { t } = useTranslation();
+
   return (
     <PageContainer>
       {/* // BACK BUTTON */}
@@ -25,7 +28,7 @@ const SignUp = ({navigation}) => {
           marginBottom: 20,
         }}
       >
-        Preencha os campos abaixo para criar sua conta na plataforma e começar a usar.
+        {t('pages.register.registrationText')}
       </Text>
       {/* // SIGN UP FORM */}
       <SignUpForm

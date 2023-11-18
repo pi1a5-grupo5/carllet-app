@@ -74,8 +74,6 @@ const UpdateProfileForm = ({navigation}) => {
         password: password,
       });
 
-      console.log(updateUser);
-
       if (updateUser) {
         openToast({
           status: 'success',

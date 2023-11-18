@@ -1,23 +1,25 @@
-import React, {useState} from 'react';
-import {View, Text} from 'react-native';
-import {MaterialIcons, FontAwesome5} from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { View, Text } from 'react-native';
+import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import {
   Button, Icon, Input, Stack, Divider, IconButton, FormControl,
 } from 'native-base';
-import {Pressable} from 'react-native';
-import {Formik} from 'formik';
+import { Pressable } from 'react-native';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
-import {AuthService} from '../../../services/auth.service';
-import {useUserContext} from '../../../hooks/useUserContext';
-import {openToast} from '../../../utils/openToast';
+import { AuthService } from '../../../services/auth.service';
+import { useUserContext } from '../../../hooks/useUserContext';
+import { openToast } from '../../../utils/openToast';
+import { useTranslation } from 'react-i18next';
 
-const SignInForm = ({navigation}) => {
+const SignInForm = ({ navigation }) => {
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Email inválido').required('Campo obrigatório'),
     password: Yup.string().min(8, 'Senha deve ter no mínimo 8 caracteres').required('Campo obrigatório'),
   });
 
-  const {setUser, setIsLogged} = useUserContext();
+  const { t } = useTranslation();
+  const { setUser, setIsLogged } = useUserContext();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,7 +29,7 @@ const SignInForm = ({navigation}) => {
     setIsLoading(true);
 
     try {
-      const {email, password} = values;
+      const { email, password } = values;
 
       const loggedUser = await AuthService.login({
         email,
@@ -43,7 +45,7 @@ const SignInForm = ({navigation}) => {
         openToast({
           status: 'warning',
           title: 'Erro',
-          description: 'Email ou senha inválidos',
+          description: t('alerts.errors.wrongLogin'),
         });
       }
 
@@ -52,7 +54,7 @@ const SignInForm = ({navigation}) => {
       openToast({
         status: 'error',
         title: 'Erro',
-        description: 'Nao conseguimos completar a sua requisicao. Tente novamente mais tarde.',
+        description: t('alerts.errors.badRequest'),
       });
 
       setIsLoading(false);
@@ -71,7 +73,7 @@ const SignInForm = ({navigation}) => {
         validationSchema={validationSchema}
         onSubmit={(values) => handleLoginSubmit(values)}
       >
-        {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
           <>
             <Stack
               space={4}
@@ -124,7 +126,7 @@ const SignInForm = ({navigation}) => {
                           name={showPassword ? 'visibility-off' : 'visibility'}
                         />
                       }
-                      marginRight={2}
+                        marginRight={2}
                       />
                     </Pressable>
                   }
@@ -149,9 +151,9 @@ const SignInForm = ({navigation}) => {
                 variant="link"
                 colorScheme="primary"
                 marginTop={2}
-                style={{alignSelf: 'flex-end'}}
+                style={{ alignSelf: 'flex-end' }}
               >
-                Esqueceu sua senha?
+                {t('pages.login.forgotPassword')}
               </Button>
               <Button
                 onPress={handleSubmit}
@@ -161,9 +163,8 @@ const SignInForm = ({navigation}) => {
                 marginTop={2}
                 width={'100%'}
                 isLoading={isLoading}
-                isLoadingText='Entrando...'
               >
-                Entrar
+                {t('pages.login.enter')}
               </Button>
               <Button
                 onPress={() => navigation.navigate('SignUp')}
@@ -177,7 +178,7 @@ const SignInForm = ({navigation}) => {
                   justifyContent: 'center',
                 }}
               >
-                Não tem uma conta? Cadastre-se
+                {t('pages.register.creatAccount')}
               </Button>
             </View>
           </>

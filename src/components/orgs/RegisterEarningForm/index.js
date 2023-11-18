@@ -11,11 +11,14 @@ import {EarningService} from '../../../services/earning.service';
 import {openToast} from '../../../utils/openToast';
 import {toFloat} from '../../../utils/currencyFormart';
 import dayjs from 'dayjs';
+import {useTranslation} from 'react-i18next';
 
 
 const RegisterEarningForm = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const {user} = useUserContext();
+  const {t} = useTranslation();
+
 
   const registerEarningValidationSchema = Yup.object().shape({
     earningDate: Yup
@@ -172,7 +175,7 @@ const RegisterEarningForm = ({navigation}) => {
                 width={'100%'}
                 onPress={() => navigation.goBack()}
               >
-                Cancelar
+                {t('pages.buttons.cancel')}
               </Button>
             </View>
           </View>

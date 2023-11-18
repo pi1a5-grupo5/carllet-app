@@ -3,13 +3,11 @@ import React, {useEffect, useContext} from 'react';
 import {BackButton, PageContainer} from '../../components';
 import {Button} from 'native-base';
 import {UserVehiclesContext} from '../../contexts/UserVehiclesContex';
+import {useTranslation} from 'react-i18next';
 
 const VehicleDetails = ({navigation, route}) => {
   const {userPrincipalVehicle, handleUpdateUserPrincipalVehicle} = useContext(UserVehiclesContext);
-
-  useEffect(() => {
-    console.log('route.params.vehicle', route.params.vehicle);
-  }, []);
+  const {t} = useTranslation();
 
   const handlePrincipalVehicle = (vehicle) => {
     handleUpdateUserPrincipalVehicle(vehicle);
@@ -17,7 +15,7 @@ const VehicleDetails = ({navigation, route}) => {
 
   return (
     <PageContainer>
-      <BackButton navigation={navigation} title={'Detalhes do veiculo'} />
+      <BackButton navigation={navigation} title={t('pages.home.vehiclesTab.vehicleDetails')} />
       <Text>VehicleDetails</Text>
 
       {userPrincipalVehicle && !(userPrincipalVehicle.userVehicleId === route.params.vehicle.userVehicleId) && (
@@ -26,7 +24,7 @@ const VehicleDetails = ({navigation, route}) => {
           colorScheme={'primary'}
           onPress={() => handlePrincipalVehicle(route.params.vehicle)}
         >
-          Setar como principal
+          {t('pages.home.vehiclesTab.primaryVehicle')}
         </Button>
       )}
     </PageContainer>

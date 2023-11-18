@@ -4,6 +4,7 @@ import {
 import React, { useContext } from 'react';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { UserVehiclesContext } from '../../../contexts/UserVehiclesContex';
+import { useTranslation } from 'react-i18next';
 
 const VehicleCard = ({
   color = 'gray',
@@ -17,6 +18,8 @@ const VehicleCard = ({
   ...props
 }) => {
   const { userPrincipalVehicle } = useContext(UserVehiclesContext);
+  const { t } = useTranslation();
+  
   return (
     <Pressable
       bg="white"
@@ -112,7 +115,7 @@ const VehicleCard = ({
                 variant="solid"
                 px={2}
               >
-                {rented ? 'Alugado' : 'Próprio'}
+                {rented ? t('pages.home.vehiclesTab.vehicle.rented') : t('pages.home.vehiclesTab.vehicle.owned')}
               </Tag>
               {userPrincipalVehicle && userPrincipalVehicle.vehicleId === vehicleId && (
                 <Tag
@@ -120,7 +123,7 @@ const VehicleCard = ({
                   variant="solid"
                   px={2}
                 >
-                  Principal
+                  {t('pages.home.vehiclesTab.vehicle.principal')}
                 </Tag>
               )}
             </HStack>

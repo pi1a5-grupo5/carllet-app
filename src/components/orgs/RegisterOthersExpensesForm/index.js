@@ -1,56 +1,127 @@
-import {View, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {Formik} from 'formik';
+import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
-import {FormControl, Stack, TextArea, Input, Icon, Button, Box} from 'native-base';
-import {MaterialIcons} from '@expo/vector-icons';
-import {DatePickerInput} from '../../';
-import {OTHER_MAINTENANCE_TYPE, VEHICLES_MODEL} from '../../../constants/lorem.constants';
+import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-base';
+import { MaterialIcons } from '@expo/vector-icons';
+import { DatePickerInput } from '../../';
+import { OTHER_MAINTENANCE_TYPE, VEHICLES_MODEL } from '../../../constants/lorem.constants';
 import SelectComponent from '../../mols/SelectInput';
+import { ExpenseService } from '../../../services/expense.service';
+import { openToast } from '../../../utils/openToast';
+import { useUserVehicleContext } from '../../../contexts/UserVehiclesContex';
+import { useTranslation } from 'react-i18next';
 
-const RegisterOthersExpensesForm = () => {
+const RegisterOthersExpensesForm = ({ navigation }) => {
   const [otherExpensesTypes, setOtherExpensesTypes] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [showDateTimePicker, setShowDateTimePicker] = useState(false);
+  const { userVehicles } = useUserVehicleContext();
+  const {t} = useTranslation();
 
   const registerEarningValidationSchema = Yup.object().shape({
     userVehicleId: Yup
-        .number()
-        .required('Campo obrigatório'),
+      .string()
+      .required('Campo obrigatório'),
     otherExpenseDate: Yup
-        .string()
-        .required('Campo obrigatório'),
+      .string()
+      .required('Campo obrigatório'),
     otherExpenseValue: Yup
-        .number()
-        .required('Campo obrigatório'),
+      .number()
+      .required('Campo obrigatório'),
     otherExpenseDetails: Yup
-        .string()
-        .required('Campo obrigatório'),
+      .string()
+      .required('Campo obrigatório'),
     otherExpensesTyped: Yup
-        .number()
-        .required('Campo Obrigatório'),
+      .number()
+      .required('Campo Obrigatório'),
   });
 
 
-  const getEarningTypes = async () => {
-    return 0;
+  const handleFormSubmit = async (values) => {
+    setIsLoading(true);
+
+    const {
+      userVehicleId,
+      otherExpenseDate,
+      otherExpenseValue,
+      otherExpenseDetails,
+      otherExpensesTyped,
+    } = values;
+
+    try {
+      const registerOtherExpense = await ExpenseService.registerOtherMaintenanceExpense({
+        userVehicleId,
+        expenseDate: otherExpenseDate,
+        value: otherExpenseValue,
+        details: otherExpenseDetails,
+        otherTypeName: otherExpensesTyped,
+      });
+
+      if (!registerOtherExpense) {
+        openToast({
+          title: 'Erro ao registrar despesa',
+          status: 'error',
+          description: 'Tente novamente mais tarde',
+        });
+        return;
+      }
+
+      openToast({
+        title: 'Despesa registrada com sucesso',
+        status: 'success',
+        description: 'Despesa registrada com sucesso',
+      });
+
+    } catch(error) {
+      console.error(error);
+      openToast({
+        title: 'Erro ao registrar despesa',
+        status: 'error',
+        description: 'Tente novamente mais tarde',
+      });
+    } finally {
+      setIsLoading(false);
+      navigation.goBack();
+    }
+  };
+  const getOtherExpenseTypes = async () => {
+    try {
+      const otherExpenseTypes = await ExpenseService.getOtherMaintenanceExpenseTypes();
+
+      if (!otherExpenseTypes || otherExpenseTypes.length === 0) {
+        openToast({
+          title: 'Erro ao buscar tipos de despesas',
+          status: 'error',
+          description: 'Tente novamente mais tarde',
+        });
+        return [];
+      }
+
+      return otherExpenseTypes
+    } catch (error) {
+      console.error(error);
+      openToast({
+        title: 'Erro ao buscar tipos de despesas',
+        status: 'error',
+        description: 'Tente novamente mais tarde',
+      });
+    }
   };
 
   useEffect(() => {
-    getEarningTypes()
-        .then((res) => {
-          setOtherExpensesTypes(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    getOtherExpenseTypes()
+      .then((res) => {
+        setOtherExpensesTypes(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
     <Box
       marginHorizontal={4}
-      borderWidth={5}
-      borderColor={'red.300'}
+      flex={1}
     >
       <Formik
         initialValues={{
@@ -66,7 +137,7 @@ const RegisterOthersExpensesForm = () => {
           console.log(values);
         }}
       >
-        {({handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue}) => (
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
           <ScrollView>
             <Stack
               space={4}
@@ -109,7 +180,7 @@ const RegisterOthersExpensesForm = () => {
                   useNativeAndroidPickerStyle={false}
                   Icon={() => (
                     <Icon
-                      as={<MaterialIcons name="description" />}
+                      as={<MaterialIcons name="directions-car" />}
                       margin={2}
                       size={4}
                       zIndex={-1}
@@ -257,7 +328,7 @@ const RegisterOthersExpensesForm = () => {
                 width={'100%'}
                 onPress={() => navigation.goBack()}
               >
-                Cancelar
+                {t('pages.buttons.cancel')}
               </Button>
             </View>
           </ScrollView>
@@ -271,10 +342,12 @@ const styles = StyleSheet.create({
   datePickerIOS: {
     position: 'absolute',
     zIndex: 10,
-    top: Dimensions.get('window').height - 500,
+    top: Dimensions.get('window').height / 2 - 100,
     padding: 10,
-    right: -25,
+    right: -20,
     width: Dimensions.get('window').width,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

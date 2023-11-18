@@ -1,11 +1,14 @@
 import React, {createContext, useEffect} from 'react';
 import {ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GoalService } from '../services/goal.service';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 export const UserContext = createContext(null);
 
 export const UserProvider = ({children}) => {
   const [user, setUser] = React.useState({});
+  const [todayGoal, setTodayGoal] = React.useState([]);
   const [isLogged, setIsLogged] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -16,6 +19,23 @@ export const UserProvider = ({children}) => {
     setIsLogged(false);
     clearStorage();
   };
+
+  const getTodayByUser = async () => {
+    try {
+      const goal = await GoalService.getDailyGoalByUser(user.id);
+
+      console.log(goal);
+
+      if (goal) {
+        setTodayGoal(goal);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  
+
 
   // Get user from async storage on app load
   useEffect(() => {
@@ -55,6 +75,7 @@ export const UserProvider = ({children}) => {
   useEffect(() => {
     if (Object.keys(user).length) {
       removeUserFromStorage();
+      getTodayByUser();
       AsyncStorage.setItem('@CARLLET:USER', JSON.stringify({...user}));
     }
   }, [user]);
@@ -62,7 +83,6 @@ export const UserProvider = ({children}) => {
 
   // Clear storage on isLogged false
   useEffect(() => {
-    console.log('isLogged', isLogged);
     if (!isLogged) {
       removeUserFromStorage();
     }
@@ -75,6 +95,8 @@ export const UserProvider = ({children}) => {
       isLogged,
       setIsLogged,
       handleLogout,
+      todayGoal,
+      setTodayGoal,
     }}>
       {isLoading ? <ActivityIndicator size={50} color="#FFF" /> : children}
     </UserContext.Provider>

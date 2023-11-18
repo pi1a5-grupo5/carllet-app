@@ -4,11 +4,13 @@ import {PageContainer, VehicleCard} from '../../components';
 import React, {useEffect, useState, useContext} from 'react';
 import {VehiclesService} from '../../services/vehicles.service';
 import {UserContext} from '../../contexts/UserContext';
+import {useTranslation} from 'react-i18next';
 
 const Vehicles = ({navigation}) => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const {user} = useContext(UserContext);
+  const { t } = useTranslation();
 
   const getVehicles = async () => {
     try {
@@ -44,13 +46,13 @@ const Vehicles = ({navigation}) => {
         <Text
           fontSize={'xl'}
           fontWeight={'bold'}
-        >Veículos</Text>
+        >{t('pages.home.vehiclesTab.title')}</Text>
         <Button
           variant={'solid'}
           colorScheme={'primary'}
           onPress={() => navigation.navigate('NewVehicle')}
         >
-          Novo veículo
+          {t('pages.home.vehiclesTab.newVehicle')}
         </Button>
       </Box>
 

@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import * as Notifications from 'expo-notifications';
 import * as Location from 'expo-location';
-import {NativeBaseProvider} from 'native-base';
-import {theme} from './src/theme/theme';
-import {NavigationContainer} from '@react-navigation/native';
-import {UserProvider} from './src/contexts/UserContext';
+import { NativeBaseProvider } from 'native-base';
+import { theme } from './src/theme/theme';
+import { NavigationContainer } from '@react-navigation/native';
+import { UserProvider } from './src/contexts/UserContext';
 import {
   useFonts,
   Roboto_100Thin,
@@ -15,11 +15,12 @@ import {
 
 
 import Routes from './src/routes';
-import {UserVehiclesProvider} from './src/contexts/UserVehiclesContex';
+import { UserVehiclesProvider } from './src/contexts/UserVehiclesContex';
 import {
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
-import {CourseProvider} from './src/contexts/CourseContext';
+import { CourseProvider } from './src/contexts/CourseContext';
+import { LangProvider } from './src/contexts/LangContext';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -62,17 +63,19 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <NativeBaseProvider theme={theme}>
-        <BottomSheetModalProvider>
-          <UserProvider>
-            <UserVehiclesProvider>
-              <CourseProvider>
-                <Routes />
-              </CourseProvider>
-            </UserVehiclesProvider>
-          </UserProvider>
-        </BottomSheetModalProvider>
-      </NativeBaseProvider >
+      <LangProvider>
+        <NativeBaseProvider theme={theme}>
+          <BottomSheetModalProvider>
+            <UserProvider>
+              <UserVehiclesProvider>
+                <CourseProvider>
+                  <Routes />
+                </CourseProvider>
+              </UserVehiclesProvider>
+            </UserProvider>
+          </BottomSheetModalProvider>
+        </NativeBaseProvider >
+      </LangProvider>
     </NavigationContainer>
   );
 }

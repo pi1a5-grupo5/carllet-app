@@ -9,11 +9,13 @@ import { useUserContext } from '../../../hooks/useUserContext';
 import { openToast } from '../../../utils/openToast';
 import { toFloat } from '../../../utils/currencyFormart';
 import { GoalService } from '../../../services/goal.service';
-
+import { useTranslation } from 'react-i18next';
 
 const RegisterGoalForm = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useUserContext();
+  const {t} = useTranslation();
+
 
   const registerEarningValidationSchema = Yup.object().shape({
     goalValue: Yup
@@ -31,11 +33,6 @@ const RegisterGoalForm = ({ navigation }) => {
         userId: user.id,
         goalValue: toFloat(goalValue, 'R$ '),
       });
-
-      console.log({
-        userId: user.id,
-        goalValue: toFloat(goalValue, 'R$ '),
-      })
 
       if (registeredGoal) {
         openToast({
@@ -148,7 +145,7 @@ const RegisterGoalForm = ({ navigation }) => {
                 isLoading={isLoading}
                 isLoadingText='Carregando...'
               >
-                Registrar meta
+                {t("pages.home.screenItems.registerGoal")}
               </Button>
               <Button
                 variant="ghost"
@@ -157,7 +154,7 @@ const RegisterGoalForm = ({ navigation }) => {
                 width={'100%'}
                 onPress={() => navigation.goBack()}
               >
-                Cancelar
+                {t('pages.buttons.cancel')}
               </Button>
             </View>
           </View>

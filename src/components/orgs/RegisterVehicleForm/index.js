@@ -10,7 +10,7 @@ import {openToast} from '../../../utils/openToast';
 import {UserContext} from '../../../contexts/UserContext';
 
 import {VehiclesService} from '../../../services/vehicles.service';
-import {get} from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import {useTranslation} from 'react-i18next';
 
 const RegisterVehicleForm = ({navigation}) => {
   const [brandTypes, setbrandTypes] = useState([]);
@@ -18,6 +18,7 @@ const RegisterVehicleForm = ({navigation}) => {
   const [vehicleModels, setVehicleModels] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const {user} = useContext(UserContext);
+  const {t} = useTranslation();
 
   const registerVehicleValidationSchema = Yup.object().shape({
     make: Yup
@@ -452,7 +453,7 @@ const RegisterVehicleForm = ({navigation}) => {
                 width={'100%'}
                 onPress={() => navigation.goBack()}
               >
-                Cancelar
+                {t('pages.buttons.cancel')}
               </Button>
             </View>
           </ScrollView>

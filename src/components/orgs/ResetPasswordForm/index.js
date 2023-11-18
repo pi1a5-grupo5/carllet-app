@@ -8,6 +8,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {AuthService} from '../../../services/auth.service';
 import {openToast} from '../../../utils/openToast';
+import {useTranslation} from 'react-i18next';
 
 const ResetPasswordForm = ({navigation}) => {
   const validationSchema = Yup.object().shape({
@@ -18,6 +19,7 @@ const ResetPasswordForm = ({navigation}) => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const {t} = useTranslation();
 
   const handleResetPasswordSubmit = async (values) => {
     setIsLoading(true);
@@ -26,8 +28,6 @@ const ResetPasswordForm = ({navigation}) => {
 
     try {
       const response = await AuthService.forgotPassword(email);
-
-      console.log(response);
 
       if (!response) {
         return openToast({
@@ -120,7 +120,7 @@ const ResetPasswordForm = ({navigation}) => {
                 width={'100%'}
                 onPress={() => navigation.navigate('SignIn')}
               >
-                Cancelar
+                {t('pages.buttons.cancel')}
               </Button>
             </View>
           </View>

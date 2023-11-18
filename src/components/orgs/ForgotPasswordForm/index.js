@@ -6,8 +6,13 @@ import {
 } from 'native-base';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {useTranslation} from 'react-i18next';
 
 const ForgotPasswordForm = ({navigation}) => {
+
+  const [isLoading, setIsLoading] = useState(false);
+  const {t} = useTranslation();
+
   const validationSchema = Yup.object().shape({
     code: Yup
         .number()
@@ -20,13 +25,9 @@ const ForgotPasswordForm = ({navigation}) => {
         .oneOf([Yup.ref('password'), null], 'Senhas devem ser iguais').required('Campo obrigatório'),
   });
 
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleResetPasswordSubmit = (values) => {
     setIsLoading(true);
-
-    console.log(values);
-
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
@@ -141,7 +142,7 @@ const ForgotPasswordForm = ({navigation}) => {
                 isLoading={isLoading}
                 isLoadingText='Carregando...'
               >
-                Alterar senha
+                {t('pages.password.changePassword')}
               </Button>
 
               <Button
@@ -151,7 +152,7 @@ const ForgotPasswordForm = ({navigation}) => {
                 width={'100%'}
                 onPress={() => navigation.navigate('SignIn')}
               >
-                Cancelar
+                {t('pages.buttons.cancel')}
               </Button>
             </View>
           </View>

@@ -15,13 +15,17 @@ import 'dayjs/locale/pt-br';
 import { currencyFormat } from '../../utils/currencyFormart';
 import ProfileImage from '../../../assets/profile.webp';
 import { CourseContext } from '../../contexts/CourseContext';
+import { GoalService } from '../../services/goal.service';
+import { useTranslation } from 'react-i18next';
 
 const ProfileImageUri = Image.resolveAssetSource(ProfileImage).uri;
 
 const HomeScreen = ({ navigation }) => {
-  const { user } = useUserContext();
+  const { user, todayGoal } = useUserContext();
   const [todayCourses, setTodayCourses] = useState([]);
   const { courses, setCourses } = useContext(CourseContext);
+  const { t } = useTranslation();
+
 
   const [loading, setLoading] = useState(false);
 
@@ -111,7 +115,7 @@ const HomeScreen = ({ navigation }) => {
                     colorScheme='primary'
                     variant='outline'
                   >
-                    Nova meta
+                    {t('pages.home.screenItems.newGoal')}
                   </Button>
                 </Box>
               </Box>
@@ -120,7 +124,7 @@ const HomeScreen = ({ navigation }) => {
                   fontWeight={100}
                   fontSize='24'
                 >
-                  Olá,
+                  {t('pages.home.screenItems.saudations')}
                 </Text>
                 <Text
                   fontSize='24'
@@ -143,8 +147,8 @@ const HomeScreen = ({ navigation }) => {
             <Box>
               <Box>
                 <CardInformation
-                  title='Meta atual'
-                  description={`${currencyFormat(150.00)}`}
+                  title={t('pages.home.screenItems.currentGoal')}
+                  description={`${currencyFormat(todayGoal.shift()?.goalValue || 0)}`}
                   bg='info.100'
                   icon={'star'}
                 />
@@ -155,14 +159,14 @@ const HomeScreen = ({ navigation }) => {
                   marginY={4}
                 >
                   <CardInformation
-                    title='Ganhos'
+                    title={t('pages.home.screenItems.earnings')}
                     bg='success.100'
                     flex={1}
                     icon={'attach-money'}
                     description={`${currencyFormat(150.00)}`}
                   />
                   <CardInformation
-                    title='Despesas'
+                    title={t('pages.home.screenItems.expenses')}
                     bg='error.100'
                     flex={1}
                     icon={'money-off'}
@@ -176,7 +180,7 @@ const HomeScreen = ({ navigation }) => {
           <Box
             marginBottom={8}
           >
-            <CustomDivider title='Percursos do dia' />
+            <CustomDivider title={t('pages.home.screenItems.routes.daily')} />
 
             {loading && (
               <Box>
@@ -196,7 +200,7 @@ const HomeScreen = ({ navigation }) => {
               >
                 <Text
                   textAlign={'center'}
-                > Você não tem percursos registrados hoje.</Text>
+                >{t("pages.home.screenItems.noCoursesFound")}</Text>
               </Box>
 
             )}
@@ -224,7 +228,7 @@ const HomeScreen = ({ navigation }) => {
                 bgColor={'#f2f2f2'}
                 onPress={() => navigation.navigate('AllCourses')}
               >
-                {todayCourses.length > 0 ? 'ver mais' : 'ver todos'}
+                {todayCourses.length > 0 ? t("pages.buttons.viewMore") : t("pages.buttons.viewAll")}
               </Button>
             </Box>
           </Box>

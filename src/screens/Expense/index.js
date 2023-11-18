@@ -1,25 +1,10 @@
 import React from 'react';
-import {BackButton, CustomTabBar, PageContainer, RegisterExpenseForm, RegisterOthersExpensesForm} from '../../components';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import {View, useWindowDimensions} from 'react-native';
+import { BackButton, CustomTabBar, PageContainer, RegisterExpenseForm, RegisterOthersExpensesForm } from '../../components';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { View, useWindowDimensions } from 'react-native';
 
-const MaintenanceRoute = () => (
-  <View>
-    <RegisterExpenseForm
-      title='Manutenção'
-    />
-  </View>
-);
 
-const OthersExpenseRoute = () => (
-  <View>
-    <RegisterOthersExpensesForm
-      title='Outras despesas'
-    />
-  </View>
-);
-
-const ExpensePage = ({navigation}) => {
+const ExpensePage = ({ navigation }) => {
   const layout = useWindowDimensions();
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -32,6 +17,20 @@ const ExpensePage = ({navigation}) => {
       title: 'Outras despesas',
     },
   ]);
+
+  const MaintenanceRoute = () => (
+    <RegisterExpenseForm
+      title='Manutenção'
+      navigation={navigation}
+    />
+  );
+  
+  const OthersExpenseRoute = () => (
+    <RegisterOthersExpensesForm
+      title='Outras despesas'
+      navigation={navigation}
+    />
+  );
 
   const renderScene = SceneMap({
     maintenance: MaintenanceRoute,
@@ -57,7 +56,7 @@ const ExpensePage = ({navigation}) => {
         renderScene={renderScene}
         renderTabBar={_renderTabBar}
         onIndexChange={setIndex}
-        initialLayout={{width: layout.width}}
+        initialLayout={{ width: layout.width }}
       />
     </PageContainer>
   );

@@ -3,8 +3,11 @@ import {
   Box, Button, Text,
 } from 'native-base';
 import {AntDesign} from '@expo/vector-icons';
+import {useTranslation} from 'react-i18next';
 
 const BackButton = ({navigation, title}) => {
+  const {t} = useTranslation();
+
   return (
     <Box
       display={'flex'}
@@ -32,7 +35,7 @@ const BackButton = ({navigation, title}) => {
             />
           }
         >
-          Voltar
+          {t('pages.buttons.back')}
         </Button>
       </Box>
 

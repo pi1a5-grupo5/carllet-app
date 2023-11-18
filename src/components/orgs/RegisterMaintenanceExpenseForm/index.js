@@ -1,74 +1,130 @@
-import {View, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {Form, Formik} from 'formik';
+import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import {FormControl, Stack, TextArea, Input, Icon, Button, Box} from 'native-base';
-import {MaterialIcons} from '@expo/vector-icons';
-import {DatePickerInput} from '../../';
+import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-base';
+import { MaterialIcons } from '@expo/vector-icons';
+import { DatePickerInput } from '../../';
 import SelectComponent from '../../mols/SelectInput';
-import {MAINTENANCE_TYPE, ORIGIN_MAINTENANCE_TYPE} from '../../../constants/lorem.constants';
-import RNPickerSelect from 'react-native-picker-select';
+import { MAINTENANCE_TYPE, ORIGIN_MAINTENANCE_TYPE, VEHICLES_MODEL } from '../../../constants/lorem.constants';
+import { useUserVehicleContext } from '../../../contexts/UserVehiclesContex';
+import { TextInputMask } from 'react-native-masked-text';
+import { ExpenseService } from '../../../services/expense.service';
+import { openToast } from '../../../utils/openToast';
+import { useTranslation } from 'react-i18next';
 
-const RegisterMaintenanceExpenseForm = ({navigation}) => {
+const RegisterMaintenanceExpenseForm = ({ navigation }) => {
   const [maintenanceTypes, setMaintenanceTypes] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const { userVehicles } = useUserVehicleContext();
+  const {t} = useTranslation();
 
   const registerEarningValidationSchema = Yup.object().shape({
     userVehicleId: Yup
-        .number()
-        .required('Campo obrigatório'),
-    maintenanceDate: Yup
-        .string()
-        .required('Campo obrigatório'),
+      .string()
+      .required('Campo obrigatório'),
+    expenseDate: Yup
+      .string()
+      .required('Campo obrigatório'),
     maintenanceValue: Yup
-        .number()
-        .required('Campo obrigatório'),
+      .number()
+      .required('Campo obrigatório'),
     maintenanceDetails: Yup
-        .string()
-        .required('Campo obrigatório'),
+      .string()
+      .required('Campo obrigatório'),
     maintenanceExpenseTypeId: Yup
-        .number()
-        .required('Campo Obrigatório'),
+      .number()
+      .required('Campo Obrigatório'),
     originatingExpenseId: Yup
-        .number()
-        .required('Campo Obrigatório'),
+      .number()
+      .required('Campo Obrigatório'),
   });
 
+  const handleFormSubmit = async (values) => {
+    setIsLoading(true);
+    const {
+      userVehicleId,
+      expenseDate,
+      maintenanceValue,
+      maintenanceDetails,
+      maintenanceExpenseTypeId,
+      originatingExpenseId
+    } = values;
 
-  const getEarningTypes = async () => {
-    return 0;
+    try {
+      const registeredMaintenanceExpense = await ExpenseService.registerMaintenanceExpense({
+        userVehicleId,
+        expenseDate,
+        originatingExpenseId,
+        maintenanceTypeName: maintenanceExpenseTypeId,
+        value: maintenanceValue,
+        details: maintenanceDetails,
+      });
+
+      if (registeredMaintenanceExpense) {
+        navigation.goBack();
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+      navigation.goBack();
+    }
+  };
+
+
+  const getMaintenanceExpenseTypes = async () => {
+    try {
+      const response = await ExpenseService.getMaintenanceExpenseTypes();
+
+      if (!response.length === 0 || !response) {
+        openToast({
+          title: 'Erro ao buscar tipos de despesas',
+          status: 'error',
+          description: 'Tente novamente mais tarde',
+        });
+        return [];
+      }
+
+      return response;
+    } catch (error) {
+      console.error(error);
+      openToast({
+        title: 'Erro ao buscar tipos de despesas',
+        status: 'error',
+        description: 'Tente novamente mais tarde',
+      });
+    }
   };
 
   useEffect(() => {
-    getEarningTypes()
-        .then((res) => {
-          setMaintenanceTypes(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    getMaintenanceExpenseTypes()
+      .then((res) => {
+        setMaintenanceTypes(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   return (
     <Box
       marginHorizontal={4}
+      flex={1}
     >
       <Formik
         initialValues={{
           userVehicleId: '',
-          maintenanceDate: '',
-          maintenanceValue: '',
+          expenseDate: new Date(),
+          maintenanceValue: 0,
           maintenanceDetails: '',
           maintenanceExpenseTypeId: '',
           originatingExpenseId: '',
         }}
         validationSchema={registerEarningValidationSchema}
-        onSubmit={(values) => {
-          setIsLoading(true);
-          console.log(values);
-        }}
+        onSubmit={(values) => handleFormSubmit(values)}
       >
-        {({handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue}) => (
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
           <ScrollView>
             <Stack
               space={4}
@@ -79,20 +135,44 @@ const RegisterMaintenanceExpenseForm = ({navigation}) => {
                 isRequired
                 isInvalid={!!(errors.userVehicleId && touched.userVehicleId)}
               >
-                <Input
-                  onChangeText={handleChange('userVehicleId')}
-                  onBlur={handleBlur('userVehicleId')}
+                <SelectComponent
+                  placeholder={{
+                    label: 'Veículo',
+                    value: null,
+                    color: '#9EA0A4',
+                  }}
+                  placeholderTextColor={'#A1A1AA'}
+                  items={userVehicles.map((item, index) => ({
+                    label: `${item.vehicleBrandName} - ${item.vehicleTypeName}`,
+                    value: item.userVehicleId,
+                  }))}
+                  onValueChange={(e) => setFieldValue('userVehicleId', e)}
                   value={values.userVehicleId}
-                  size={'md'}
-                  placeholder="Veículo"
-                  variant="outline"
-                  keyboardType="numeric"
-                  InputLeftElement={
+                  style={{
+                    inputIOS: {
+                      color: 'black',
+                    },
+                    inputAndroid: {
+                      color: 'black',
+                      fontSize: 14,
+                      paddingHorizontal: 2,
+                      paddingVertical: 8,
+                      fontStyle: '100',
+                    },
+                    placeholder: {
+                      color: '#A1A1AA',
+                      fontStyle: '100',
+                    },
+                  }}
+                  useNativeAndroidPickerStyle={false}
+                  Icon={() => (
                     <Icon
                       as={<MaterialIcons name="directions-car" />}
-                      marginLeft="2"
+                      margin={2}
+                      size={4}
+                      zIndex={-1}
                     />
-                  }
+                  )}
                 />
                 <FormControl.ErrorMessage>
                   {errors.userVehicleId}
@@ -100,34 +180,57 @@ const RegisterMaintenanceExpenseForm = ({navigation}) => {
               </FormControl>
               <FormControl
                 isRequired
-                isInvalid={!!(errors.maintenanceDate && touched.maintenanceDate)}
+                isInvalid={!!(errors.expenseDate && touched.expenseDate)}
               >
                 <DatePickerInput
                   placeholder="Data"
-                  value={values.maintenanceDate}
+                  value={values.expenseDate}
                   onChange={setFieldValue}
                   editable={false}
-                  name={'maintenanceDate'}
+                  name={'expenseDate'}
                   pickerStylesIOS={styles.datePickerIOS}
                 />
+                <FormControl.ErrorMessage>
+                  {errors.expenseDate}
+                </FormControl.ErrorMessage>
               </FormControl>
               <FormControl
                 isRequired
                 isInvalid={!!(errors.maintenanceValue && touched.maintenanceValue)}
               >
-                <Input
-                  onChangeText={handleChange('maintenanceValue')}
-                  onBlur={handleBlur('maintenanceValue')}
-                  size={'md'}
-                  placeholder="Valor"
-                  variant="outline"
+                <Box
                   width={'100%'}
-                  InputLeftElement={
-                    <Icon as={<MaterialIcons name="attach-money" />} marginLeft={2} />
-                  }
-                  type='number'
-                  value={values.maintenanceValue}
-                />
+                  flexDirection={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  borderWidth={1}
+                  borderRadius={5}
+                  borderColor={'gray.300'}
+                  padding={2}
+                >
+                  <Icon as={<MaterialIcons name="attach-money" />} marginRight={2} />
+                  <TextInputMask
+                    type={'money'}
+                    options={{
+                      precision: 2,
+                      separator: ',',
+                      delimiter: '.',
+                      unit: 'R$ ',
+                      suffixUnit: '',
+                    }}
+                    value={values.earningValue}
+                    onChangeText={handleChange('earningValue')}
+                    onBlur={handleBlur('earningValue')}
+                    size={'md'}
+                    placeholder="Valor"
+                    variant="outline"
+                    width={'100%'}
+                    InputLeftElement={
+                      <Icon as={<MaterialIcons name="attach-money" />} marginLeft={2} />
+                    }
+                    keyboardType='numeric'
+                  />
+                </Box>
                 <FormControl.ErrorMessage
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
                 >
@@ -280,7 +383,7 @@ const RegisterMaintenanceExpenseForm = ({navigation}) => {
                 width={'100%'}
                 onPress={() => navigation.goBack()}
               >
-                Cancelar
+                {t('pages.buttons.cancel')}
               </Button>
             </View>
           </ScrollView>
@@ -294,10 +397,12 @@ const styles = StyleSheet.create({
   datePickerIOS: {
     position: 'absolute',
     zIndex: 10,
-    top: Dimensions.get('window').height - 500,
+    top: Dimensions.get('window').height / 2 - 100,
     padding: 10,
-    right: -25,
+    right: -20,
     width: Dimensions.get('window').width,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

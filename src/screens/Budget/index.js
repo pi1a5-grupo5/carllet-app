@@ -8,6 +8,7 @@ import {StackedBarChart} from 'react-native-chart-kit';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import { UserService } from '../../services/user.service';
 import { UserContext } from '../../contexts/UserContext';
+import { useTranslation } from 'react-i18next';
 
 const GanhosRoute = () => (
   <View>
@@ -78,16 +79,17 @@ const Budget = ({navigation}) => {
   const layout = useWindowDimensions();
   const { user } = React.useContext(UserContext);
   const [graphData, setGraphData] = React.useState([]);
+  const { t } = useTranslation();
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {
       key: 'first',
-      title: 'Ganhos',
+      title: t('pages.home.controlTab.earnings'),
     },
     {
       key: 'second',
-      title: 'Despesas',
+      title: t('pages.home.controlTab.expense.expenses'),
     },
   ]);
 
@@ -109,7 +111,7 @@ const Budget = ({navigation}) => {
 
   const data = {
     labels: graphData.map((item) => DAYS_OF_WEEK[new Date(item[0]).getDay()]),
-    lengend: ['Ganhos', 'Despesas'],
+    lengend: [t('pages.controlTab.earnings'), t('')],
     data: graphData.map((item) => [(item[1].totalEarnings > 0) && item[1].totalEarnings, (item[1].totalExpenses > 0) && item[1].totalExpenses]),
     barColors: ['#00ff0030', '#ff000030'],
   };
@@ -143,7 +145,7 @@ const Budget = ({navigation}) => {
 
   return (
     <PageContainer
-      pageTitle="Orçamento"
+      pageTitle={t('pages.home.controlTab.budget')}
     >
       {/* Grafico */}
       <View
@@ -195,7 +197,7 @@ const Budget = ({navigation}) => {
               backgroundColor="#00ff0030"
             />
             {/* Description */}
-            <Text>Ganhos</Text>
+            <Text>{t('pages.home.controlTab.earnings')}</Text>
           </Box>
           <Box
             display="flex"
@@ -210,7 +212,7 @@ const Budget = ({navigation}) => {
               backgroundColor="#ff000030"
             />
             {/* Description */}
-            <Text>Despesas</Text>
+            <Text>{t('pages.home.controlTab.expense.expenses')}</Text>
           </Box>
         </Box>
       </View>

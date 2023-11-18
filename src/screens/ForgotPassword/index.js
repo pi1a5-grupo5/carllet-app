@@ -3,8 +3,10 @@ import React from 'react';
 import {
   BackButton, ForgotPasswordForm, PageContainer,
 } from '../../components';
+import {useTranslation} from 'react-i18next';
 
 const ForgotPassword = ({navigation}) => {
+  const {t} = useTranslation();
   return (
     <PageContainer>
       <BackButton navigation={navigation} />
@@ -16,7 +18,7 @@ const ForgotPassword = ({navigation}) => {
           marginBottom: 20,
         }}
       >
-        Alterar senha
+        {t("pages.password.changePassword")}
       </Text>
       <Text
         style={{
@@ -24,7 +26,7 @@ const ForgotPassword = ({navigation}) => {
           marginBottom: 20,
         }}
       >
-        Para alterar a sua senha, preencha os campos abaixo.
+        {t("pages.password.forgotPasswordText")}
       </Text>
       <ForgotPasswordForm
         navigation={navigation}
