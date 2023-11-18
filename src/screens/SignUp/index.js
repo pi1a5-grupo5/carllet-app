@@ -20,7 +20,7 @@ const SignUp = ({navigation}) => {
           marginBottom: 20,
         }}
       >
-        Cadastre-se
+        {t('pages.register.registrationTitle')}
       </Text>
       <Text
         style={{

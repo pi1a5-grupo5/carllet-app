@@ -2,32 +2,33 @@ import React from 'react';
 import { BackButton, CustomTabBar, PageContainer, RegisterExpenseForm, RegisterOthersExpensesForm } from '../../components';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { View, useWindowDimensions } from 'react-native';
-
+import { useTranslation } from 'react-i18next';
 
 const ExpensePage = ({ navigation }) => {
+  const { t } = useTranslation();
   const layout = useWindowDimensions();
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {
       key: 'maintenance',
-      title: 'Manutenção',
+      title: t("pages.home.controlTab.expense.maintenance"),
     },
     {
       key: 'othersExpense',
-      title: 'Outras despesas',
+      title: t("pages.home.controlTab.expense.otherExpenses"),
     },
   ]);
 
   const MaintenanceRoute = () => (
     <RegisterExpenseForm
-      title='Manutenção'
+      title={t("pages.home.controlTab.expense.maintenance")}
       navigation={navigation}
     />
   );
   
   const OthersExpenseRoute = () => (
     <RegisterOthersExpensesForm
-      title='Outras despesas'
+      title={t("pages.home.controlTab.expense.otherExpenses")}
       navigation={navigation}
     />
   );

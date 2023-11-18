@@ -203,11 +203,11 @@ const RegisterVehicleForm = ({navigation}) => {
                       fontSize: 14,
                       paddingHorizontal: 2,
                       paddingVertical: 8,
-                      fontStyle: '100',
+                      fontStyle: 'light',
                     },
                     placeholder: {
                       color: '#A1A1AA',
-                      fontStyle: '100',
+                      fontStyle: 'light',
                     },
                   }}
                   useNativeAndroidPickerStyle={false}
@@ -252,11 +252,11 @@ const RegisterVehicleForm = ({navigation}) => {
                       fontSize: 14,
                       paddingHorizontal: 2,
                       paddingVertical: 8,
-                      fontStyle: '100',
+                      fontStyle: 'light',
                     },
                     placeholder: {
                       color: '#A1A1AA',
-                      fontStyle: '100',
+                      fontStyle: 'light',
                     },
                   }}
                   useNativeAndroidPickerStyle={false}
@@ -296,7 +296,7 @@ const RegisterVehicleForm = ({navigation}) => {
                       style={{
                         fontSize: 14,
                         color: '#A1A1AA',
-                        fontStyle: '100',
+                        fontStyle: 'light',
                         marginRight: 10,
                       }}
                     >
@@ -337,11 +337,11 @@ const RegisterVehicleForm = ({navigation}) => {
                       fontSize: 14,
                       paddingHorizontal: 2,
                       paddingVertical: 8,
-                      fontStyle: '100',
+                      fontStyle: 'light',
                     },
                     placeholder: {
                       color: '#A1A1AA',
-                      fontStyle: '100',
+                      fontStyle: 'light',
                     },
                   }}
                   useNativeAndroidPickerStyle={false}
@@ -386,11 +386,11 @@ const RegisterVehicleForm = ({navigation}) => {
                       fontSize: 14,
                       paddingHorizontal: 2,
                       paddingVertical: 8,
-                      fontStyle: '100',
+                      fontStyle: 'light',
                     },
                     placeholder: {
                       color: '#A1A1AA',
-                      fontStyle: '100',
+                      fontStyle: 'light',
                     },
                   }}
                   useNativeAndroidPickerStyle={false}

@@ -1,12 +1,13 @@
 import React from 'react';
 import {BackButton, PageContainer} from '../../components';
 import RegisterEarningForm from '../../components/orgs/RegisterEarningForm';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {useTranslation} from 'react-i18next';
 
 const EarningPage = ({navigation}) => {
+  const {t} = useTranslation();
   return (
     <PageContainer>
-      <BackButton navigation={navigation} title='Novo ganho' />
+      <BackButton navigation={navigation} title={t("pages.home.controlTab.newEarnings")} />
       <RegisterEarningForm navigation={navigation} />
     </PageContainer>
   );

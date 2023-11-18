@@ -42,7 +42,7 @@
 			},
 			"vehiclesTab": {
 				"title": "Cars",
-				"newVehicle": "Vehicles",
+				"newVehicle": "New Vehicles",
 				"vehicle": {
 					"brand": "Brand",
 					"brandPlaceholder": "Choose the Brand",
@@ -66,22 +66,22 @@
 				"earnings": "Earnings",
 				"history": "History",
 				"salary": "Salary",
-				"newEarnings": "New Earnings",
+				"newEarnings": "New earning",
 				"sendEarnings": "Send Earnings",
 				"expense": {
 					"expenses": "Expenses",
 					"new": "new Expense",
 					"maintenance": "Maintenance",
-					"other": "Other Expenses",
+					"otherExpenses": "Other Expenses",
 					"type": "Expense Type",
 					"place": "Expense Location",
-					"send": "send Expense"
+					"send": "Send expense"
 				}
 			},
 			"profile": {
 				"account": {
 					"myAccount": "My Account",
-					"myAccountText": "Gerencie suas informações",
+					"myAccountText": "Manage your information",
 					"update": "Update data",
 					"delete": "Delete account"
 				},

@@ -219,7 +219,7 @@ const SignUpForm = ({navigation}) => {
                 isLoading={isLoading}
                 isLoadingText='Entrando...'
               >
-                Registrar
+                {t('pages.register.register')}
               </Button>
 
               <Button

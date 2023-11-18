@@ -6,11 +6,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Dimensions } from 'react-native';
 
 const LanguageSelector = ({ onChangeLang }) => {
-  const { language, setLanguage } = useLangContext();
+  const { language, handleLang } = useLangContext();
 
   const changeLanguage = (lang) => {
     i18.changeLanguage(lang);
-    setLanguage(lang);
+    handleLang(lang);
     onChangeLang?.();
   }
 

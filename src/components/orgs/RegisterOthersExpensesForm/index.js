@@ -170,11 +170,11 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
                       fontSize: 14,
                       paddingHorizontal: 2,
                       paddingVertical: 8,
-                      fontStyle: '100',
+                      fontStyle: 'light',
                     },
                     placeholder: {
                       color: '#A1A1AA',
-                      fontStyle: '100',
+                      fontStyle: 'light',
                     },
                   }}
                   useNativeAndroidPickerStyle={false}
@@ -253,11 +253,11 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
                       fontSize: 14,
                       paddingHorizontal: 2,
                       paddingVertical: 8,
-                      fontStyle: '100',
+                      fontStyle: 'light',
                     },
                     placeholder: {
                       color: '#A1A1AA',
-                      fontStyle: '100',
+                      fontStyle: 'light',
                     },
                   }}
                   useNativeAndroidPickerStyle={false}
@@ -319,7 +319,7 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
                 isLoading={isLoading}
                 isLoadingText='Carregando...'
               >
-                Enviar despesa
+                {t('pages.home.controlTab.expense.send')}
               </Button>
               <Button
                 variant="ghost"

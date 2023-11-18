@@ -3,8 +3,10 @@ import React from 'react';
 import {
   BackButton, ResetPasswordForm, PageContainer,
 } from '../../components';
+import {useTranslation} from 'react-i18next';
 
 const ResetPassword = ({navigation}) => {
+  const {t} = useTranslation();
   return (
     <PageContainer>
       {/* // BACK BUTTON */}
@@ -17,7 +19,7 @@ const ResetPassword = ({navigation}) => {
           marginBottom: 20,
         }}
       >
-        Resetar senha
+        {t('pages.password.passwordReset')}
       </Text>
       <Text
         style={{

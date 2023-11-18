@@ -110,7 +110,7 @@ const ResetPasswordForm = ({navigation}) => {
                 isLoading={isLoading}
                 isLoadingText='Carregando...'
               >
-                Recuperar senha
+                {t('pages.password.recoverPasword')}
               </Button>
 
               <Button
