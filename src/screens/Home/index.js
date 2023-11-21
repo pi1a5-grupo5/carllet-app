@@ -17,11 +17,12 @@ import ProfileImage from '../../../assets/profile.webp';
 import { CourseContext } from '../../contexts/CourseContext';
 import { GoalService } from '../../services/goal.service';
 import { useTranslation } from 'react-i18next';
+import { UserService } from '../../services/user.service';
 
 const ProfileImageUri = Image.resolveAssetSource(ProfileImage).uri;
 
 const HomeScreen = ({ navigation }) => {
-  const { user, todayGoal } = useUserContext();
+  const { user, todayGoal, userPrevision } = useUserContext();
   const [todayCourses, setTodayCourses] = useState([]);
   const { courses, setCourses } = useContext(CourseContext);
   const { t } = useTranslation();
@@ -145,7 +146,17 @@ const HomeScreen = ({ navigation }) => {
             </Box>
 
             <Box>
-              <Box>
+              <Box
+                flex={1}
+                flexDirection='column'
+                gap={4}
+              >
+                <CardInformation
+                  title={t('Previsao de ganho mensal')}
+                  description={`${currencyFormat(userPrevision)}`}
+                  bg='info.100'
+                  icon={'star'}
+                />
                 <CardInformation
                   title={t('pages.home.screenItems.currentGoal')}
                   description={`${currencyFormat(todayGoal.shift()?.goalValue || 0)}`}

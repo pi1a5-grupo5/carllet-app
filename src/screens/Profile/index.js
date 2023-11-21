@@ -19,6 +19,8 @@ const Profile = ({ navigation }) => {
   const [showModal, setShowModal] = React.useState(false);
   const { user, handleLogout } = useUserContext();
   const { t } = useTranslation();
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
 
   const { email, name } = user;
 
@@ -130,7 +132,8 @@ const Profile = ({ navigation }) => {
       <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        position={"center"}
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
       >
         <LanguageSelector />
       </Modal>

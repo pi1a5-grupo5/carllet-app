@@ -6,15 +6,16 @@ import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-b
 import { MaterialIcons } from '@expo/vector-icons';
 import { DatePickerInput } from '../../';
 import SelectComponent from '../../mols/SelectInput';
-import { MAINTENANCE_TYPE, ORIGIN_MAINTENANCE_TYPE, VEHICLES_MODEL } from '../../../constants/lorem.constants';
 import { useUserVehicleContext } from '../../../contexts/UserVehiclesContex';
 import { TextInputMask } from 'react-native-masked-text';
 import { ExpenseService } from '../../../services/expense.service';
 import { openToast } from '../../../utils/openToast';
 import { useTranslation } from 'react-i18next';
+import { toFloat } from '../../../utils/currencyFormart';
+import dayjs from 'dayjs';
 
 const RegisterMaintenanceExpenseForm = ({ navigation }) => {
-  const [maintenanceTypes, setMaintenanceTypes] = useState();
+  const [maintenanceTypes, setMaintenanceTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { userVehicles } = useUserVehicleContext();
   const {t} = useTranslation();
@@ -27,17 +28,14 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
       .string()
       .required('Campo obrigatório'),
     maintenanceValue: Yup
-      .number()
+      .string()
       .required('Campo obrigatório'),
     maintenanceDetails: Yup
       .string()
       .required('Campo obrigatório'),
     maintenanceExpenseTypeId: Yup
       .number()
-      .required('Campo Obrigatório'),
-    originatingExpenseId: Yup
-      .number()
-      .required('Campo Obrigatório'),
+      .required('Campo Obrigatório')
   });
 
   const handleFormSubmit = async (values) => {
@@ -48,16 +46,14 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
       maintenanceValue,
       maintenanceDetails,
       maintenanceExpenseTypeId,
-      originatingExpenseId
     } = values;
 
     try {
       const registeredMaintenanceExpense = await ExpenseService.registerMaintenanceExpense({
         userVehicleId,
-        expenseDate,
-        originatingExpenseId,
+        expenseDate: dayjs(expenseDate),
         maintenanceTypeName: maintenanceExpenseTypeId,
-        value: maintenanceValue,
+        value: toFloat(maintenanceValue, 'R$ '),
         details: maintenanceDetails,
       });
 
@@ -119,7 +115,6 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
           maintenanceValue: 0,
           maintenanceDetails: '',
           maintenanceExpenseTypeId: '',
-          originatingExpenseId: '',
         }}
         validationSchema={registerEarningValidationSchema}
         onSubmit={(values) => handleFormSubmit(values)}
@@ -218,9 +213,9 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
                       unit: 'R$ ',
                       suffixUnit: '',
                     }}
-                    value={values.earningValue}
-                    onChangeText={handleChange('earningValue')}
-                    onBlur={handleBlur('earningValue')}
+                    value={values.maintenanceValue}
+                    onChangeText={handleChange('maintenanceValue')}
+                    onBlur={handleBlur('maintenanceValue')}
                     size={'md'}
                     placeholder="Valor"
                     variant="outline"
@@ -245,9 +240,9 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
                     color: '#9EA0A4',
                   }}
                   placeholderTextColor={'#A1A1AA'}
-                  items={MAINTENANCE_TYPE.map((item, index) => ({
-                    label: item,
-                    value: index,
+                  items={maintenanceTypes.map((item, index) => ({
+                    label: item.typeName,
+                    value: item.typeId,
                   }))}
                   onValueChange={(e) => setFieldValue('maintenanceExpenseTypeId', e)}
                   value={values.maintenanceExpenseTypeId}
@@ -281,52 +276,6 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
                 >
                   {errors.maintenanceExpenseTypeId}
-                </FormControl.ErrorMessage>
-              </FormControl>
-              <FormControl>
-                <SelectComponent
-                  placeholder={{
-                    label: 'Tipo de despesa',
-                    value: null,
-                    color: '#9EA0A4',
-                  }}
-                  placeholderTextColor={'#A1A1AA'}
-                  items={ORIGIN_MAINTENANCE_TYPE.map((item, index) => ({
-                    label: item,
-                    value: index,
-                  }))}
-                  onValueChange={(e) => setFieldValue('originatingExpenseId', e)}
-                  value={values.originatingExpenseId}
-                  style={{
-                    inputIOS: {
-                      color: 'black',
-                    },
-                    inputAndroid: {
-                      color: 'black',
-                      fontSize: 14,
-                      paddingHorizontal: 2,
-                      paddingVertical: 8,
-                      fontStyle: 'light',
-                    },
-                    placeholder: {
-                      color: '#A1A1AA',
-                      fontStyle: 'light',
-                    },
-                  }}
-                  useNativeAndroidPickerStyle={false}
-                  Icon={() => (
-                    <Icon
-                      as={<MaterialIcons name="description" />}
-                      margin={2}
-                      size={4}
-                      zIndex={-1}
-                    />
-                  )}
-                />
-                <FormControl.ErrorMessage
-                  leftIcon={<MaterialIcons name="error" size={16} color="red" />}
-                >
-                  {errors.originatingExpenseId}
                 </FormControl.ErrorMessage>
               </FormControl>
               <FormControl

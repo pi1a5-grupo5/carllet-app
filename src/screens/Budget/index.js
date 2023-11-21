@@ -96,7 +96,6 @@ const Budget = ({navigation}) => {
   const getLastWeekGraphData = async () => {
     try {
       const lastWeekValues = await UserService.getLastDaysUserExpensesAndEarns(user?.id);
-
       if (!lastWeekValues) {
         return [];
       }

@@ -8,3 +8,4 @@ export {default as RegisterOthersExpensesForm} from './RegisterOthersExpensesFor
 export {default as RegisterEarningForm} from './RegisterEarningForm';
 export {default as RegisterVehicleForm} from './RegisterVehicleForm';
 export {default as RegisterGoalForm} from './RegisterGoalForm';
+export {default as FuelExpenseForm} from './FuelExpenseForm';

@@ -1,32 +1,32 @@
 import React, {
   useEffect, useState, useRef, useContext, useMemo, useCallback,
 } from 'react';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import {View, Text} from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { View, Text } from 'react-native';
 import {
   getCurrentPositionAsync,
   watchPositionAsync,
 } from 'expo-location';
-import {ActionSheetContainer, CarActionSheetItem, PageContainer} from '../../components';
+import { CarActionSheetItem, PageContainer } from '../../components';
 import haversine from 'haversine';
 import {
-  Actionsheet,
-  Button, Icon, ScrollView, useDisclose,
+  Box,
+  Button, Icon, ScrollView,
 } from 'native-base';
-import {MaterialIcons} from '@expo/vector-icons';
-import {CourseService} from '../../services/course.service';
-import {openToast} from '../../utils/openToast';
-import {useUserContext} from '../../hooks/useUserContext';
+import { MaterialIcons } from '@expo/vector-icons';
+import { CourseService } from '../../services/course.service';
+import { openToast } from '../../utils/openToast';
+import { useUserContext } from '../../hooks/useUserContext';
 import ActionSheet from '../../components/mols/BottomSheetModal';
-import {VehiclesService} from '../../services/vehicles.service';
-import {UserVehiclesContext} from '../../contexts/UserVehiclesContex';
-import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import {CourseContext} from '../../contexts/CourseContext';
+import { VehiclesService } from '../../services/vehicles.service';
+import { UserVehiclesContext } from '../../contexts/UserVehiclesContex';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { CourseContext } from '../../contexts/CourseContext';
 
-const Play = ({navigation}) => {
-  const {user} = useUserContext();
-  const {userPrincipalVehicle, handleUpdateUserPrincipalVehicle} = useContext(UserVehiclesContext);
-  const {handleUpdateCourses} = useContext(CourseContext);
+const Play = ({ navigation }) => {
+  const { user } = useUserContext();
+  const { userPrincipalVehicle, handleUpdateUserPrincipalVehicle } = useContext(UserVehiclesContext);
+  const { handleUpdateCourses } = useContext(CourseContext);
   const [startTracking, setStartTracking] = useState(false);
   const [coords, setCoords] = useState({});
   const [prevCoord, setPrevCoord] = useState({});
@@ -126,7 +126,7 @@ const Play = ({navigation}) => {
 
   useEffect(() => {
     const getPosition = async () => {
-      const {coords} = await getCurrentPositionAsync();
+      const { coords } = await getCurrentPositionAsync();
       setCoords(coords);
     };
 
@@ -141,7 +141,7 @@ const Play = ({navigation}) => {
       accuracy: 5,
       timeInterval: 1000,
       distanceInterval: 1,
-    }, ({coords}) => {
+    }, ({ coords }) => {
       setCoords((prevCoords) => {
         setPrevCoord(prevCoords);
         return coords;
@@ -158,7 +158,7 @@ const Play = ({navigation}) => {
 
   useEffect(() => {
     if (startTracking) {
-      const distance = haversine(prevCoord, coords, {unit: 'km'});
+      const distance = haversine(prevCoord, coords, { unit: 'km' });
       setDistance((prevDistance) => prevDistance + distance);
     }
   }, [coords]);
@@ -201,77 +201,80 @@ const Play = ({navigation}) => {
               top: 60,
               left: 15,
               right: 15,
-              padding: 16,
-              backgroundColor: '#fff',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderRadius: 8,
+              gap: 5,
             }}
           >
-            <Text>Percurso registrado: </Text>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                color: '#000',
-              }}>
-              {distance.toFixed(2)} km
-            </Text>
+            <Box
+              flexDirection={'row'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              backgroundColor={'white'}
+              padding={4}
+              borderRadius={8}
+            >
+              <Text>Percurso registrado: </Text>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: '#000',
+                }}>
+                {distance.toFixed(2)} km
+              </Text>
+            </Box>
+            <Box
+              borderRadius={8}
+              {...(startTracking && {
+                alignItems: 'flex-end',
+              }
+              )}
+            >
+              <Button
+                variant={'solid'}
+                backgroundColor={startTracking ? 'red.400' : 'primary.500'}
+                onPress={handleTracking}
+                size={'lg'}
+                leftIcon={
+                  <Icon
+                    as={MaterialIcons}
+                    name={startTracking ? 'stop' : 'play-arrow'}
+                    size={6}
+                    color={'white'}
+                  />}
+              >
+                {!startTracking && 'Iniciar'}
+              </Button>
+            </Box>
           </View>
 
-          <View
-            style={{
-              position: 'absolute',
-              top: '50%',
-              right: 15,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderRadius: 8,
-            }}
-          >
-            <Button
-              variant={'solid'}
-              backgroundColor={startTracking ? 'red.400' : 'primary.500'}
-              onPress={handleTracking}
-              size={'lg'}
-              leftIcon={
-                <Icon
-                  as={MaterialIcons}
-                  name={startTracking ? 'stop' : 'play-arrow'}
-                  size={6}
-                  color={'white'}
-                />}
-            >
-              {startTracking ? 'Parar' : 'Iniciar'}
-            </Button>
-          </View>
 
         </>
-      )}
+      )
+      }
 
-      {!Object.keys(userPrincipalVehicle).length > 0 && vehicles.length > 0 && (
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          index={1}
-          snapPoints={snapPoints}
-        >
-          <ScrollView>
-            {vehicles.map((vehicle, index) => (
-              <CarActionSheetItem key={vehicle.vehicleId}
-                brand={vehicle.brand}
-                model={vehicle.model}
-                odometer={vehicle.odometer}
-                rented={vehicle.rented}
-                onClick={() => onUpdateUserPrincipalVehicle(vehicle)}
-              />
-            ),
-            )}
-          </ScrollView>
-        </BottomSheetModal>
-      )}
+      {
+        !Object.keys(userPrincipalVehicle).length > 0 && vehicles.length > 0 && (
+          <BottomSheetModal
+            ref={bottomSheetModalRef}
+            index={1}
+            snapPoints={snapPoints}
+          >
+            <ScrollView>
+              {vehicles.map((vehicle, index) => (
+                <CarActionSheetItem key={vehicle.vehicleId}
+                  brand={vehicle.brand}
+                  model={vehicle.model}
+                  odometer={vehicle.odometer}
+                  rented={vehicle.rented}
+                  onClick={() => onUpdateUserPrincipalVehicle(vehicle)}
+                />
+              ),
+              )}
+            </ScrollView>
+          </BottomSheetModal>
+        )
+      }
 
-    </PageContainer>
+    </PageContainer >
   );
 };
 

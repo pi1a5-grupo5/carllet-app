@@ -3,12 +3,14 @@ import {ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GoalService } from '../services/goal.service';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { UserService } from '../services/user.service';
 
 export const UserContext = createContext(null);
 
 export const UserProvider = ({children}) => {
   const [user, setUser] = React.useState({});
   const [todayGoal, setTodayGoal] = React.useState([]);
+  const [userPrevision, setUserPrevision] = React.useState([]);
   const [isLogged, setIsLogged] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -18,6 +20,20 @@ export const UserProvider = ({children}) => {
   const handleLogout = () => {
     setIsLogged(false);
     clearStorage();
+  };
+
+  const getPrevision = async () => {
+    try {
+      const response = await UserService.getPrevisionEarning(user.id);
+
+      if (response?.prevision_result) {
+        console.log(response.prevision_result);
+        setUserPrevision(response.prevision_result);
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const getTodayByUser = async () => {
@@ -76,6 +92,7 @@ export const UserProvider = ({children}) => {
     if (Object.keys(user).length) {
       removeUserFromStorage();
       getTodayByUser();
+      getPrevision();
       AsyncStorage.setItem('@CARLLET:USER', JSON.stringify({...user}));
     }
   }, [user]);
@@ -97,6 +114,7 @@ export const UserProvider = ({children}) => {
       handleLogout,
       todayGoal,
       setTodayGoal,
+      userPrevision,
     }}>
       {isLoading ? <ActivityIndicator size={50} color="#FFF" /> : children}
     </UserContext.Provider>

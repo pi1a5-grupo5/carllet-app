@@ -55,6 +55,33 @@ const getOtherMaintenanceExpensesByVehicleId = async (vehicleId) => {
   }
 }
 
+const getFuelExpenseTypes = async () => {
+  try {
+    const response = await ApiService.get('/fuelexpense/types');
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+const registerFuelExpense = async (data) => {
+  try {
+    const response = await ApiService.post('/fuelexpense', data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+const getFuelExpensesByVehicleId = async (vehicleId) => {
+  try {
+    const response = await ApiService.get(`/fuelexpense/byuser/${vehicleId}`);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 
 
 export const ExpenseService = {
@@ -67,4 +94,9 @@ export const ExpenseService = {
   getOtherMaintenanceExpenseTypes,
   registerOtherMaintenanceExpense,
   getOtherMaintenanceExpensesByVehicleId,
+
+  //Fuel Expense
+  getFuelExpenseTypes,
+  registerFuelExpense,
+  getFuelExpensesByVehicleId
 };

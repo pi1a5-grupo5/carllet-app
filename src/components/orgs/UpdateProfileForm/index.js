@@ -1,17 +1,18 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
-import {MaterialIcons} from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 import {
-  Button, Icon, Input, Stack, FormControl, Box,
+  Button, Icon, Input, Stack, FormControl, Box, Modal, Text,
 } from 'native-base';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
-import {UserService} from '../../../services/user.service';
-import {openToast} from '../../../utils/openToast';
-import {useUserContext} from '../../../hooks/useUserContext';
+import { UserService } from '../../../services/user.service';
+import { openToast } from '../../../utils/openToast';
+import { useUserContext } from '../../../hooks/useUserContext';
 
-const UpdateProfileForm = ({navigation}) => {
-  const {user, handleLogout} = useUserContext();
+const UpdateProfileForm = ({ navigation }) => {
+  const { user, handleLogout } = useUserContext();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const validationSchema = Yup.object().shape({
     cnh: Yup.string(),
@@ -64,7 +65,7 @@ const UpdateProfileForm = ({navigation}) => {
 
   const handleUpdateProfileSubmit = async (values) => {
     setIsLoading(true);
-    const {password} = values;
+    const { password } = values;
 
     try {
       const updateUser = await UserService.updateUser(user.id, {
@@ -118,7 +119,7 @@ const UpdateProfileForm = ({navigation}) => {
         validationSchema={validationSchema}
         onSubmit={(values) => handleUpdateProfileSubmit(values)}
       >
-        {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
           <Box
             height={'full'}
             display={'flex'}
@@ -197,10 +198,10 @@ const UpdateProfileForm = ({navigation}) => {
               <Button
                 variant="solid"
                 bgColor={'red.400'}
-                _pressed={{backgroundColor: 'red.600'}}
+                _pressed={{ backgroundColor: 'red.600' }}
                 marginTop={2}
                 width={'100%'}
-                onPress={handleDeleteAccount}
+                onPress={() => setShowDeleteModal(true)}
               >
                 Deletar conta
               </Button>
@@ -208,6 +209,35 @@ const UpdateProfileForm = ({navigation}) => {
           </Box>
         )}
       </Formik>
+
+      <Modal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        borderRadius={8}
+      >
+        <Modal.Content maxWidth="400px">
+          <Modal.CloseButton />
+          <Modal.Header>Deletar conta</Modal.Header>
+          <Modal.Body>
+            Tem certeza que deseja deletar sua conta? Você não poderá recuperar seus dados e essa acao é irreversível.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button.Group space={2}>
+              <Button variant="ghost" colorScheme="blueGray" onPress={() => {
+                setShowDeleteModal(false);
+              }}>
+                Cancelar
+              </Button>
+              <Button
+                colorScheme={'red.400'}
+                onPress={handleDeleteAccount}
+              >
+                Deletar
+              </Button>
+            </Button.Group>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
     </Box>
   );
 };

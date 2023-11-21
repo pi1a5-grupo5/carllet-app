@@ -1,96 +1,79 @@
 import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { DatePickerInput } from '../../';
-import { OTHER_MAINTENANCE_TYPE, VEHICLES_MODEL } from '../../../constants/lorem.constants';
 import SelectComponent from '../../mols/SelectInput';
+import { useUserVehicleContext } from '../../../contexts/UserVehiclesContex';
+import { TextInputMask } from 'react-native-masked-text';
 import { ExpenseService } from '../../../services/expense.service';
 import { openToast } from '../../../utils/openToast';
-import { useUserVehicleContext } from '../../../contexts/UserVehiclesContex';
 import { useTranslation } from 'react-i18next';
 import { toFloat } from '../../../utils/currencyFormart';
 import dayjs from 'dayjs';
 
-const RegisterOthersExpensesForm = ({ navigation }) => {
-  const [otherExpensesTypes, setOtherExpensesTypes] = useState();
+const FuelExpenseForm = ({ navigation }) => {
+  const [fuelTypes, setFuelTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { userVehicles } = useUserVehicleContext();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
-  const registerEarningValidationSchema = Yup.object().shape({
+  const registerFuelValidationSchema = Yup.object().shape({
     userVehicleId: Yup
       .string()
       .required('Campo obrigatório'),
-    otherExpenseDate: Yup
+    expenseDate: Yup
       .string()
       .required('Campo obrigatório'),
-    otherExpenseValue: Yup
-      .number()
-      .required('Campo obrigatório'),
-    otherExpenseDetails: Yup
+    value: Yup
       .string()
       .required('Campo obrigatório'),
-    otherExpensesTyped: Yup
+    fuelExpenseTypeId: Yup
+      .string()
+      .required('Campo obrigatório'),
+    liters: Yup
       .number()
-      .required('Campo Obrigatório'),
+      .required('Campo obrigatório'),
   });
-
 
   const handleFormSubmit = async (values) => {
     setIsLoading(true);
-
     const {
       userVehicleId,
-      otherExpenseDate,
-      otherExpenseValue,
-      otherExpenseDetails,
-      otherExpensesTyped,
+      expenseDate,
+      value,
+      liters,
+      fuelExpenseTypeId
     } = values;
 
     try {
-      const registerOtherExpense = await ExpenseService.registerOtherMaintenanceExpense({
+      const registeredFuelExpense = await ExpenseService.registerFuelExpense({
         userVehicleId,
-        expenseDate: dayjs(otherExpenseDate),
-        value: toFloat(otherExpenseValue, 'R$ '),
-        details: otherExpenseDetails,
-        otherTypeName: otherExpensesTyped,
+        expenseDate: dayjs(expenseDate),
+        value: toFloat(value),
+        liters: toFloat(liters),
+        fuelExpenseTypeId,
       });
 
-      if (!registerOtherExpense) {
-        openToast({
-          title: 'Erro ao registrar despesa',
-          status: 'error',
-          description: 'Tente novamente mais tarde',
-        });
-        return;
+      if (registeredFuelExpense) {
+        navigation.goBack();
       }
-
-      openToast({
-        title: 'Despesa registrada com sucesso',
-        status: 'success',
-        description: 'Despesa registrada com sucesso',
-      });
-
-    } catch(error) {
+    } catch (error) {
       console.error(error);
-      openToast({
-        title: 'Erro ao registrar despesa',
-        status: 'error',
-        description: 'Tente novamente mais tarde',
-      });
     } finally {
       setIsLoading(false);
       navigation.goBack();
     }
   };
-  const getOtherExpenseTypes = async () => {
-    try {
-      const otherExpenseTypes = await ExpenseService.getOtherMaintenanceExpenseTypes();
 
-      if (!otherExpenseTypes || otherExpenseTypes.length === 0) {
+
+  const getFuelExpenseTypes = async () => {
+    try {
+      const response = await ExpenseService.getFuelExpenseTypes();
+
+      if (!response.length === 0 || !response) {
         openToast({
           title: 'Erro ao buscar tipos de despesas',
           status: 'error',
@@ -99,7 +82,7 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
         return [];
       }
 
-      return otherExpenseTypes
+      return response;
     } catch (error) {
       console.error(error);
       openToast({
@@ -111,12 +94,12 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
   };
 
   useEffect(() => {
-    getOtherExpenseTypes()
+    getFuelExpenseTypes()
       .then((res) => {
-        setOtherExpensesTypes(res);
+        setFuelTypes(res);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }, []);
 
@@ -128,15 +111,13 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
       <Formik
         initialValues={{
           userVehicleId: '',
-          otherExpenseDate: '',
-          otherExpenseValue: '',
-          otherExpenseDetails: '',
-          otherExpensesTyped: '',
+          expenseDate: new Date(),
+          value: 0,
+          liters: '',
+          fuelExpenseTypeId: 0,
         }}
-        validationSchema={registerEarningValidationSchema}
-        onSubmit={(values) => {
-          handleFormSubmit(values);
-        }}
+        validationSchema={registerFuelValidationSchema}
+        onSubmit={(values) => handleFormSubmit(values)}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
           <ScrollView>
@@ -156,9 +137,9 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
                     color: '#9EA0A4',
                   }}
                   placeholderTextColor={'#A1A1AA'}
-                  items={VEHICLES_MODEL.map((item, index) => ({
-                    label: item,
-                    value: index,
+                  items={userVehicles.map((item, index) => ({
+                    label: `${item.vehicleBrandName} - ${item.vehicleTypeName}`,
+                    value: item.userVehicleId,
                   }))}
                   onValueChange={(e) => setFieldValue('userVehicleId', e)}
                   value={values.userVehicleId}
@@ -194,57 +175,100 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
               </FormControl>
               <FormControl
                 isRequired
-                isInvalid={!!(errors.otherExpenseDate && touched.otherExpenseDate)}
+                isInvalid={!!(errors.expenseDate && touched.expenseDate)}
               >
                 <DatePickerInput
                   placeholder="Data"
-                  value={values.otherExpenseDate}
+                  value={values.expenseDate}
                   onChange={setFieldValue}
                   editable={false}
-                  name={'otherExpenseDate'}
+                  name={'expenseDate'}
                   pickerStylesIOS={styles.datePickerIOS}
                 />
-              </FormControl>
-              <FormControl
-                isRequired
-                isInvalid={!!(errors.otherExpenseValue && touched.otherExpenseValue)}
-              >
-                <Input
-                  onChangeText={handleChange('otherExpenseValue')}
-                  onBlur={handleBlur('otherExpenseValue')}
-                  size={'md'}
-                  placeholder="Valor"
-                  variant="outline"
-                  width={'100%'}
-                  InputLeftElement={
-                    <Icon as={<MaterialIcons name="attach-money" />} marginLeft={2} />
-                  }
-                  type='number'
-                  value={values.otherExpenseValue}
-                />
-                <FormControl.ErrorMessage
-                  leftIcon={<MaterialIcons name="error" size={16} color="red" />}
-                >
-                  {errors.otherExpenseValue}
+                <FormControl.ErrorMessage>
+                  {errors.expenseDate}
                 </FormControl.ErrorMessage>
               </FormControl>
               <FormControl
                 isRequired
-                isInvalid={!!(errors.otherExpensesTyped && touched.otherExpensesTyped)}
+                isInvalid={!!(errors.value && touched.value)}
               >
+                <Box
+                  width={'100%'}
+                  flexDirection={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  borderWidth={1}
+                  borderRadius={5}
+                  borderColor={'gray.300'}
+                  padding={2}
+                >
+                  <Icon as={<MaterialIcons name="attach-money" />} marginRight={2} />
+                  <TextInputMask
+                    type={'money'}
+                    options={{
+                      precision: 2,
+                      separator: ',',
+                      delimiter: '.',
+                      unit: 'R$ ',
+                      suffixUnit: '',
+                    }}
+                    value={values.value}
+                    onChangeText={handleChange('value')}
+                    onBlur={handleBlur('value')}
+                    size={'md'}
+                    placeholder="Valor"
+                    variant="outline"
+                    width={'100%'}
+                    InputLeftElement={
+                      <Icon as={<MaterialIcons name="attach-money" />} marginLeft={2} />
+                    }
+                    keyboardType='numeric'
+                  />
+                </Box>
+                <FormControl.ErrorMessage
+                  leftIcon={<MaterialIcons name="error" size={16} color="red" />}
+                >
+                  {errors.value}
+                </FormControl.ErrorMessage>
+              </FormControl>
+              <FormControl
+                isRequired
+                isInvalid={!!(errors.liters && touched.liters)}
+              >
+                <Input
+                  placeholder="Litros"
+                  value={values.liters}
+                  onChangeText={handleChange('liters')}
+                  onBlur={handleBlur('liters')}
+                  size={'md'}
+                  variant="outline"
+                  width={'100%'}
+                  InputLeftElement={
+                    <Icon as={<MaterialIcons name="local-gas-station" />} marginLeft={2} />
+                  }
+                  keyboardType='numeric'
+                />
+                <FormControl.ErrorMessage
+                  leftIcon={<MaterialIcons name="error" size={16} color="red" />}
+                >
+                  {errors.liters}
+                </FormControl.ErrorMessage>
+              </FormControl>
+              <FormControl>
                 <SelectComponent
                   placeholder={{
-                    label: 'Outras despesas',
+                    label: 'Tipo de combustivel',
                     value: null,
                     color: '#9EA0A4',
                   }}
                   placeholderTextColor={'#A1A1AA'}
-                  items={OTHER_MAINTENANCE_TYPE.map((item, index) => ({
-                    label: item,
-                    value: index,
+                  items={fuelTypes.map((item, index) => ({
+                    label: item.typeName,
+                    value: item.typeId,
                   }))}
-                  onValueChange={(e) => setFieldValue('otherExpensesTyped', e)}
-                  value={values.otherExpensesTyped}
+                  onValueChange={(e) => setFieldValue('fuelExpenseTypeId', e)}
+                  value={values.fuelExpenseTypeId}
                   style={{
                     inputIOS: {
                       color: 'black',
@@ -274,33 +298,7 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
                 <FormControl.ErrorMessage
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
                 >
-                  {errors.otherExpensesTyped}
-                </FormControl.ErrorMessage>
-              </FormControl>
-              <FormControl
-                isRequired
-                isInvalid={!!(errors.otherExpenseDetails && touched.otherExpenseDetails)}
-              >
-                <TextArea
-                  onChangeText={handleChange('otherExpenseDetails')}
-                  onBlur={handleBlur('otherExpenseDetails')}
-                  size={'md'}
-                  placeholder="Detalhes"
-                  variant="outline"
-                  width={'100%'}
-                  value={values.otherExpenseDetails}
-                  InputLeftElement={
-                    <Icon
-                      as={<MaterialIcons name="description" />}
-                      marginLeft={2}
-                      marginBottom={12}
-                    />
-                  }
-                />
-                <FormControl.ErrorMessage
-                  leftIcon={<MaterialIcons name="error" size={16} color="red" />}
-                >
-                  {errors.otherExpenseDetails}
+                  {errors.fuelExpenseTypeId}
                 </FormControl.ErrorMessage>
               </FormControl>
             </Stack>
@@ -352,4 +350,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterOthersExpensesForm;
+export default FuelExpenseForm;

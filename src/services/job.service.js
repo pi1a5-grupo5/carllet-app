@@ -1,13 +1,13 @@
 import axios from 'axios';
 import {APP_CONFIG} from '../config/app.config';
 
-const ApiService = axios.create({
-  baseURL: `${APP_CONFIG.API_BASE_URL}/api`,
+const JobService = axios.create({
+  baseURL: `${APP_CONFIG.JOB_URL}`,
   timeout: 60000,
   headers: {'Content-Type': 'application/json'},
 });
 
-ApiService.interceptors.response.use(
+JobService.interceptors.response.use(
     (response) => {
       if (response.data || response.status < 400) {
         return Promise.resolve(response.data);
@@ -20,5 +20,4 @@ ApiService.interceptors.response.use(
     },
 );
 
-
-export default ApiService;
+export default JobService;
