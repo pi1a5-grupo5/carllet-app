@@ -5,12 +5,16 @@ import { GoalService } from '../services/goal.service';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { UserService } from '../services/user.service';
 import { openToast } from '../utils/openToast';
+import { EarningService } from '../services/earning.service';
+import { ExpenseService } from '../services/expense.service';
 
 export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = React.useState({});
   const [todayGoal, setTodayGoal] = React.useState([]);
+  const [todayEarning, setTodayEarning] = React.useState([]);
+  const [todayExpense, setTodayExpense] = React.useState([]);
   const [userPrevision, setUserPrevision] = React.useState([]);
   const [isLogged, setIsLogged] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -38,10 +42,22 @@ export const UserProvider = ({ children }) => {
 
   const getTodayByUser = async () => {
     try {
-      const goal = await GoalService.getDailyGoalByUser(user.id);
+      const [goal, earning, expense] = await Promise.all([
+        GoalService.getDailyGoalByUser(user.id),
+        EarningService.getTodayEarningByUserId(user.id),
+        ExpenseService.getExpenseByUserIdToday(user.id)
+      ]);
 
       if (goal) {
         setTodayGoal(goal);
+      }
+
+      if (earning) {
+        setTodayEarning(earning);
+      }
+
+      if (expense) {
+        setTodayExpense(expense);
       }
     } catch (error) {
       console.error(error);
@@ -62,7 +78,7 @@ export const UserProvider = ({ children }) => {
 
   const handleUserAvatar = async (avatar) => {
     try {
-      const response = await UserService.updateUser(user.id, { imageName: avatar });
+      const response = await UserService.updateUser(user.id, { ...user, imageName: avatar });
 
       if (!response) {
         return openToast({
@@ -139,6 +155,8 @@ export const UserProvider = ({ children }) => {
       setIsLogged,
       handleLogout,
       todayGoal,
+      todayEarning,
+      todayExpense,
       setTodayGoal,
       userPrevision,
       handleUserAvatar

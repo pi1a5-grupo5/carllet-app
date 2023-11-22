@@ -5,35 +5,11 @@ import React, {useEffect, useState, useContext} from 'react';
 import {VehiclesService} from '../../services/vehicles.service';
 import {UserContext} from '../../contexts/UserContext';
 import {useTranslation} from 'react-i18next';
+import { useUserVehicleContext } from '../../contexts/UserVehiclesContex';
 
 const Vehicles = ({navigation}) => {
-  const [vehicles, setVehicles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const {user} = useContext(UserContext);
+  const {userVehicles, loading} = useUserVehicleContext();
   const { t } = useTranslation();
-
-  const getVehicles = async () => {
-    try {
-      const vehicles = await VehiclesService.getVehiclesByUser(user?.id);
-
-      if (!vehicles.length === 0 || !vehicles) {
-        return [];
-      }
-      return vehicles;
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-
-  useEffect(() => {
-    getVehicles().then((vehicles) => {
-      setVehicles(vehicles);
-    }).catch((error) => {
-      setVehicles([]);
-    }).finally(() => {
-      setLoading(false);
-    });
-  }, []);
 
 
   return (
@@ -52,7 +28,7 @@ const Vehicles = ({navigation}) => {
         }
       />
 
-      {(loading || !loading && vehicles.length === 0) && (
+      {(loading || !loading && userVehicles.length === 0) && (
         <View
           style={{
             flex: 1,
@@ -61,7 +37,7 @@ const Vehicles = ({navigation}) => {
           }}
         >
           {loading && <Spinner />}
-          {!loading && vehicles.length === 0 && (
+          {!loading && userVehicles.length === 0 && (
             <Box
               padding={4}
             >
@@ -83,10 +59,10 @@ const Vehicles = ({navigation}) => {
         </View>
       )}
 
-      {!loading && vehicles.length > 0 && (
+      {!loading && userVehicles.length > 0 && (
         <FlatList
           marginTop={4}
-          data={vehicles}
+          data={userVehicles}
           renderItem={({item: vehicle}) => (
             <VehicleCard
               onPress={() => navigation.navigate('VehicleDetails', {vehicle})}

@@ -23,12 +23,10 @@ import { AVATAR_OBJECT } from '../../constants/avatars.constants';
 const ProfileImageUri = Image.resolveAssetSource(ProfileImage).uri;
 
 const HomeScreen = ({ navigation }) => {
-  const { user, todayGoal, userPrevision } = useUserContext();
+  const { user, todayGoal, todayEarning, todayExpense, userPrevision } = useUserContext();
   const [todayCourses, setTodayCourses] = useState([]);
   const { courses, setCourses } = useContext(CourseContext);
   const { t } = useTranslation();
-
-  console.log(user.avatar);
 
   const [loading, setLoading] = useState(false);
 
@@ -108,7 +106,7 @@ const HomeScreen = ({ navigation }) => {
                   size='lg'
                   background='primary.100'
                   source={{
-                    uri: AVATAR_OBJECT[user.avatar].uri,
+                    uri: AVATAR_OBJECT[user?.imageName ?? 'avatar_masc_1'].uri,
                   }}
                 />
 
@@ -170,14 +168,14 @@ const HomeScreen = ({ navigation }) => {
                     bg='success.100'
                     flex={1}
                     icon={'attach-money'}
-                    description={`${currencyFormat(150.00)}`}
+                    description={`${currencyFormat(todayEarning || 0)}`}
                   />
                   <CardInformation
                     title={t('pages.home.screenItems.expenses')}
                     bg='error.100'
                     flex={1}
                     icon={'money-off'}
-                    description={`${currencyFormat(150.00)}`}
+                    description={`${currencyFormat(todayExpense || 0)}`}
                   />
                 </Box>
               </Box>

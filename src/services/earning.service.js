@@ -22,24 +22,22 @@ const getEarningByUserIdAndDate = async (userId, startDate, endDate) => {
 }
 
 const getTodayEarningByUserId = async (userId) => {
-  const startOfDay = dayjs().startOf('day');
-  const endOfDay = dayjs().endOf('day');
-
-  console.log(`/Earning/${userId}/${startOfDay}/${endOfDay}`)
+  const startOfDay = dayjs().startOf('day').toISOString();
+  const endOfDay = dayjs().endOf('day').toISOString();
 
   try {
     const response = await ApiService.get(
-      `/Earning/${userId}/${startOfDay}/${endOfDay}`
+      `/Earning/ByUser/${userId}/${startOfDay}/${endOfDay}`
     );
 
-    const todayEarning = response.data;
+    const todayEarning = response;
 
     if (todayEarning.length === 0) {
       return 0;
     }
 
     return todayEarning.reduce((acc, curr) => {
-      return acc + curr.value;
+      return acc + curr.earningValue;
     }, 0);
   } catch (error) {
     throw new Error(error);

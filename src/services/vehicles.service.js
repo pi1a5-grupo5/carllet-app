@@ -55,9 +55,9 @@ const getVehiclesBrands = async () => {
   }
 };
 
-const getVehiclesTypesByBrand = async ({brandId}) => {
+const getVehiclesTypesByBrand = async (brandId) => {
   try {
-    const response = await ApiService.get(`/Vehicle/type/${brandId}`);
+    const response = await ApiService.get(`/Vehicle/typeByBrand/${brandId}`);
     return response;
   } catch (error) {
     console.error(error);

@@ -20,7 +20,7 @@ const Account = ({navigation}) => {
         textCenter
         nameColor='black'
         emailColor='#808080'
-        avatar={user.avatar}
+        avatar={user.imageName}
         selectAvatarPermission
       />
       <UpdateProfileForm />

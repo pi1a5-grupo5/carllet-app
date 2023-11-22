@@ -10,6 +10,7 @@ export const useUserVehicleContext = () => React.useContext(UserVehiclesContext)
 export const UserVehiclesProvider = ({ children }) => {
   const { user } = React.useContext(UserContext);
   const [userVehicles, setUserVehicles] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
   const [userPrincipalVehicle, setUserPrincipalVehicle] = React.useState({});
 
   const removeUserVehicles = async () => await AsyncStorage.removeItem('@CARLLET:USER_VEHICLES');
@@ -44,6 +45,7 @@ export const UserVehiclesProvider = ({ children }) => {
     };
 
     const getVehicles = async () => {
+      setLoading(true);
       try {
         const vehicles = await VehiclesService.getVehiclesByUser(user?.id);
 
@@ -53,6 +55,8 @@ export const UserVehiclesProvider = ({ children }) => {
         return vehicles;
       } catch (error) {
         throw new Error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -68,7 +72,8 @@ export const UserVehiclesProvider = ({ children }) => {
         userPrincipalVehicle,
         handleUpdateUserPrincipalVehicle,
         userVehicles,
-        setUserVehicles
+        setUserVehicles,
+        loading,
       }}>
       {children}
     </UserVehiclesContext.Provider>

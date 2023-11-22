@@ -1,4 +1,5 @@
 import ApiService from './api.service';
+import dayjs from 'dayjs';
 
 const getMaintenanceExpenseTypes = async () => {
   try {
@@ -83,13 +84,14 @@ const getFuelExpensesByVehicleId = async (vehicleId) => {
 }
 
 const getExpenseByUserIdToday = async (userId) => {
-  const today = dayjs().format('YYYY-MM-DD');
+  const startOfDay = dayjs().startOf('day').toISOString();
+  const endOfDay = dayjs().endOf('day').toISOString();
   try {
     const response = await ApiService.get(
-      `/Expense/${userId}/${today}/${today}`
+      `/Expense/ByUser/${userId}/${startOfDay}/${endOfDay}`
     );
 
-    const todayExpense = response.data;
+    const todayExpense = response;
 
     if (todayExpense.length === 0) {
       return 0;

@@ -11,6 +11,7 @@ import {UserContext} from '../../../contexts/UserContext';
 
 import {VehiclesService} from '../../../services/vehicles.service';
 import {useTranslation} from 'react-i18next';
+import { useUserVehicleContext } from '../../../contexts/UserVehiclesContex';
 
 const RegisterVehicleForm = ({navigation}) => {
   const [brandTypes, setbrandTypes] = useState([]);
@@ -18,6 +19,7 @@ const RegisterVehicleForm = ({navigation}) => {
   const [vehicleModels, setVehicleModels] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const {user} = useContext(UserContext);
+  const {userVehicles, setUserVehicles} = useUserVehicleContext();
   const {t} = useTranslation();
 
   const registerVehicleValidationSchema = Yup.object().shape({
@@ -45,9 +47,11 @@ const RegisterVehicleForm = ({navigation}) => {
     const {make, vehicleTypeId, fabricationYear, odometer, color, rented} = values;
 
     setIsLoading(true);
-
+    const vehicleTypeName = vehicleModels.filter((item) => item.vehicleTypeId === vehicleTypeId).shift().name;
+    const vehicleBrandName = selectedBrand ? brandTypes.filter((item) => item.vehicleBrandId === make).shift().name : null;
     const request = {
-      color,
+      vehicleTypeName,
+      vehicleBrandName,
       vehicleTypeId,
       fabricationYear,
       odometer,
@@ -72,6 +76,8 @@ const RegisterVehicleForm = ({navigation}) => {
         title: 'Sucesso',
         description: 'Veículo registrado com sucesso.',
       });
+      
+      setUserVehicles([...userVehicles, res]);
 
       navigation.goBack();
     } catch (err) {
@@ -112,7 +118,6 @@ const RegisterVehicleForm = ({navigation}) => {
   const getVehiclesTypesByBrand = async (brandId) => {
     try {
       const res = await VehiclesService.getVehiclesTypesByBrand(brandId);
-
       if (!res || res.length === 0) {
         openToast({
           status: 'error',
@@ -192,7 +197,7 @@ const RegisterVehicleForm = ({navigation}) => {
                   onValueChange={(e) => {
                     setFieldValue('make', e);
                   }}
-                  onDonePress={(e) => setSelectedBrand(e)}
+                  onDonePress={() => setSelectedBrand(values.make)}
                   value={values.make}
                   style={{
                     inputIOS: {
@@ -230,16 +235,16 @@ const RegisterVehicleForm = ({navigation}) => {
               >
                 <FormControl.Label>Modelo</FormControl.Label>
                 <SelectComponent
-                  disabled={brandTypes.length === 0 || (typeof values.make !== 'number' && !values.make)}
+                  disabled={vehicleModels.length === 0 || (typeof values.make !== 'number' && !values.make)}
                   placeholder={{
                     label: 'Selecione o modelo',
                     value: null,
                     color: '#9EA0A4',
                   }}
                   placeholderTextColor={'#A1A1AA'}
-                  items={VEHICLES_MODEL.map((item, index) => ({ // TODO: Change this to get from API
-                    label: item,
-                    value: index,
+                  items={vehicleModels.map((item, index) => ({
+                    label: item.name,
+                    value: item.vehicleTypeId,
                   }))}
                   onValueChange={(e) => setFieldValue('vehicleTypeId', e)}
                   value={values.vehicleTypeId}
