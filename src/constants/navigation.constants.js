@@ -1,6 +1,7 @@
 import {
   BudgetScreen,
   DevelopmentScreen,
+  ForecastScreen,
   HomeScreen,
   PlayScreen,
   ProfileScreen,
@@ -14,9 +15,9 @@ const APP_ROUTES = [
     icon: 'home',
   },
   {
-    name: 'menuItems.vehicles',
-    component: VehiclesScreen,
-    icon: 'directions-car',
+    name: 'menuItems.forecast',
+    component: ForecastScreen,
+    icon: 'show-chart',
   },
   {
     name: 'Play',
@@ -27,7 +28,7 @@ const APP_ROUTES = [
   {
     name: 'menuItems.control',
     component: BudgetScreen,
-    icon: 'bar-chart',
+    icon: 'stacked-bar-chart',
   },
   {
     name: 'menuItems.profile',

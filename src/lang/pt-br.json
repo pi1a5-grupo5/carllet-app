@@ -2,7 +2,8 @@
 	"menuItems": {
 		"profile": "Perfil",
 		"control": "Gestão",
-		"vehicles": "Veículos"
+		"vehicles": "Veículos",
+		"forecast": "Previsão"
 	},
 	"alerts": {
 		"errors": {
@@ -97,7 +98,19 @@
 				"termsOfUse": "Termos de uso",
 				"termsOfUseText": "Leia os termos de uso",
 				"privacyPolicy": "Política de Privacidade",
-				"privacyPolicyText": "Leia a política de privacidade"
+				"privacyPolicyText": "Leia a política de privacidade",
+				"myVehicles": "Meus veículos",
+				"myVehiclesText": "Visualize, adicione e edite seus veículos"
+			},
+			"forecast": {
+				"cardForecastTitle": "Faturamento liquido previsto",
+				"forecastWarning": "Lembre-se de manter sempre seus percursos, ganhos e despesas atualizados para calcular-mos sua previsão de ganho mensal."
+			},
+			"play": {
+				"start": "Iniciar",
+				"stop": "Parar",
+				"recorded": "Percurso registrado",
+				"selectVehiclePrincipal": "Selecione um veículo principal para iniciar o percurso"
 			}
 		},
 		"forms": {

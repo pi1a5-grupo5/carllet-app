@@ -82,6 +82,27 @@ const getFuelExpensesByVehicleId = async (vehicleId) => {
   }
 }
 
+const getExpenseByUserIdToday = async (userId) => {
+  const today = dayjs().format('YYYY-MM-DD');
+  try {
+    const response = await ApiService.get(
+      `/Expense/${userId}/${today}/${today}`
+    );
+
+    const todayExpense = response.data;
+
+    if (todayExpense.length === 0) {
+      return 0;
+    }
+
+    return todayExpense.reduce((acc, curr) => {
+      return acc + curr.value;
+    }, 0);
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 
 
 export const ExpenseService = {
@@ -98,5 +119,8 @@ export const ExpenseService = {
   //Fuel Expense
   getFuelExpenseTypes,
   registerFuelExpense,
-  getFuelExpensesByVehicleId
+  getFuelExpensesByVehicleId,
+
+  // forAllExpenses
+  getExpenseByUserIdToday
 };

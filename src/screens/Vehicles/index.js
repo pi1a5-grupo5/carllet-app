@@ -1,6 +1,6 @@
 import {View} from 'react-native';
 import {Box, Button, FlatList, Spinner, Text} from 'native-base';
-import {PageContainer, VehicleCard} from '../../components';
+import {BackButton, PageContainer, VehicleCard} from '../../components';
 import React, {useEffect, useState, useContext} from 'react';
 import {VehiclesService} from '../../services/vehicles.service';
 import {UserContext} from '../../contexts/UserContext';
@@ -38,23 +38,19 @@ const Vehicles = ({navigation}) => {
 
   return (
     <PageContainer>
-      <Box
-        mb={4}
-        flexDirection={'row'}
-        justifyContent={'space-between'}
-      >
-        <Text
-          fontSize={'xl'}
-          fontWeight={'bold'}
-        >{t('pages.home.vehiclesTab.title')}</Text>
-        <Button
-          variant={'solid'}
-          colorScheme={'primary'}
-          onPress={() => navigation.navigate('NewVehicle')}
-        >
-          {t('pages.home.vehiclesTab.newVehicle')}
-        </Button>
-      </Box>
+      <BackButton
+        title={t('pages.home.vehiclesTab.title')}
+        navigation={navigation}
+        rightButton={
+          <Button
+            variant={'solid'}
+            colorScheme={'primary'}
+            onPress={() => navigation.navigate('NewVehicle')}
+          >
+            {t('pages.home.vehiclesTab.newVehicle')}
+          </Button>
+        }
+      />
 
       {(loading || !loading && vehicles.length === 0) && (
         <View
@@ -62,7 +58,6 @@ const Vehicles = ({navigation}) => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            marginBottom: 20,
           }}
         >
           {loading && <Spinner />}
@@ -90,6 +85,7 @@ const Vehicles = ({navigation}) => {
 
       {!loading && vehicles.length > 0 && (
         <FlatList
+          marginTop={4}
           data={vehicles}
           renderItem={({item: vehicle}) => (
             <VehicleCard

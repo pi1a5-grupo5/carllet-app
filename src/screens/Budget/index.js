@@ -9,6 +9,7 @@ import {MaterialCommunityIcons} from '@expo/vector-icons';
 import { UserService } from '../../services/user.service';
 import { UserContext } from '../../contexts/UserContext';
 import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
 
 const GanhosRoute = () => (
   <View>
@@ -109,7 +110,7 @@ const Budget = ({navigation}) => {
 
 
   const data = {
-    labels: graphData.map((item) => DAYS_OF_WEEK[new Date(item[0]).getDay()]),
+    labels: graphData.map((item) => DAYS_OF_WEEK[dayjs(item[0]).get('day')]),
     lengend: [t('pages.controlTab.earnings'), t('')],
     data: graphData.map((item) => [(item[1].totalEarnings > 0) && item[1].totalEarnings, (item[1].totalExpenses > 0) && item[1].totalExpenses]),
     barColors: ['#00ff0030', '#ff000030'],

@@ -30,7 +30,8 @@ const Routes = () => {
     return token.replace('ExponentPushToken[', '').replace(']', '');
   }; */
 
-  console.log(expoPushToken, notification);
+  //token
+  //console.log(expoPushToken, notification);
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
@@ -40,7 +41,8 @@ const Routes = () => {
     });
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-      console.log(response);
+      //token
+      //console.log(response);
     });
 
     return () => {

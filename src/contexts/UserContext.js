@@ -27,7 +27,6 @@ export const UserProvider = ({children}) => {
       const response = await UserService.getPrevisionEarning(user.id);
 
       if (response?.prevision_result) {
-        console.log(response.prevision_result);
         setUserPrevision(response.prevision_result);
       }
 
@@ -39,8 +38,6 @@ export const UserProvider = ({children}) => {
   const getTodayByUser = async () => {
     try {
       const goal = await GoalService.getDailyGoalByUser(user.id);
-
-      console.log(goal);
 
       if (goal) {
         setTodayGoal(goal);

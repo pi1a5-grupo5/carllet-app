@@ -14,3 +14,4 @@ export {default as VehicleDetailsScreen} from './VehicleDetails';
 export {default as AllCoursesScreen} from './AllCourses';
 export {default as NewGoalScreen} from './Goals';
 export {default as FuelPage} from './Fuel';
+export {default as ForecastScreen} from './Forecast';     

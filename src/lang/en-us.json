@@ -2,7 +2,8 @@
 	"menuItems": {
 		"profile": "Profile",
 		"control": "Control",
-		"vehicles": "Vehicles"
+		"vehicles": "Vehicles",
+		"forecast": "Forecast"
 	},
 	"alerts": {
 		"errors": {
@@ -97,13 +98,25 @@
 				"termsOfUse": "Terms of use",
 				"termsOfUseText": "Read the terms of use",
 				"privacyPolicy": "Privacy Policy",
-				"privacyPolicyText": "Read the privacy policy"
+				"privacyPolicyText": "Read the privacy policy",
+				"myVehicles": "My Vehicles",
+				"myVehiclesText": "View, edit and delete your vehicles"
+			},
+			"forecast": {
+				"cardForecastTitle": "Expected net revenue",
+				"forecastWarning": "Remember to always keep your courses, earnings and expenses updated so we can calculate your monthly earnings forecast."
 			},
 			"forms": {
 				"date": "Data",
 				"value": "Valor",
 				"datails": "Detalhes",
 				"vehicle": "Veículo"
+			},
+			"play": {
+				"start": "Start",
+				"stop": "Stop",
+				"recorded": "Recorded route",
+				"selectVehiclePrincipal": "Select a primary vehicle to start your route"
 			}
 		},
 		"login": {

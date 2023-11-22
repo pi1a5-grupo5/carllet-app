@@ -5,7 +5,7 @@ export const currencyFormat = (value) =>
   }).format(value);
 
 
-export const toFloat = (value, currency) => {
+export const toFloat = (value, currency = ' ') => {
   const removeCurrency = value.replace(currency, '');
   const newValue = removeCurrency.replace(/\./g, '').replace(',', '.');
 

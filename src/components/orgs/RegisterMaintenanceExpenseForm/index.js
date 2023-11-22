@@ -18,7 +18,7 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
   const [maintenanceTypes, setMaintenanceTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { userVehicles } = useUserVehicleContext();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const registerEarningValidationSchema = Yup.object().shape({
     userVehicleId: Yup
@@ -52,7 +52,7 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
       const registeredMaintenanceExpense = await ExpenseService.registerMaintenanceExpense({
         userVehicleId,
         expenseDate: dayjs(expenseDate),
-        maintenanceTypeName: maintenanceExpenseTypeId,
+        maintenanceExpenseTypeId,
         value: toFloat(maintenanceValue, 'R$ '),
         details: maintenanceDetails,
       });

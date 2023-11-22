@@ -17,7 +17,7 @@ export const LangProvider = ({ children }) => {
       await AsyncStorage.setItem(THEME_KEY, lang);
       setLanguage(lang);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 
@@ -30,7 +30,7 @@ export const LangProvider = ({ children }) => {
           i18.changeLanguage(lang);
         }
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     }
     getLang();

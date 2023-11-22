@@ -34,7 +34,7 @@ const FuelExpenseForm = ({ navigation }) => {
       .string()
       .required('Campo obrigatório'),
     liters: Yup
-      .number()
+      .string()
       .required('Campo obrigatório'),
   });
 
@@ -52,12 +52,17 @@ const FuelExpenseForm = ({ navigation }) => {
       const registeredFuelExpense = await ExpenseService.registerFuelExpense({
         userVehicleId,
         expenseDate: dayjs(expenseDate),
-        value: toFloat(value),
-        liters: toFloat(liters),
+        value: toFloat(value, 'R$ '),
+        liters: toFloat(liters, 'a'),
         fuelExpenseTypeId,
       });
 
       if (registeredFuelExpense) {
+        openToast({
+          status: 'success',
+          title: 'Sucesso',
+          description: 'Despesa registrada com sucesso',
+        });
         navigation.goBack();
       }
     } catch (error) {

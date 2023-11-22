@@ -152,14 +152,8 @@ const HomeScreen = ({ navigation }) => {
                 gap={4}
               >
                 <CardInformation
-                  title={t('Previsao de ganho mensal')}
-                  description={`${currencyFormat(userPrevision)}`}
-                  bg='info.100'
-                  icon={'star'}
-                />
-                <CardInformation
                   title={t('pages.home.screenItems.currentGoal')}
-                  description={`${currencyFormat(todayGoal.shift()?.goalValue || 0)}`}
+                  description={`${currencyFormat(todayGoal?.goalValue || 0)}`}
                   bg='info.100'
                   icon={'star'}
                 />

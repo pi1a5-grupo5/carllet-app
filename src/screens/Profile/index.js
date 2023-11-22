@@ -55,6 +55,13 @@ const Profile = ({ navigation }) => {
       iconName: 'person',
     },
     {
+      title: t('pages.home.profile.myVehicles'),
+      description: t('pages.home.profile.myVehiclesText'),
+      onPress: () => navigation.navigate('Vehicles'),
+      iconAs: MaterialIcons,
+      iconName: 'directions-car',
+    },
+    {
       title: t('pages.home.profile.settings'),
       description: t('pages.home.profile.settingsText'),
       onPress: () => setShowModal(true),

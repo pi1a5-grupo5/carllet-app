@@ -2,11 +2,11 @@ import React from 'react';
 import {
   Box, Button, Text,
 } from 'native-base';
-import {AntDesign} from '@expo/vector-icons';
-import {useTranslation} from 'react-i18next';
+import { AntDesign } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
-const BackButton = ({navigation, title}) => {
-  const {t} = useTranslation();
+const BackButton = ({ navigation, title, rightButton }) => {
+  const { t } = useTranslation();
 
   return (
     <Box
@@ -50,6 +50,18 @@ const BackButton = ({navigation, title}) => {
           >
             {title}
           </Text>
+        </Box>
+      )}
+      
+      {rightButton && (
+        <Box
+          style={{
+            position: 'absolute',
+            right: 0,
+            zIndex: 2,
+          }}
+        >
+          {rightButton}
         </Box>
       )}
     </Box>

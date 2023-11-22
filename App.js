@@ -46,7 +46,8 @@ export default function App() {
 
   useEffect(() => {
     requestLocationPermission().then((granted) => {
-      console.log(granted);
+      //token
+      //console.log(granted);
     });
   }, []);
 

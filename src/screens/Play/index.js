@@ -2,7 +2,7 @@ import React, {
   useEffect, useState, useRef, useContext, useMemo, useCallback,
 } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import {
   getCurrentPositionAsync,
   watchPositionAsync,
@@ -11,7 +11,7 @@ import { CarActionSheetItem, PageContainer } from '../../components';
 import haversine from 'haversine';
 import {
   Box,
-  Button, Icon, ScrollView,
+  Button, Icon, ScrollView, Text
 } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { CourseService } from '../../services/course.service';
@@ -22,6 +22,7 @@ import { VehiclesService } from '../../services/vehicles.service';
 import { UserVehiclesContext } from '../../contexts/UserVehiclesContex';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { CourseContext } from '../../contexts/CourseContext';
+import { useTranslation } from 'react-i18next';
 
 const Play = ({ navigation }) => {
   const { user } = useUserContext();
@@ -32,6 +33,7 @@ const Play = ({ navigation }) => {
   const [prevCoord, setPrevCoord] = useState({});
   const [distance, setDistance] = useState(0);
   const [vehicles, setVehicles] = useState([]);
+  const { t } = useTranslation();
 
   const mapRef = useRef(null);
   const bottomSheetModalRef = useRef(null);
@@ -212,7 +214,7 @@ const Play = ({ navigation }) => {
               padding={4}
               borderRadius={8}
             >
-              <Text>Percurso registrado: </Text>
+              <Text>{t('pages.home.play.recorded')}</Text>
               <Text
                 style={{
                   fontWeight: 'bold',
@@ -241,12 +243,10 @@ const Play = ({ navigation }) => {
                     color={'white'}
                   />}
               >
-                {!startTracking && 'Iniciar'}
+                {!startTracking && t('pages.home.play.start')}
               </Button>
             </Box>
           </View>
-
-
         </>
       )
       }
@@ -258,16 +258,24 @@ const Play = ({ navigation }) => {
             index={1}
             snapPoints={snapPoints}
           >
+            <Text
+              fontSize={'lg'}
+              fontWeight={'bold'}
+              paddingY={4}
+              px={4}
+            >
+              {t('pages.home.play.selectVehiclePrincipal')}
+            </Text>
             <ScrollView>
-              {vehicles.map((vehicle, index) => (
-                <CarActionSheetItem key={vehicle.vehicleId}
-                  brand={vehicle.brand}
-                  model={vehicle.model}
-                  odometer={vehicle.odometer}
-                  rented={vehicle.rented}
-                  onClick={() => onUpdateUserPrincipalVehicle(vehicle)}
-                />
-              ),
+              {vehicles.map((vehicle, index) => {
+                return (
+                  <CarActionSheetItem
+                    key={vehicle.vehicleId}
+                    onClick={() => onUpdateUserPrincipalVehicle(vehicle)}
+                    {...vehicle}
+                  />
+                )
+              },
               )}
             </ScrollView>
           </BottomSheetModal>
