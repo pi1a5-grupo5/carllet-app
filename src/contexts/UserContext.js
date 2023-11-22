@@ -1,13 +1,14 @@
-import React, {createContext, useEffect} from 'react';
-import {ActivityIndicator} from 'react-native';
+import React, { createContext, useEffect } from 'react';
+import { ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GoalService } from '../services/goal.service';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { UserService } from '../services/user.service';
+import { openToast } from '../utils/openToast';
 
 export const UserContext = createContext(null);
 
-export const UserProvider = ({children}) => {
+export const UserProvider = ({ children }) => {
   const [user, setUser] = React.useState({});
   const [todayGoal, setTodayGoal] = React.useState([]);
   const [userPrevision, setUserPrevision] = React.useState([]);
@@ -47,8 +48,36 @@ export const UserProvider = ({children}) => {
     }
   };
 
-  
+  const updateUserDeviceToken = async (deviceToken) => {
+    try {
+      const response = await UserService.updateUserDeviceToken(user.id, deviceToken);
 
+      if (response) {
+        setUser(response);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleUserAvatar = async (avatar) => {
+    try {
+      const response = await UserService.updateUser(user.id, { imageName: avatar });
+
+      if (!response) {
+        return openToast({
+          title: 'Erro ao atualizar avatar',
+          status: 'error',
+          description: 'Tente novamente mais tarde',
+        });
+      }
+
+      const newUser = { ...user, avatar };
+      setUser(newUser);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // Get user from async storage on app load
   useEffect(() => {
@@ -90,7 +119,7 @@ export const UserProvider = ({children}) => {
       removeUserFromStorage();
       getTodayByUser();
       getPrevision();
-      AsyncStorage.setItem('@CARLLET:USER', JSON.stringify({...user}));
+      AsyncStorage.setItem('@CARLLET:USER', JSON.stringify({ ...user }));
     }
   }, [user]);
 
@@ -112,6 +141,7 @@ export const UserProvider = ({children}) => {
       todayGoal,
       setTodayGoal,
       userPrevision,
+      handleUserAvatar
     }}>
       {isLoading ? <ActivityIndicator size={50} color="#FFF" /> : children}
     </UserContext.Provider>

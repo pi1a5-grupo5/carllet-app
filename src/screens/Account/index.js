@@ -20,6 +20,8 @@ const Account = ({navigation}) => {
         textCenter
         nameColor='black'
         emailColor='#808080'
+        avatar={user.avatar}
+        selectAvatarPermission
       />
       <UpdateProfileForm />
     </PageContainer>

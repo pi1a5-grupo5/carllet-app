@@ -18,6 +18,7 @@ import { CourseContext } from '../../contexts/CourseContext';
 import { GoalService } from '../../services/goal.service';
 import { useTranslation } from 'react-i18next';
 import { UserService } from '../../services/user.service';
+import { AVATAR_OBJECT } from '../../constants/avatars.constants';
 
 const ProfileImageUri = Image.resolveAssetSource(ProfileImage).uri;
 
@@ -27,6 +28,7 @@ const HomeScreen = ({ navigation }) => {
   const { courses, setCourses } = useContext(CourseContext);
   const { t } = useTranslation();
 
+  console.log(user.avatar);
 
   const [loading, setLoading] = useState(false);
 
@@ -106,7 +108,7 @@ const HomeScreen = ({ navigation }) => {
                   size='lg'
                   background='primary.100'
                   source={{
-                    uri: ProfileImageUri,
+                    uri: AVATAR_OBJECT[user.avatar].uri,
                   }}
                 />
 

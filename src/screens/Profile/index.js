@@ -124,6 +124,7 @@ const Profile = ({ navigation }) => {
       <ProfileCard
         name={name}
         email={email}
+        avatar={user.avatar}
       />
       <ScrollView
         contentContainerStyle={{ paddingBottom: 60 }}
