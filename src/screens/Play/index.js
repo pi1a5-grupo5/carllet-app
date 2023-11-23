@@ -251,8 +251,7 @@ const Play = ({ navigation }) => {
       )
       }
 
-      {
-        !Object.keys(userPrincipalVehicle).length > 0 && vehicles.length > 0 && (
+      {!userPrincipalVehicle?.userVehicleId && vehicles.length > 0 && (
           <BottomSheetModal
             ref={bottomSheetModalRef}
             index={1}
