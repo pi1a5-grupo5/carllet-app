@@ -53,7 +53,7 @@ const SignUpForm = ({navigation}) => {
         openToast({
           status: 'warning',
           title: 'Erro',
-          description: t('alerts.error.userCantCreated'),
+          description: t('alerts.errors.userCantCreated'),
         });
       }
     } catch (error) {

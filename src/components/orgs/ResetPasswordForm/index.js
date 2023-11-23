@@ -27,15 +27,7 @@ const ResetPasswordForm = ({navigation}) => {
     const {email} = values;
 
     try {
-      const response = await AuthService.forgotPassword(email);
-
-      if (!response) {
-        return openToast({
-          status: 'warning',
-          title: 'Erro',
-          description: 'Email não encontrado',
-        });
-      }
+      await AuthService.forgotPassword(email);
 
       return navigation.navigate('ForgotPassword');
     } catch (error) {
