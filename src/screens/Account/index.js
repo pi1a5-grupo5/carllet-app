@@ -15,7 +15,7 @@ const Account = ({navigation}) => {
         email={user.email}
         isVertical
         bgColor='transparent'
-        shadow={0}
+        shadow={1}
         avatarSize='xl'
         textCenter
         nameColor='black'

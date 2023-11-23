@@ -223,13 +223,14 @@ const UpdateProfileForm = ({ navigation }) => {
           </Modal.Body>
           <Modal.Footer>
             <Button.Group space={2}>
-              <Button variant="ghost" colorScheme="blueGray" onPress={() => {
+              <Button variant="ghost" onPress={() => {
                 setShowDeleteModal(false);
               }}>
                 Cancelar
               </Button>
               <Button
-                colorScheme={'red.400'}
+                variant={'solid'}
+                bgColor={'red.400'}
                 onPress={handleDeleteAccount}
               >
                 Deletar

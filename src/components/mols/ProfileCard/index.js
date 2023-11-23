@@ -15,7 +15,7 @@ const ProfileCard = ({
   isVertical = false,
   bgColor = 'primary.700',
   avatarSize = 'lg',
-  shadow = 8,
+  shadow = 0,
   nameColor = 'white',
   emailColor = 'gray.200',
   textCenter,
@@ -31,7 +31,6 @@ const ProfileCard = ({
         p={5}
         bg={bgColor}
         borderRadius={8}
-        shadow={shadow}
         marginBottom={8}
       >
         <Box
