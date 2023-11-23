@@ -43,7 +43,7 @@ const SignUpForm = ({navigation}) => {
         openToast({
           status: 'success',
           title: 'Sucesso',
-          description: t('alerts.success.registeredUser'),
+          description: t('alerts.success.registerSuccess'),
         });
 
         navigation.navigate('SignIn');
