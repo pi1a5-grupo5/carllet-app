@@ -88,7 +88,7 @@ export const UserProvider = ({ children }) => {
         });
       }
 
-      const newUser = { ...user, avatar };
+      const newUser = { ...user, imageName: avatar };
       setUser(newUser);
     } catch (error) {
       console.error(error);

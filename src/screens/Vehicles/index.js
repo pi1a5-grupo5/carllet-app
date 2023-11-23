@@ -1,16 +1,35 @@
-import {View} from 'react-native';
-import {Box, Button, FlatList, Spinner, Text} from 'native-base';
-import {BackButton, PageContainer, VehicleCard} from '../../components';
-import React, {useEffect, useState, useContext} from 'react';
-import {VehiclesService} from '../../services/vehicles.service';
-import {UserContext} from '../../contexts/UserContext';
-import {useTranslation} from 'react-i18next';
+import { Dimensions, View } from 'react-native';
+import { Box, Button, FlatList, ScrollView, Spinner, Text } from 'native-base';
+import { BackButton, PageContainer, VehicleCard } from '../../components';
+import React, { useEffect, useState, useContext } from 'react';
+import { VehiclesService } from '../../services/vehicles.service';
+import { UserContext } from '../../contexts/UserContext';
+import { useTranslation } from 'react-i18next';
 import { useUserVehicleContext } from '../../contexts/UserVehiclesContex';
+import Carousel from 'react-native-snap-carousel';
 
-const Vehicles = ({navigation}) => {
-  const {userVehicles, loading} = useUserVehicleContext();
+const Vehicles = ({ navigation }) => {
+  const { userVehicles, loading, handleUpdateUserPrincipalVehicle } = useUserVehicleContext();
   const { t } = useTranslation();
+  const carouselRef = React.useRef(null);
 
+  const SLIDER_WIDTH = Dimensions.get('window').width;
+  const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
+
+
+  const handlePrincipalVehicle = (vehicle) => {
+    handleUpdateUserPrincipalVehicle(vehicle);
+  };
+
+  const _renderItem = ({ item, index }) => {
+    return (
+      <VehicleCard
+        key={index}
+        onPress={() => navigation.navigate('VehicleDetails', { vehicle: item })}
+        {...item}
+      />
+    );
+  }
 
   return (
     <PageContainer>
@@ -27,7 +46,6 @@ const Vehicles = ({navigation}) => {
           </Button>
         }
       />
-
       {(loading || !loading && userVehicles.length === 0) && (
         <View
           style={{
@@ -60,16 +78,21 @@ const Vehicles = ({navigation}) => {
       )}
 
       {!loading && userVehicles.length > 0 && (
-        <FlatList
-          marginTop={4}
+        <Carousel
+          ref={carouselRef}
           data={userVehicles}
-          renderItem={({item: vehicle}) => (
-            <VehicleCard
-              onPress={() => navigation.navigate('VehicleDetails', {vehicle})}
-              {...vehicle}
-            />
-          )}
-          keyExtractor={(item) => item.vehicleId}
+          renderItem={_renderItem}
+          layout={'default'}
+          contentContainerCustomStyle={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',       
+          }}
+          activeSlideAlignment={'center'}
+          inactiveSlideScale={0.9}
+          inactiveSlideOpacity={0.7}
+          sliderWidth={SLIDER_WIDTH}
+          itemWidth={ITEM_WIDTH}
         />
       )}
     </PageContainer>

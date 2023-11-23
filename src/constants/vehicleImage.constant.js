@@ -1,0 +1,2 @@
+export const createVehicleImageURI = ({ model, brand, color }) => 
+  `https://carllet-car-assets.s3.us-east-2.amazonaws.com/${brand}/${model}/${color}/${brand}_${model}_${color}_transparent_background.png`.toLowerCase();

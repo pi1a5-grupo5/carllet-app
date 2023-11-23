@@ -36,9 +36,17 @@ const SignInForm = ({ navigation }) => {
         password,
       });
 
-      if (loggedUser) {
+      if (loggedUser && loggedUser.verified) {
         setUser(loggedUser);
         setIsLogged(true);
+      }
+
+      if (loggedUser && !loggedUser.verified) {
+        openToast({
+          status: 'warning',
+          title: 'Erro',
+          description: t('alerts.errors.notVerified'),
+        });
       }
 
       if (!loggedUser) {

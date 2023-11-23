@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import { FormControl, Stack, TextArea, Input, Icon, Button, Box } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { DatePickerInput } from '../../';
-import { OTHER_MAINTENANCE_TYPE, VEHICLES_MODEL } from '../../../constants/lorem.constants';
 import SelectComponent from '../../mols/SelectInput';
 import { ExpenseService } from '../../../services/expense.service';
 import { openToast } from '../../../utils/openToast';
@@ -13,12 +12,13 @@ import { useUserVehicleContext } from '../../../contexts/UserVehiclesContex';
 import { useTranslation } from 'react-i18next';
 import { toFloat } from '../../../utils/currencyFormart';
 import dayjs from 'dayjs';
+import { TextInputMask } from 'react-native-masked-text';
 
 const RegisterOthersExpensesForm = ({ navigation }) => {
-  const [otherExpensesTypes, setOtherExpensesTypes] = useState();
+  const [otherExpensesTypes, setOtherExpensesTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { userVehicles } = useUserVehicleContext();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const registerEarningValidationSchema = Yup.object().shape({
     userVehicleId: Yup
@@ -74,7 +74,7 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
         description: 'Despesa registrada com sucesso',
       });
 
-    } catch(error) {
+    } catch (error) {
       console.error(error);
       openToast({
         title: 'Erro ao registrar despesa',
@@ -101,7 +101,6 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
 
       return otherExpenseTypes
     } catch (error) {
-      console.error(error);
       openToast({
         title: 'Erro ao buscar tipos de despesas',
         status: 'error',
@@ -128,8 +127,8 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
       <Formik
         initialValues={{
           userVehicleId: '',
-          otherExpenseDate: '',
-          otherExpenseValue: '',
+          otherExpenseDate:  new Date(),
+          otherExpenseValue: 0,
           otherExpenseDetails: '',
           otherExpensesTyped: '',
         }}
@@ -156,9 +155,9 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
                     color: '#9EA0A4',
                   }}
                   placeholderTextColor={'#A1A1AA'}
-                  items={VEHICLES_MODEL.map((item, index) => ({
-                    label: item,
-                    value: index,
+                  items={userVehicles.map((item, index) => ({
+                    label: `${item.vehicleBrandName} - ${item.vehicleTypeName}`,
+                    value: item.userVehicleId,
                   }))}
                   onValueChange={(e) => setFieldValue('userVehicleId', e)}
                   value={values.userVehicleId}
@@ -209,19 +208,39 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
                 isRequired
                 isInvalid={!!(errors.otherExpenseValue && touched.otherExpenseValue)}
               >
-                <Input
-                  onChangeText={handleChange('otherExpenseValue')}
-                  onBlur={handleBlur('otherExpenseValue')}
-                  size={'md'}
-                  placeholder="Valor"
-                  variant="outline"
+                <Box
                   width={'100%'}
-                  InputLeftElement={
-                    <Icon as={<MaterialIcons name="attach-money" />} marginLeft={2} />
-                  }
-                  type='number'
-                  value={values.otherExpenseValue}
-                />
+                  flexDirection={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  borderWidth={1}
+                  borderRadius={5}
+                  borderColor={'gray.300'}
+                  padding={2}
+                >
+                  <Icon as={<MaterialIcons name="attach-money" />} marginRight={2} />
+                  <TextInputMask
+                    type={'money'}
+                    options={{
+                      precision: 2,
+                      separator: ',',
+                      delimiter: '.',
+                      unit: 'R$ ',
+                      suffixUnit: '',
+                    }}
+                    value={values.otherExpenseValue}
+                    onChangeText={handleChange('otherExpenseValue')}
+                    onBlur={handleBlur('otherExpenseValue')}
+                    size={'md'}
+                    placeholder="Valor"
+                    variant="outline"
+                    width={'100%'}
+                    InputLeftElement={
+                      <Icon as={<MaterialIcons name="attach-money" />} marginLeft={2} />
+                    }
+                    keyboardType='numeric'
+                  />
+                </Box>
                 <FormControl.ErrorMessage
                   leftIcon={<MaterialIcons name="error" size={16} color="red" />}
                 >
@@ -239,9 +258,9 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
                     color: '#9EA0A4',
                   }}
                   placeholderTextColor={'#A1A1AA'}
-                  items={OTHER_MAINTENANCE_TYPE.map((item, index) => ({
-                    label: item,
-                    value: index,
+                  items={otherExpensesTypes.map((item, index) => ({
+                    label: item.typeName,
+                    value: item.typeId,
                   }))}
                   onValueChange={(e) => setFieldValue('otherExpensesTyped', e)}
                   value={values.otherExpensesTyped}

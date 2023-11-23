@@ -1,136 +1,181 @@
 import {
-  Box, Text, Icon, Pressable, Tag, HStack,
+  Box, Text, Icon, Pressable, Tag, HStack, Image, View, Button, VStack, Badge,
 } from 'native-base';
 import React, { useContext } from 'react';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import { UserVehiclesContext } from '../../../contexts/UserVehiclesContex';
 import { useTranslation } from 'react-i18next';
+import { createVehicleImageURI } from '../../../constants/vehicleImage.constant';
 
 const VehicleCard = ({
   color = 'gray',
   vehicleBrandName = 'Chevrolet',
-  vehicleTypeName = 'Camaro',
+  vehicleTypeName = 'Onix',
+  fabricationYear = 2021,
   odometer = 300,
   rented,
   id,
   onPress,
   vehicleId,
+  userVehicleId,
   ...props
 }) => {
   const { userPrincipalVehicle } = useContext(UserVehiclesContext);
   const { t } = useTranslation();
-  
   return (
-    <Pressable
-      bg="white"
-      shadow={1}
-      rounded="lg"
-      width="100%"
-      alignSelf="center"
-      p={2}
-      mb={2}
-      flex={1}
-      gap={2}
-      flexDirection="row"
-      justifyContent="space-between"
-      alignItems={'center'}
+    <View
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        borderRadius: 8,
+        paddingHorizontal: 8,
+        paddingTop: 24,
+        paddingBottom: (userPrincipalVehicle.userVehicleId === userVehicleId) ? 62 : 8,
+        margin: 8,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
 
-      onPress={() => {
-        onPress?.(id);
+        borderWidth: (userPrincipalVehicle.userVehicleId === userVehicleId) ? 2 : 0,
+        borderColor: (userPrincipalVehicle.userVehicleId === userVehicleId) ? 'primary.500' : 'transparent',
       }}
-      _pressed={
-        { bg: 'light.100' }
-      }
     >
-      <Box
-        rounded="md"
-        maxW={'30%'}
-        p={2}
-        flex={1}
-        alignItems={'center'}
-        justifyContent={'center'}
-      >
-        <Icon
-          as={FontAwesome5}
-          name="car"
-          resizeMode="cover"
-          size={[
-            30,
-            50,
-            70,
-          ]}
-          color={`dark.100`}
-        />
+      <Box>
+        <Text
+          fontSize={'xl'}
+          fontWeight={'bold'}
+          textAlign={'center'}
+          color={'black'}
+        >
+          {vehicleBrandName} {vehicleTypeName}
+        </Text>
+        <Text
+          fontSize={'sm'}
+          textAlign={'center'}
+          color={'gray.500'}
+        >
+          {fabricationYear} - {t('Eddition')}
+        </Text>
       </Box>
+      <Image
+        source={{ uri: createVehicleImageURI({ model: 'onix', brand: 'chevrolet', color: 'gray' }) }}
+        alt={'vehicle'}
+        resizeMode={'contain'}
+        height={200}
+        width={'100%'}
+        borderRadius={8}
+      />
+
       <Box
-        px={2}
-        rounded="lg"
-        flex={1}
-        flexDirection="column"
+        mt={4}
+        flexDirection={'row'}
+        gap={5}
+        width={'100%'}
+        paddingX={4}
       >
-        <Box>
-          <Text
-            adjustsFontSizeToFit
-            numberOfLines={1}
-            fontSize={{
-              base: 'sm',
-              sm: 'md',
-              md: 'xl',
-            }}
-            fontWeight="bold"
-          >
-            {vehicleBrandName.toUpperCase()} - {vehicleTypeName}
-          </Text>
-        </Box>
-        <Box
-          borderColor="gray.300"
-          rounded="lg"
-          mt={1}
+        <VStack
+          space={1}
         >
           <Box
-            flex={1}
-            flexDirection="row"
-            gap={2}
+            bg={'primary.100'}
+            p={2}
+            borderRadius={'full'}
+            width={10}
+            height={10}
+            justifyContent={'center'}
             alignItems={'center'}
           >
-            <Box size={18}>
-              <Icon
-                as={FontAwesome5}
-                name="road"
-                size={18}
-                color={`dark.100`}
-                style={{ width: '115%' }}
-              />
-            </Box>
-            <Text>{odometer} KM</Text>
+            <Icon
+              as={<FontAwesome5 name={'tachometer-alt'} />}
+              color={'white'}
+              style={{ width: '115%' }}
+              ml={2.5}
+            />
           </Box>
-          <Box
-            marginTop={5}
+          <Text
+            fontSize={'sm'}
+            color={'gray.400'}
           >
-            <HStack
-              space={2}
-            >
-              <Tag
-                size="sm"
-                variant="solid"
-                px={2}
-              >
-                {rented ? t('pages.home.vehiclesTab.vehicle.rented') : t('pages.home.vehiclesTab.vehicle.owned')}
-              </Tag>
-              {userPrincipalVehicle && userPrincipalVehicle.vehicleId === vehicleId && (
-                <Tag
-                  size="sm"
-                  variant="solid"
-                  px={2}
-                >
-                  {t('pages.home.vehiclesTab.vehicle.principal')}
-                </Tag>
-              )}
-            </HStack>
+            {t('Odometer')}
+          </Text>
+          <Text
+            fontSize={'md'}
+            fontWeight={'bold'}
+          >
+            {odometer} km
+          </Text>
+        </VStack>
+        <VStack
+          space={1}
+        >
+          <Box
+            bg={'primary.100'}
+            p={2}
+            borderRadius={'full'}
+            width={10}
+            height={10}
+            justifyContent={'center'}
+            alignItems={'center'}
+          >
+            <Icon
+              as={<MaterialIcons name={'format-paint'} />}
+              color={'white'}
+            />
           </Box>
-        </Box>
+          <Text
+            fontSize={'sm'}
+            color={'gray.400'}
+          >
+            {t('Color')}
+          </Text>
+
+          <Box
+            display={'flex'}
+            flexDirection={'row'}
+            alignItems={'center'}
+            justifyContent={'center'}
+          >
+
+            <Box
+              bg={`${color}.500`}
+              borderRadius={'full'}
+              width={2}
+              height={2}
+            />
+            <Text
+              fontSize={'md'}
+              fontWeight={'bold'}
+              ml={2}
+            >
+              {t(`colors.${color}`)}
+            </Text>
+          </Box>
+        </VStack>
+
       </Box>
-    </Pressable >
+      {!(userPrincipalVehicle.userVehicleId === userVehicleId) && (
+        <Box
+          width={'100%'}
+          justifyContent={'flex-end'}
+          alignItems={'flex-end'}
+        >
+          <Button
+            variant={'ghost'}
+            colorScheme={'primary'}
+            onPress={onPress}
+            mt={4}
+          >
+            {t('Set as principal')}
+          </Button>
+        </Box>
+      )}
+    </View>
   );
 };
 

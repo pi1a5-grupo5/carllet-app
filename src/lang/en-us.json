@@ -14,7 +14,8 @@
 			"passwordEqual": "Passwords must match",
 			"mvp": "Our page is under development, stay tuned for updates!",
 			"badRequest": "Nao conseguimos completar a sua requisicao. Tente novamente mais tarde.",
-			"userCantCreated": "User can't be created."
+			"userCantCreated": "User can't be created.",
+			"notVerified": "Your account has not been verified yet. Please check your email."
 		},
 		"success": {
 			"resetPasswordSuccess": "Your password has been reset successfully",
@@ -146,5 +147,22 @@
 			"viewMore": "view more",
 			"viewAll": "view all"
 		}
+	},
+	"colors": {
+		"black": "Black",
+		"white": "White",
+		"silver": "Silver",
+		"gray": "Gray",
+		"red": "Red",
+		"blue": "Blue",
+		"brown": "Brown",
+		"green": "Green",
+		"yellow": "Yellow",
+		"orange": "Orange",
+		"purple": "Purple",
+		"pink": "Pink",
+		"gold": "Gold",
+		"beige": "Beige",
+		"other": "Other"
 	}
 }

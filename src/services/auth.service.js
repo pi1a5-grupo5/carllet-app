@@ -8,6 +8,9 @@ const login = async (user) => {
       password});
 
     if (response) {
+
+      console.log(response)
+
       return response;
     }
 

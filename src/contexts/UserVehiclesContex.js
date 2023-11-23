@@ -64,7 +64,7 @@ export const UserVehiclesProvider = ({ children }) => {
     getVehicles().then((vehicles) => {
       setUserVehicles(vehicles);
     });
-  }, []);
+  }, [user]);
 
   return (
     <UserVehiclesContext.Provider

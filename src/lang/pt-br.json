@@ -14,7 +14,8 @@
 			"passwordEqual": "Senhas devem ser iguais",
 			"badRequest": "Nao conseguimos completar a sua requisicao. Tente novamente mais tarde.",
 			"mvp": "Nossa página está em desenvolvimento, em breve teremos novidades!",
-			"userCantCreated": "Não foi possível cadastrar o usuário"
+			"userCantCreated": "Não foi possível cadastrar o usuário",
+			"notVerified": "Usuário não verificado. Por favor verifique seu email."
 		},
 		"success": {
 			"resetPasswordSuccess": "Sua senha foi resetada com sucesso",
@@ -146,5 +147,22 @@
 			"viewMore": "ver mais",
 			"viewAll": "ver todos"
 		}
+	},
+	"colors": {
+		"black": "Preto",
+		"white": "Branco",
+		"silver": "Prata",
+		"gray": "Cinza",
+		"red": "Vermelho",
+		"blue": "Azul",
+		"brown": "Marrom",
+		"green": "Verde",
+		"yellow": "Amarelo",
+		"orange": "Laranja",
+		"purple": "Roxo",
+		"pink": "Rosa",
+		"gold": "Dourado",
+		"beige": "Bege",
+		"other": "Nao identificada"
 	}
 }

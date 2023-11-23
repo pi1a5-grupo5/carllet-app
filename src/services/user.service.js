@@ -13,7 +13,7 @@ const getUser = async (id) => {
 
 const updateUser = async (id, user) => {
   try {
-    const response = await ApiService.put(`/User/${id}`, user);
+    const response = await ApiService.patch(`/User/${id}`, user);
 
     return response;
   } catch (error) {

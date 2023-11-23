@@ -156,6 +156,51 @@ const HomeScreen = ({ navigation }) => {
                   description={`${currencyFormat(todayGoal?.goalValue || 0)}`}
                   bg='info.100'
                   icon={'star'}
+                  children={
+                    <>
+                      {(todayEarning - todayExpense) > 0 && (
+                        <Box
+                          flex={1}
+                          flexDirection='row'
+                          justifyContent={'flex-end'}
+                        >
+                          <Text
+                            fontWeight={200}
+                          >
+                            Voce está {currencyFormat(todayEarning - todayExpense)} acima da meta!
+                          </Text>
+                        </Box>
+                      )}
+
+                      {(todayEarning - todayExpense) < 0 && (
+                        <Box
+                          flex={1}
+                          flexDirection='row'
+                          justifyContent={'flex-end'}
+                        >
+                          <Text
+                            fontWeight={200}
+                          >
+                            Voce está {currencyFormat(todayEarning - todayExpense).replace('-', '')} abaixo da sua meta!
+                          </Text>
+                        </Box>
+                      )}
+
+                      {(todayEarning - todayExpense) === 0 && (
+                        <Box
+                          flex={1}
+                          flexDirection='row'
+                          justifyContent={'flex-end'}
+                        >
+                          <Text
+                            fontWeight={200}
+                          >
+                            Voce atingiu sua meta!
+                          </Text>
+                        </Box>
+                      )}
+                    </>
+                  }
                 />
                 <Box
                   flex={1}
