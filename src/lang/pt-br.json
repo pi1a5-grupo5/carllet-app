@@ -28,6 +28,7 @@
 			"goalAbove": "Você está {{value}} acima da sua meta",
 			"goalReached": "Você atingiu sua meta",
 			"screenItems": {
+				"noBudgetFound": "Sem histórico de orçamento",
 				"saudations": "Olá,",
 				"currentGoal": "Meta atual",
 				"earnings": "Ganhos",

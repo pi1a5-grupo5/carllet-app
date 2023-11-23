@@ -28,6 +28,7 @@
 			"goalAbove": "you are {{value}} above your goal",
 			"goalReached": "you have reached your goal",
 			"screenItems": {
+				"noBudgetFound": "No budget history found",
 				"saudations": "Hello,",
 				"currentGoal": "Current Goal",
 				"earnings": "Earnings",
