@@ -27,6 +27,7 @@ const HomeScreen = ({ navigation }) => {
   const [todayCourses, setTodayCourses] = useState([]);
   const { courses, setCourses } = useContext(CourseContext);
   const { t } = useTranslation();
+  console.log(user.ImageName)
 
   const [loading, setLoading] = useState(false);
 
@@ -104,7 +105,7 @@ const HomeScreen = ({ navigation }) => {
                   size='lg'
                   background='primary.100'
                   source={{
-                    uri: AVATAR_OBJECT[user?.imageName ?? 'avatar_masc_1'].uri,
+                    uri: AVATAR_OBJECT[user?.imageName ? user?.imageName : 'avatar_masc_1']?.uri,
                   }}
                 />
 

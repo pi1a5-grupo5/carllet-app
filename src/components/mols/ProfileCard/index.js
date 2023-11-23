@@ -50,7 +50,7 @@ const ProfileCard = ({
             <Avatar
               size={avatarSize}
               source={{
-                uri: AVATAR_OBJECT[avatar].uri,
+                uri: AVATAR_OBJECT[avatar ? avatar : 'avatar_masc_1'].uri,
               }}
               borderWidth={2}
               borderColor={'white'}

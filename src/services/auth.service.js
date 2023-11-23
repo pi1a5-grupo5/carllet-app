@@ -47,9 +47,9 @@ const logout = async () => {
   }
 };
 
-const resetPassword = async (user) => {
+const resetPassword = async (user, token) => {
   try {
-    const response = await ApiService.post('/user/ResetPassword', user);
+    const response = await ApiService.post(`/user/ResetPassword/${token}`, user);
 
     return response;
   } catch (error) {

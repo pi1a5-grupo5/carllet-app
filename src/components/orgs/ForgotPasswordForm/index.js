@@ -1,36 +1,54 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
-import {MaterialIcons} from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 import {
   Button, Icon, Input, Stack, FormControl,
 } from 'native-base';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { AuthService } from '../../../services/auth.service';
+import { openToast } from '../../../utils/openToast';
 
-const ForgotPasswordForm = ({navigation}) => {
+const ForgotPasswordForm = ({ navigation }) => {
 
   const [isLoading, setIsLoading] = useState(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const validationSchema = Yup.object().shape({
     code: Yup
-        .number()
-        .required('Campo obrigatório'),
+      .number()
+      .required('Campo obrigatório'),
     password: Yup
-        .string()
-        .min(8, 'Senha deve ter no mínimo 8 caracteres').required('Campo obrigatório'),
+      .string()
+      .min(8, 'Senha deve ter no mínimo 8 caracteres').required('Campo obrigatório'),
     confirmPassword: Yup
-        .string()
-        .oneOf([Yup.ref('password'), null], 'Senhas devem ser iguais').required('Campo obrigatório'),
+      .string()
+      .oneOf([Yup.ref('password'), null], 'Senhas devem ser iguais').required('Campo obrigatório'),
   });
 
 
-  const handleResetPasswordSubmit = (values) => {
+  const handleResetPasswordSubmit = async (values) => {
+    const { code, password, confirmPassword } = values;
+
     setIsLoading(true);
-    setTimeout(() => {
+
+    const resetedPassword = await AuthService.resetPassword({
+      newPassword: password,
+      newPasswordConfirmation: confirmPassword,
+    }, code);
+
+    if (resetedPassword) {
       setIsLoading(false);
-    }, 2000);
+      return navigation.navigate('SignIn');
+    }
+
+    setIsLoading(false);
+    openToast({
+      title: 'Erro ao resetar senha',
+      status: 'error',
+      message: 'Ocorreu um erro ao resetar sua senha, tente novamente mais tarde.',
+    })
   };
 
   return (
@@ -44,7 +62,7 @@ const ForgotPasswordForm = ({navigation}) => {
         validationSchema={validationSchema}
         onSubmit={(values) => handleResetPasswordSubmit(values)}
       >
-        {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
           <View
             style={{
               width: '100%',
