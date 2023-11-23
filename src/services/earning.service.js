@@ -44,8 +44,28 @@ const getTodayEarningByUserId = async (userId) => {
   }
 }
 
+const getUserEarningHistory = async (userId) => {
+  try {
+    const response = await ApiService.get(`/Earning/ByUser/${userId}`);
+
+    if (response.length === 0) {
+      return [];
+    }
+
+    return response.map((item) => ({
+      date: item.insertionDateTime,
+      value: item.earningValue,
+      title: item.earningDescription ?? 'pages.home.controlTab.earnings',
+    }))
+      .sort((a, b) => dayjs(a.date).isBefore(dayjs(b.date)) ? 1 : -1);
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 export const EarningService = {
   registerEarning,
+  getUserEarningHistory,
   getEarningByUserIdAndDate,
   getTodayEarningByUserId,
 };

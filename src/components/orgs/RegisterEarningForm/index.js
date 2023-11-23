@@ -16,7 +16,7 @@ import {useTranslation} from 'react-i18next';
 
 const RegisterEarningForm = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
-  const {user} = useUserContext();
+  const {user, forceChartUpdate} = useUserContext();
   const {t} = useTranslation();
 
 
@@ -48,6 +48,7 @@ const RegisterEarningForm = ({navigation}) => {
           description: 'Ganho registrado com sucesso',
         });
 
+        forceChartUpdate();
         return navigation.goBack();
       }
 

@@ -5,10 +5,12 @@ import {CourseContext} from '../../contexts/CourseContext';
 import dayjs from 'dayjs';
 import groupBy from 'lodash/groupBy';
 import {toISODate} from '../../utils/toISODate';
+import {useTranslation} from 'react-i18next';
 
 const AllCoursesScreen = ({navigation}) => {
   const [coursesGroupByDate, setCoursesGroupByDate] = useState([]);
   const {courses} = useContext(CourseContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const coursesGroupByDate = groupBy(courses, (course) => {
@@ -41,7 +43,7 @@ const AllCoursesScreen = ({navigation}) => {
     <PageContainer>
       <BackButton
         navigation={navigation}
-        title={'Todos os percursos'}
+        title={t('pages.home.screenItems.routes.all')}
       />
       {coursesGroupByDate && (
         <SectionList
@@ -86,13 +88,13 @@ const AllCoursesScreen = ({navigation}) => {
                 gap={4}
               >
                 <CardInformation
-                  title='Total de percursos'
+                  title={t('pages.home.screenItems.routes.total')}
                   description={courses.length}
                   bg='info.100'
                   flex={1}
                 />
                 <CardInformation
-                  title='Total de km rodados'
+                  title={t('pages.home.screenItems.routes.totalTraveled')}
                   description={`${courses.reduce((acc, course) => acc + course.courseLength, 0).toFixed(2)} km`}
                   bg='info.100'
                   flex={1}

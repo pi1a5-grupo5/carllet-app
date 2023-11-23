@@ -24,6 +24,9 @@
 	},
 	"pages": {
 		"home": {
+			"goalBellow": "Você está {{value}} abaixo da sua meta",
+			"goalAbove": "Você está {{value}} acima da sua meta",
+			"goalReached": "Você atingiu sua meta",
 			"screenItems": {
 				"saudations": "Olá,",
 				"currentGoal": "Meta atual",
@@ -61,7 +64,7 @@
 					"principal": "Principal"
 				},
 				"vehicleDetails": "Detalhes do veículo",
-				"primaryVehicle": "Setar como principal"
+				"primaryVehicle": "Definir como principal"
 			},
 			"controlTab": {
 				"budget": "Orçamento",

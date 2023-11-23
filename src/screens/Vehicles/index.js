@@ -25,7 +25,6 @@ const Vehicles = ({ navigation }) => {
     return (
       <VehicleCard
         key={index}
-        onPress={() => navigation.navigate('VehicleDetails', { vehicle: item })}
         {...item}
       />
     );

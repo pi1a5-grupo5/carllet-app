@@ -13,12 +13,14 @@ import { openToast } from '../../../utils/openToast';
 import { useTranslation } from 'react-i18next';
 import { toFloat } from '../../../utils/currencyFormart';
 import dayjs from 'dayjs';
+import { useUserContext } from '../../../hooks/useUserContext';
 
 const RegisterMaintenanceExpenseForm = ({ navigation }) => {
   const [maintenanceTypes, setMaintenanceTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { userVehicles } = useUserVehicleContext();
   const { t } = useTranslation();
+  const { forceChartUpdate } = useUserContext();
 
   const registerEarningValidationSchema = Yup.object().shape({
     userVehicleId: Yup
@@ -58,13 +60,19 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
       });
 
       if (registeredMaintenanceExpense) {
+        openToast({
+          title: 'Despesa cadastrada com sucesso',
+          status: 'success',
+          description: 'Sua despesa foi cadastrada com sucesso',
+        });
+
+        forceChartUpdate();
         navigation.goBack();
       }
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
-      navigation.goBack();
     }
   };
 
@@ -84,7 +92,6 @@ const RegisterMaintenanceExpenseForm = ({ navigation }) => {
 
       return response;
     } catch (error) {
-      console.error(error);
       openToast({
         title: 'Erro ao buscar tipos de despesas',
         status: 'error',

@@ -13,11 +13,14 @@ import { useTranslation } from 'react-i18next';
 import { toFloat } from '../../../utils/currencyFormart';
 import dayjs from 'dayjs';
 import { TextInputMask } from 'react-native-masked-text';
+import { useUserContext } from '../../../hooks/useUserContext';
 
 const RegisterOthersExpensesForm = ({ navigation }) => {
   const [otherExpensesTypes, setOtherExpensesTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { userVehicles } = useUserVehicleContext();
+  const { forceChartUpdate } = useUserContext();
+
   const { t } = useTranslation();
 
   const registerEarningValidationSchema = Yup.object().shape({
@@ -28,7 +31,7 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
       .string()
       .required('Campo obrigatório'),
     otherExpenseValue: Yup
-      .number()
+      .string()
       .required('Campo obrigatório'),
     otherExpenseDetails: Yup
       .string()
@@ -56,7 +59,7 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
         expenseDate: dayjs(otherExpenseDate),
         value: toFloat(otherExpenseValue, 'R$ '),
         details: otherExpenseDetails,
-        otherTypeName: otherExpensesTyped,
+        otherExpenseTypeId: otherExpensesTyped,
       });
 
       if (!registerOtherExpense) {
@@ -73,17 +76,18 @@ const RegisterOthersExpensesForm = ({ navigation }) => {
         status: 'success',
         description: 'Despesa registrada com sucesso',
       });
-
+      
+      forceChartUpdate();
+      navigation.goBack();
     } catch (error) {
       console.error(error);
-      openToast({
+      return openToast({
         title: 'Erro ao registrar despesa',
         status: 'error',
         description: 'Tente novamente mais tarde',
       });
     } finally {
       setIsLoading(false);
-      navigation.goBack();
     }
   };
   const getOtherExpenseTypes = async () => {

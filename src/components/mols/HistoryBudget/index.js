@@ -3,8 +3,11 @@ import {Box, FlatList, ScrollView, Text} from 'native-base';
 import dayjs from 'dayjs';
 import {currencyFormat} from '../../../utils/currencyFormart';
 import {Platform} from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 const HistoryBudget = ({title = 'Histórico', budgetItems = []}) => {
+  const {t} = useTranslation();
+
   return (
     <Box
       bg="white"
@@ -19,7 +22,7 @@ const HistoryBudget = ({title = 'Histórico', budgetItems = []}) => {
         fontWeight="bold"
         fontSize="lg"
         mb={4}
-      >{title}</Text>
+      >{t(title)}</Text>
 
       <ScrollView>
         {budgetItems.map((item, index) => (
@@ -74,7 +77,7 @@ const HistoryBudget = ({title = 'Histórico', budgetItems = []}) => {
                   <Text
                     fontWeight="bold"
                     fontSize="md"
-                  >{item.title}</Text>
+                  >{t(item.title)}</Text>
                   <Text
                     fontSize="md"
                   >-</Text>

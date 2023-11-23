@@ -24,6 +24,9 @@
 	},
 	"pages": {
 		"home": {
+			"goalBellow": "you are {{value}} below your goal",
+			"goalAbove": "you are {{value}} above your goal",
+			"goalReached": "you have reached your goal",
 			"screenItems": {
 				"saudations": "Hello,",
 				"currentGoal": "Current Goal",
@@ -34,9 +37,9 @@
 					"stop": "Stop",
 					"recorded": "Recorded route",
 					"daily": "Daily Routes",
-					"all": "All Routes",
-					"total": "Total Routes",
-					"totalTraveled": "Total km Traveled"
+					"all": "All routes",
+					"total": "Total routes",
+					"totalTraveled": "Total km traveled"
 				},
 				"noCoursesFound": "You don't have courses registered today",
 				"newGoal": "New Goal",
@@ -61,7 +64,7 @@
 					"principal": "Primary"
 				},
 				"vehicleDetails": "Vehicle Details",
-				"primaryVehicle": "Set as Primary"
+				"primaryVehicle": "Set as primary"
 			},
 			"controlTab": {
 				"budget": "Budget",

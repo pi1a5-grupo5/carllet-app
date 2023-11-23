@@ -4,7 +4,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {FormControl, Stack, Input, Icon, Button, Switch, ScrollView, Box} from 'native-base';
 import {MaterialIcons} from '@expo/vector-icons';
-import {VEHICLES_COLOR, VEHICLES_MAKE, VEHICLES_MODEL, VEHICLES_YEAR} from '../../../constants/lorem.constants';
+import {VEHICLES_COLOR, VEHICLES_YEAR} from '../../../constants/lorem.constants';
 import SelectComponent from '../../mols/SelectInput';
 import {openToast} from '../../../utils/openToast';
 import {UserContext} from '../../../contexts/UserContext';
@@ -57,7 +57,10 @@ const RegisterVehicleForm = ({navigation}) => {
       odometer,
       rented,
       userId: user.id,
+      vehicleColor: color,
     };
+
+    console.log(request)
 
     try {
       const res = await VehiclesService.addNewVehicleFromUser(request);
@@ -320,7 +323,7 @@ const RegisterVehicleForm = ({navigation}) => {
               >
                 <FormControl.Label>Ano</FormControl.Label>
                 <SelectComponent
-                  disabled={VEHICLES_MODEL.length === 0 || (typeof values.vehicleTypeId !== 'number' && !values.vehicleTypeId)}
+                  disabled={vehicleModels.length === 0 || (typeof values.vehicleTypeId !== 'number' && !values.vehicleTypeId)}
                   placeholder={{
                     label: 'Ano do veículo',
                     value: null,
@@ -328,8 +331,8 @@ const RegisterVehicleForm = ({navigation}) => {
                   }}
                   placeholderTextColor={'#A1A1AA'}
                   items={VEHICLES_YEAR.map((item, index) => ({
-                    label: item,
-                    value: item,
+                    label: `${item}`,
+                    value: item
                   }))}
                   onValueChange={(e) => setFieldValue('fabricationYear', e)}
                   value={values.fabricationYear}
@@ -369,7 +372,7 @@ const RegisterVehicleForm = ({navigation}) => {
               >
                 <FormControl.Label>Cor</FormControl.Label>
                 <SelectComponent
-                  disabled={VEHICLES_MODEL.length === 0 || (typeof values.vehicleTypeId !== 'number' && !values.vehicleTypeId)}
+                  disabled={vehicleModels.length === 0 || (typeof values.vehicleTypeId !== 'number' && !values.vehicleTypeId)}
                   placeholder={{
                     label: 'Cor do veículo',
                     value: null,
@@ -377,8 +380,8 @@ const RegisterVehicleForm = ({navigation}) => {
                   }}
                   placeholderTextColor={'#A1A1AA'}
                   items={VEHICLES_COLOR.map((item, index) => ({
-                    label: item,
-                    value: item,
+                    label: t(`${item.label}`),
+                    value: item.value,
                   }))}
                   onValueChange={(e) => setFieldValue('color', e)}
                   value={values.color}

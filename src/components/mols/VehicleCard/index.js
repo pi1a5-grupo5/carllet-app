@@ -8,11 +8,11 @@ import { useTranslation } from 'react-i18next';
 import { createVehicleImageURI } from '../../../constants/vehicleImage.constant';
 
 const VehicleCard = ({
-  color = 'gray',
-  vehicleBrandName = 'Chevrolet',
-  vehicleTypeName = 'Onix',
-  fabricationYear = 2021,
-  odometer = 300,
+  vehicleColor,
+  vehicleBrandName,
+  vehicleTypeName,
+  fabricationYear,
+  odometer,
   rented,
   id,
   onPress,
@@ -20,8 +20,9 @@ const VehicleCard = ({
   userVehicleId,
   ...props
 }) => {
-  const { userPrincipalVehicle } = useContext(UserVehiclesContext);
+  const { userPrincipalVehicle, handleUpdateUserPrincipalVehicle } = useContext(UserVehiclesContext);
   const { t } = useTranslation();
+
   return (
     <View
       style={{
@@ -31,7 +32,7 @@ const VehicleCard = ({
         borderRadius: 8,
         paddingHorizontal: 8,
         paddingTop: 24,
-        paddingBottom: (userPrincipalVehicle.userVehicleId === userVehicleId) ? 62 : 8,
+        paddingBottom: (userPrincipalVehicle?.userVehicleId === userVehicleId) ? 62 : 8,
         margin: 8,
         shadowColor: '#000',
         shadowOffset: {
@@ -42,8 +43,8 @@ const VehicleCard = ({
         shadowRadius: 4,
         elevation: 5,
 
-        borderWidth: (userPrincipalVehicle.userVehicleId === userVehicleId) ? 2 : 0,
-        borderColor: (userPrincipalVehicle.userVehicleId === userVehicleId) ? 'primary.500' : 'transparent',
+        borderWidth: (userPrincipalVehicle?.userVehicleId === userVehicleId) ? 2 : 0,
+        borderColor: (userPrincipalVehicle?.userVehicleId === userVehicleId) ? 'primary.500' : 'transparent',
       }}
     >
       <Box>
@@ -64,7 +65,7 @@ const VehicleCard = ({
         </Text>
       </Box>
       <Image
-        source={{ uri: createVehicleImageURI({ model: 'onix', brand: 'chevrolet', color: 'gray' }) }}
+        source={{ uri: createVehicleImageURI({ model: vehicleTypeName, brand: vehicleBrandName, color: vehicleColor }) }}
         alt={'vehicle'}
         resizeMode={'contain'}
         height={200}
@@ -102,7 +103,7 @@ const VehicleCard = ({
             fontSize={'sm'}
             color={'gray.400'}
           >
-            {t('Odometer')}
+            {t('pages.home.vehiclesTab.vehicle.odometer')}
           </Text>
           <Text
             fontSize={'md'}
@@ -132,7 +133,7 @@ const VehicleCard = ({
             fontSize={'sm'}
             color={'gray.400'}
           >
-            {t('Color')}
+            {t('pages.home.vehiclesTab.vehicle.color')}
           </Text>
 
           <Box
@@ -143,7 +144,7 @@ const VehicleCard = ({
           >
 
             <Box
-              bg={`${color}.500`}
+              bg={vehicleColor !== ('black' || 'white') ? `${vehicleColor}.500` : vehicleColor}
               borderRadius={'full'}
               width={2}
               height={2}
@@ -153,7 +154,7 @@ const VehicleCard = ({
               fontWeight={'bold'}
               ml={2}
             >
-              {t(`colors.${color}`)}
+              {t(`colors.${vehicleColor}`)}
             </Text>
           </Box>
         </VStack>
@@ -168,10 +169,19 @@ const VehicleCard = ({
           <Button
             variant={'ghost'}
             colorScheme={'primary'}
-            onPress={onPress}
+            onPress={() => handleUpdateUserPrincipalVehicle({
+              vehicleId,
+              userVehicleId,
+              vehicleBrandName,
+              vehicleTypeName,
+              vehicleColor,
+              fabricationYear,
+              odometer,
+              rented,
+            })}
             mt={4}
           >
-            {t('Set as principal')}
+            {t('pages.home.vehiclesTab.primaryVehicle')}
           </Button>
         </Box>
       )}

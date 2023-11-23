@@ -105,6 +105,38 @@ const getExpenseByUserIdToday = async (userId) => {
   }
 }
 
+const getUserExpenseHistory = async (userId) => {
+  try {
+    const response = await ApiService.get(`/Expense/ByUser/${userId}`);
+
+    if (response.length === 0) {
+      return [];
+    }
+
+    const { maintenanceExpenses, otherExpenses, fuelExpenses } = response;
+
+    const DATA = [
+      ...maintenanceExpenses,
+      ...otherExpenses,
+      ...fuelExpenses,
+    ]
+    console.log(DATA, 'DATA')
+
+    const DATA_CLEAN = DATA
+      .map((item) => ({
+        date: item.expenseDate,
+        value: item.value,
+        title: item.maintenanceName ?? item.otherTypeName ?? item.fuelTypeName ?? 'pages.home.screenItems.expenses',
+      }))
+      .sort((a, b) => dayjs(a.date).isBefore(dayjs(b.date)) ? 1 : -1);
+
+      console.log(DATA_CLEAN, 'DATA_CLEAN')
+
+    return DATA_CLEAN;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
 
 
 export const ExpenseService = {
@@ -124,5 +156,6 @@ export const ExpenseService = {
   getFuelExpensesByVehicleId,
 
   // forAllExpenses
-  getExpenseByUserIdToday
+  getExpenseByUserIdToday,
+  getUserExpenseHistory
 };

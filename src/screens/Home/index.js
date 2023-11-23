@@ -46,12 +46,10 @@ const HomeScreen = ({ navigation }) => {
         setCourses(response);
       }
     } catch (error) {
-      console.error(error);
-
       openToast({
-        status: 'error',
+        status: 'info',
         title: 'Erro',
-        description: 'Não foi possível carregar os percursos!',
+        description: 'Não foram encontrados percursos!',
       });
     } finally {
       setLoading(false);
@@ -153,12 +151,12 @@ const HomeScreen = ({ navigation }) => {
               >
                 <CardInformation
                   title={t('pages.home.screenItems.currentGoal')}
-                  description={`${currencyFormat(todayGoal?.goalValue || 0)}`}
+                  description={`${currencyFormat(todayGoal || 0)}`}
                   bg='info.100'
                   icon={'star'}
                   children={
                     <>
-                      {(todayEarning - todayExpense) > 0 && (
+                      {((todayEarning - todayExpense) > todayGoal) && (
                         <Box
                           flex={1}
                           flexDirection='row'
@@ -167,12 +165,12 @@ const HomeScreen = ({ navigation }) => {
                           <Text
                             fontWeight={200}
                           >
-                            Voce está {currencyFormat(todayEarning - todayExpense)} acima da meta!
+                           {t('pages.home.goalAbove', {value: currencyFormat(todayGoal - (todayEarning - todayExpense)).replace('-', '')})}
                           </Text>
                         </Box>
                       )}
 
-                      {(todayEarning - todayExpense) < 0 && (
+                      {((todayEarning - todayExpense) < todayGoal) && (
                         <Box
                           flex={1}
                           flexDirection='row'
@@ -181,12 +179,13 @@ const HomeScreen = ({ navigation }) => {
                           <Text
                             fontWeight={200}
                           >
-                            Voce está {currencyFormat(todayEarning - todayExpense).replace('-', '')} abaixo da sua meta!
+                            {t('pages.home.goalBellow', {value: currencyFormat(todayGoal - (todayEarning - todayExpense)).replace('-', '')})}
+
                           </Text>
                         </Box>
                       )}
 
-                      {(todayEarning - todayExpense) === 0 && (
+                      {((todayEarning - todayExpense) === todayGoal) && (
                         <Box
                           flex={1}
                           flexDirection='row'
@@ -195,7 +194,7 @@ const HomeScreen = ({ navigation }) => {
                           <Text
                             fontWeight={200}
                           >
-                            Voce atingiu sua meta!
+                            {t('pages.home.goalReached')}
                           </Text>
                         </Box>
                       )}

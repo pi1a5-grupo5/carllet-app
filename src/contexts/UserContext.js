@@ -22,6 +22,8 @@ export const UserProvider = ({ children }) => {
   const removeUserFromStorage = () => AsyncStorage.removeItem('@CARLLET:USER');
   const clearStorage = () => AsyncStorage.clear();
 
+  const forceChartUpdate = () => setUser({ ...user, chatData: undefined });
+
   const handleLogout = () => {
     setIsLogged(false);
     clearStorage();
@@ -49,7 +51,7 @@ export const UserProvider = ({ children }) => {
       ]);
 
       if (goal) {
-        setTodayGoal(goal);
+        setTodayGoal(goal?.goalValue);
       }
 
       if (earning) {
@@ -108,14 +110,6 @@ export const UserProvider = ({ children }) => {
           setIsLogged(true);
         }
 
-        /*   // TODO: Refresh token
-        if(false) {
-           // TODO: Create refresh token service
-           if(true) {
-             // TODO: Update user on token refreshed
-           }
-         }  */
-
         else {
           setIsLogged(false);
           clearStorage();
@@ -159,7 +153,8 @@ export const UserProvider = ({ children }) => {
       todayExpense,
       setTodayGoal,
       userPrevision,
-      handleUserAvatar
+      handleUserAvatar,
+      forceChartUpdate
     }}>
       {isLoading ? <ActivityIndicator size={50} color="#FFF" /> : children}
     </UserContext.Provider>

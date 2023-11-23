@@ -13,8 +13,8 @@ import { useTranslation } from 'react-i18next';
 
 const RegisterGoalForm = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useUserContext();
-  const {t} = useTranslation();
+  const { user, setTodayGoal } = useUserContext();
+  const { t } = useTranslation();
 
 
   const registerEarningValidationSchema = Yup.object().shape({
@@ -40,6 +40,8 @@ const RegisterGoalForm = ({ navigation }) => {
           title: 'Sucesso',
           description: 'Meta registrada com sucesso',
         });
+
+        setTodayGoal(toFloat(goalValue, 'R$ '));
 
         return navigation.goBack();
       }
