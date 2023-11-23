@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, Platform} from 'react-native';
 import React, {useEffect, useState, useContext} from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -129,7 +129,6 @@ const RegisterVehicleForm = ({navigation}) => {
         });
         navigation.goBack();
       }
-
       setVehicleModels(res);
     } catch (err) {
       openToast({
@@ -147,7 +146,6 @@ const RegisterVehicleForm = ({navigation}) => {
 
   useEffect(() => {
     if (!selectedBrand) return;
-
     getVehiclesTypesByBrand(selectedBrand);
   }, [selectedBrand]);
 
@@ -199,6 +197,9 @@ const RegisterVehicleForm = ({navigation}) => {
                   }))}
                   onValueChange={(e) => {
                     setFieldValue('make', e);
+                    if(Platform.OS === 'android') {
+                      setSelectedBrand(e);
+                    }
                   }}
                   onDonePress={() => setSelectedBrand(values.make)}
                   value={values.make}
